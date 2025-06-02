@@ -11,48 +11,59 @@ Many thanks to [HarryTechRevs](https://github.com/HarryTechRevs) and his [1.12 M
 
 ### Client
 
-- [ ] Spawn eggs of Invasion mobs missing in creative inventory  
-- [ ] Crafting recipes not working  
+- [ ] Spawn eggs of Invasion mobs missing in creative inventory
+- [ ] Crafting recipes not working
 
 #### Nexus
-- [x] Change Nexus texture when active  
-- [ ] Nexus shows 52 mob kills on start  
-  - Non-existing pattern name in wave definition: `zombie_t2_any`  
-- [ ] Activation item is not being logged  
-- [ ] Nexus reactivates when losing → activation item not being locked/removed  
+
+- [x] Change Nexus texture when active
+- [ ] Nexus shows 52 mob kills on start
+  - Non-existing pattern name in wave definition: `zombie_t2_any`
+- [ ] Activation item is not being logged
+- [ ] Nexus reactivates when losing → activation item not being locked/removed
 
 #### Mobs
-- [ ] Mobs not correctly pathfinding to Nexus  
-  - [x] ISpiders  
-    - [x] Spawning  
-  - [ ] IPigman Engineer  
-    - [x] Spawning  
-    - [x] Breaking blocks  
-  - [ ] IZombie  
-    - [x] Spawning  
-  - [ ] ICreeper  
-    - [x] Spawning  
-  - [ ] ISkeleton  
-    - [x] Spawning  
-  - [ ] IZombiePigman  
-  - [ ] IGuardian  
-  - [ ] IBird  
-  - [ ] IGiantBird  
-  - [ ] IImp  
-  - [ ] IBurrower  
-  - [ ] IThrower  
-    - [x] Spawning  
-  - [ ] IWolf  
-- [ ] Mobs not damaging the Nexus correctly or with heavy delay  
+
+- [ ] Mobs not correctly pathfinding to Nexus
+  - [x] ISpiders
+    - [x] Spawning
+  - [ ] IPigman Engineer
+    - [x] Spawning
+    - [x] Breaking blocks
+    - [ ] Bridging Up
+    - [ ] Digging down
+  - [ ] IZombie
+    - [x] Spawning
+  - [ ] ICreeper
+    - [x] Spawning
+  - [ ] ISkeleton
+    - [x] Spawning
+  - [ ] IZombiePigman
+    - [ ] Spawning
+  - [ ] IGuardian
+    - [ ] Spawning
+  - [ ] IBird
+    - [ ] Spawning
+  - [ ] IGiantBird
+    - [ ] Spawning
+  - [ ] IImp
+    - [ ] Spawning
+  - [ ] IBurrower
+    - [ ] Spawning
+  - [ ] IThrower
+    - [x] Spawning
+  - [ ] IWolf
+    - [ ] Spawning
+- [ ] Mobs not damaging the Nexus correctly or with heavy delay
 
 ---
 
 ### 🖥️ Server
 
-- [x] Server crashing when starting Invasion  
+- [x] Server crashing when starting Invasion
 
 ---
 
 ### 💡 Improvements
 
-- [ ] Improve pathfinding  
+- [ ] Improve pathfinding
