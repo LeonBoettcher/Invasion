@@ -73,11 +73,11 @@ public class ItemProbe extends ModItem {
 	}
 
 	@Override
-	public String getUnlocalizedName(ItemStack itemstack) {
+	public String getTranslationKey(ItemStack itemstack) {
 		if (itemstack.getItemDamage() < probeNames.length) {
-			return super.getUnlocalizedName() + "." + probeNames[itemstack.getItemDamage()];
+			return super.getTranslationKey() + "." + probeNames[itemstack.getItemDamage()];
 		}
-		return super.getUnlocalizedName();
+		return super.getTranslationKey();
 	}
 
 	@Override

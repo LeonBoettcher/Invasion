@@ -6,12 +6,14 @@ import java.util.Map;
 import java.util.Set;
 
 import invmod.client.ProxyClient;
+import invmod.common.ProxyCommon;
 import invmod.command.InvasionCommand;
 import invmod.entity.EntityIMSpawnProxy;
 import invmod.entity.monster.EntityIMMob;
 import invmod.event.PlayerEvents;
 import invmod.nexus.IEntityIMPattern;
 import invmod.nexus.MobBuilder;
+import invmod.tileentity.TileEntityNexus;
 import invmod.util.ISelect;
 import invmod.util.config.Config;
 import net.minecraft.command.CommandHandler;
@@ -22,6 +24,7 @@ import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
@@ -42,12 +45,13 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
 public class mod_invasion {
 
 	@SidedProxy(clientSide = Reference.CLIENTPROXY, serverSide = Reference.COMMONPROXY)
-	public static ProxyClient proxy;
+	public static ProxyCommon proxy;
 	private static GuiHandler guiHandler = new GuiHandler();;
 	public static HashMap<String, Long> deathList = new HashMap();
 	private static MobBuilder defaultMobBuilder = new MobBuilder();
@@ -67,9 +71,13 @@ public class mod_invasion {
 
 	// Creative tab declaration
 	public static CreativeTabs tabInvmod = new CreativeTabs("invasionTab") {
-		@Override
 		public ItemStack getTabIconItem() {
-			return new ItemStack(ModItems.STRONG_CATALYST);
+			return new ItemStack(ModItems.PROBE);
+		}
+
+		@Override
+		public ItemStack createIcon() {
+			return getTabIconItem();
 		}
 	};
 
@@ -83,6 +91,8 @@ public class mod_invasion {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		Config.load(event);
+		// Register TileEntity
+		GameRegistry.registerTileEntity(TileEntityNexus.class, new ResourceLocation(Reference.MODID, "nexus"));
 		// this.nightSpawnConfig();
 		this.loadHealthConfig();
 		this.loadEntities();

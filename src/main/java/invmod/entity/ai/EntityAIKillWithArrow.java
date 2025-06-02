@@ -53,14 +53,14 @@ public class EntityAIKillWithArrow<T extends EntityLivingBase> extends EntityAIK
 		// SetThrowableHeading: Was used to set the motion and the veloctiy and
 		// something else
 		arrow.shoot(d0, d1 + d3 * 0.20000000298023224D, d2, 1.6F,
-				(float) (14 - this.getEntity().world.getDifficulty().getDifficultyId() * 4));
+				(float) (14 - this.getEntity().world.getDifficulty().getId() * 4));
 
 		int i = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.POWER, this.getEntity());
 		int j = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.PUNCH, this.getEntity());
 		DifficultyInstance difficultyinstance = this.getEntity().world
 				.getDifficultyForLocation(new BlockPos(this.getEntity()));
 		arrow.setDamage((double) (bowCharge * 2.0F) + this.getEntity().getRNG().nextGaussian() * 0.25D
-				+ (double) ((float) this.getEntity().world.getDifficulty().getDifficultyId() * 0.11F));
+				+ (double) ((float) this.getEntity().world.getDifficulty().getId() * 0.11F));
 
 		if (i > 0)
 			arrow.setDamage(arrow.getDamage() + (double) i * 0.5D + 0.5D);

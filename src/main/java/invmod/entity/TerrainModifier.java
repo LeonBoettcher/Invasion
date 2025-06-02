@@ -129,7 +129,7 @@ public class TerrainModifier implements ITerrainModify {
 		boolean succeeded = this.theEntity.world.setBlockState(entry.getPos(), newState);
 		if (succeeded) {
 			if (oldState.getBlock() != Blocks.AIR) {
-				oldState.getBlock().onBlockDestroyedByPlayer(this.theEntity.world, entry.getPos(), oldState);
+				oldState.getBlock().onPlayerDestroy(this.theEntity.world, entry.getPos(), oldState);
 
 				if (Config.DROP_DESTRUCTED_BLOCKS) {
 					oldState.getBlock().dropBlockAsItem(this.theEntity.world, entry.getPos(), oldState, 0);

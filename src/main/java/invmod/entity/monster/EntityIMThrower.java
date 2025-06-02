@@ -286,7 +286,7 @@ public class EntityIMThrower extends EntityIMMob {
 			} else if (block != /* BlocksAndItems.blockNexus */ModBlocks.NEXUS_BLOCK) {
 				IBlockState blockState = this.world.getBlockState(pos);
 				this.world.setBlockToAir(pos);
-				block.onBlockDestroyedByPlayer(this.world, pos, blockState);
+				block.onPlayerDestroy(this.world, pos, blockState);
 
 				if (Config.DROP_DESTRUCTED_BLOCKS) {
 					block.dropBlockAsItem(this.world, pos, blockState, 0);

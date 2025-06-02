@@ -30,14 +30,14 @@ public class ItemSpawnEgg extends Item {
 		super();
 		this.setHasSubtypes(true);
 		this.setCreativeTab(mod_invasion.tabInvmod);
-		this.setUnlocalizedName(this.name);
+		this.setTranslationKey(this.name);
 		this.setRegistryName(this.name);
 		// GameRegistry.register(this);
 	}
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		String name = ("" + I18n.format(this.getUnlocalizedName() + ".name")).trim();
+		String name = ("" + I18n.format(this.getTranslationKey() + ".name")).trim();
 		SpawnEggInfo info = SpawnEggRegistry.getEggInfo((short) stack.getItemDamage());
 
 		if (info == null)

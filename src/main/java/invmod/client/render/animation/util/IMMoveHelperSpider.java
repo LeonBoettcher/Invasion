@@ -59,7 +59,7 @@ public class IMMoveHelperSpider extends IMMoveHelper {
 			// side)/*.isSolidFullCube()*/) {
 			if (isSolidBlock) {
 				// TODO: Fix this, I just typed something random here
-				return EnumFacing.getFront(index / 2);
+				return EnumFacing.byIndex(index / 2);
 				// return index / 2;
 			}
 			index++;

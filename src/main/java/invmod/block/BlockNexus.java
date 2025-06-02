@@ -8,6 +8,8 @@ import invmod.tileentity.TileEntityNexus;
 import invmod.util.config.Config;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
@@ -23,28 +25,34 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockNexus extends Block {
 
+	public static final PropertyBool ACTIVE = PropertyBool.create("active");
 	public final String name = "blocknexus";
 	public final ItemBlock itemBlock;
 
 	public BlockNexus() {
 		super(Material.ROCK);
-		// this.setUnlocalizedName(this.name);
-		// this.setRegistryName(this.name);
+		this.setDefaultState(this.blockState.getBaseState().withProperty(ACTIVE, false));
 		this.setResistance(6000000.0F);
 		this.setHardness(3.0F);
-		// this.setStepSound(Blocks.glass.stepSound);
-		// this.setSoundType(Blocks.GLASS.getSoundType());
 		this.itemBlock = new ItemBlock(this);
 		this.itemBlock.setRegistryName(this.name);
-		// GameRegistry.register(this);
-		// GameRegistry.register(this.itemBlock);
-		// this.setCreativeTab(mod_Invasion.tabInvmod);
 	}
 
-	// @Override
-	// public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState
-	// state, EntityPlayer playerIn, EnumHand hand, @Nullable ItemStack heldItem,
-	// EnumFacing side, float hitX, float hitY, float hitZ)
+	@Override
+	protected BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, ACTIVE);
+	}
+
+	@Override
+	public IBlockState getStateFromMeta(int meta) {
+		return this.getDefaultState().withProperty(ACTIVE, meta > 0);
+	}
+
+	@Override
+	public int getMetaFromState(IBlockState state) {
+		return state.getValue(ACTIVE) ? 1 : 0;
+	}
+
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
 			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
@@ -104,18 +112,15 @@ public class BlockNexus extends Block {
 	}
 
 	public static void setBlockView(boolean active, World worldIn, BlockPos blockPos) {
-		// IBlockState iblockstate = worldIn.getBlockState(blockPos);
 		if (blockPos != null && worldIn != null) {
 			TileEntity tileentity = worldIn.getTileEntity(blockPos);
-			if (active) {
-				System.out.println("This cant be true!!!!!!");
-			} else {
-				worldIn.setBlockState(blockPos, /* BlocksAndItems.blockNexus */ModBlocks.NEXUS_BLOCK.getDefaultState(),
-						3);
-			}
-			if (tileentity != null) {
-				tileentity.validate();
-				worldIn.setTileEntity(blockPos, tileentity);
+			IBlockState currentState = worldIn.getBlockState(blockPos);
+			if (currentState.getBlock() == ModBlocks.NEXUS_BLOCK) {
+				worldIn.setBlockState(blockPos, currentState.withProperty(ACTIVE, active), 3);
+				if (tileentity != null) {
+					tileentity.validate();
+					worldIn.setTileEntity(blockPos, tileentity);
+				}
 			}
 		}
 	}

@@ -251,9 +251,7 @@ public class EntityIMArrow extends EntityTippedArrow {
 							&& this.world.getBlockState(new BlockPos(this.posX, this.posY, this.posZ))
 									.getMaterial() != Material.GLASS) {
 						System.out.println("collided with block!");
-						// this.inBlock.onEntityCollidedWithBlock(this.world, this.getPosition(), this);
-						this.inBlock.onEntityCollidedWithBlock(this.world, this.getPosition(),
-								this.world.getBlockState(new BlockPos(this.posX, this.posY, this.posZ)), this);
+						this.inBlock.onEntityCollision(this.world, this.getPosition(), this.world.getBlockState(this.getPosition()), this);
 					}
 				}
 			}

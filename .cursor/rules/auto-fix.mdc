@@ -1,0 +1,31 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: >
+  Automatisierte Behebung vBugs in der Invasion-Mod zur Aktualisierung auf Minecraft 1.12.2.
+  Fokus liegt auf der Korrektur von Symbolen, Methodenaufrufen, Imports und API-Kompatibilitäten.
+globs:
+  - "mod-source/**/*.java"
+  - "src/main/java/**/*.java"
+alwaysApply: true
+---
+
+- Suche in Online Formen nach dem Fehler
+- Aktualisiere veraltete oder inkompatible Methodenaufrufe entsprechend der Minecraft 1.12.2 API.
+- Ergänze fehlende oder korrigiere fehlerhafte Imports.
+- Ersetze veraltete Klassen durch ihre aktuellen Entsprechungen.
+- Bei erfolgreicher Kompilierung:
+  - Aktualisiere die Datei `TODO.md`, indem du die behobenen Fehler als abgeschlossen markierst.
+  - Aktualisiere die Datei `stats.json`, um die aktuelle Anzahl verbleibender Fehler zu reflektieren.
+  - Kommemntieren des Codes
+
+- Ignoriere folgende Verzeichnisse und Dateitypen:
+  - `build/`
+  - `run/`
+  - `out/`
+  - `external/`
+  - `**/*.class`
+  - `**/generated/`

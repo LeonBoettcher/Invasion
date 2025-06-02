@@ -297,12 +297,12 @@ public class AttackerAI {
 			for (int height = 0; height < scaffold.getPos().y; height++) {
 				if (terrainMap
 						.getBlockState(new BlockPos(
-								scaffold.getPos().addVector(Coords.offsetAdjX[i], height, Coords.offsetAdjZ[i])))
+								scaffold.getPos().add(Coords.offsetAdjX[i], height, Coords.offsetAdjZ[i])))
 						.isNormalCube()) {
 					blockCount++;
 				}
 				if (terrainMap.getBlockState(new BlockPos(
-						scaffold.getPos().addVector(Coords.offsetAdjX[i] * 2, height, Coords.offsetAdjZ[i] * 2)))
+						scaffold.getPos().add(Coords.offsetAdjX[i] * 2, height, Coords.offsetAdjZ[i] * 2)))
 						.isNormalCube()) {
 					blockCount++;
 				}

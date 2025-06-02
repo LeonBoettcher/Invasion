@@ -46,7 +46,7 @@ public class ModBlocks {
 		}
 
 		private static Block setBlockNameAndTab(Block block, String name, @Nullable CreativeTabs tab) {
-			Block b = block.setUnlocalizedName(name).setRegistryName(Reference.MODID, name).setCreativeTab(tab);
+			Block b = block.setTranslationKey(name).setRegistryName(Reference.MODID, name).setCreativeTab(tab);
 			return b;
 		}
 
@@ -74,7 +74,7 @@ public class ModBlocks {
 
 			// Cause of error: The block is null ?!?!?
 
-			retItem.setUnlocalizedName(block.getUnlocalizedName());
+			retItem.setTranslationKey(block.getTranslationKey());
 			retItem.setRegistryName(block.getRegistryName());
 			retItem.setCreativeTab(mod_invasion.tabInvmod);
 

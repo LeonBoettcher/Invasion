@@ -591,7 +591,7 @@ public class NavigatorIM implements INotifyTask, INavigation {
 	protected boolean setDoingTaskAndHoldOnPoint() {
 		this.waitingForNotify = true;
 		this.actionCleared = false;
-		this.setMaintainPosOnWait(this.activeNode.pos.addVector(0.5d, 0d, 0.5d));// new
+		this.setMaintainPosOnWait(this.activeNode.pos.add(0.5d, 0d, 0.5d));// new
 																					// Vec3d(this.activeNode.getXCoord()
 																					// + 0.5D,
 																					// this.activeNode.getYCoord(),

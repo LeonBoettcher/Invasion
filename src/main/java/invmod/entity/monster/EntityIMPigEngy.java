@@ -347,12 +347,12 @@ public class EntityIMPigEngy extends EntityIMMob implements ICanDig, ICanBuild {
 
 		for (int i = 0; i < 4; i++) {
 			if (this.getCollide(terrainMap,
-					currentNode.pos.addVector(Coords.offsetAdjX[i], 0, Coords.offsetAdjZ[i])) > 0) {
+					currentNode.pos.add(Coords.offsetAdjX[i], 0, Coords.offsetAdjZ[i])) > 0) {
 				for (int yOffset = 0; yOffset > -4; yOffset--) {
-					Vec3d vec = currentNode.pos.addVector(Coords.offsetAdjX[i], yOffset - 1, Coords.offsetAdjZ[i]);
+					Vec3d vec = currentNode.pos.add(Coords.offsetAdjX[i], yOffset - 1, Coords.offsetAdjZ[i]);
 					if (!terrainMap.isAirBlock(new BlockPos(vec)))
 						break;
-					pathFinder.addNode(currentNode.pos.addVector(Coords.offsetAdjX[i], yOffset, Coords.offsetAdjZ[i]),
+					pathFinder.addNode(currentNode.pos.add(Coords.offsetAdjX[i], yOffset, Coords.offsetAdjZ[i]),
 							PathAction.BRIDGE);
 				}
 			}
@@ -367,8 +367,8 @@ public class EntityIMPigEngy extends EntityIMMob implements ICanDig, ICanBuild {
 		if (this.planks <= 0)
 			return;
 
-		if (this.getCollide(terrainMap, currentNode.pos.addVector(0d, 1d, 0d)) > 0) {
-			if (terrainMap.isAirBlock(new BlockPos(currentNode.pos.addVector(0d, 1d, 0d)))) {
+		if (this.getCollide(terrainMap, currentNode.pos.add(0d, 1d, 0d)) > 0) {
+			if (terrainMap.isAirBlock(new BlockPos(currentNode.pos.add(0d, 1d, 0d)))) {
 				if (currentNode.action == PathAction.NONE) {
 					this.addAnyLadderPoint(terrainMap, currentNode, pathFinder);
 				} else if (!this.continueLadder(terrainMap, currentNode, pathFinder)) {
@@ -380,10 +380,10 @@ public class EntityIMPigEngy extends EntityIMMob implements ICanDig, ICanBuild {
 			if ((currentNode.action == PathAction.NONE) || (currentNode.action == PathAction.BRIDGE)) {
 				int maxHeight = 4;
 				for (int i = this.getCollideSize().getY(); i < 4; i++) {
-					Block block = terrainMap.getBlockState(new BlockPos(currentNode.pos.addVector(0d, i, 0d)))
+					Block block = terrainMap.getBlockState(new BlockPos(currentNode.pos.add(0d, i, 0d)))
 							.getBlock();
 					if ((block != Blocks.AIR)
-							&& (!block.isPassable(terrainMap, new BlockPos(currentNode.pos.addVector(0d, i, 0d))))) {
+							&& (!block.isPassable(terrainMap, new BlockPos(currentNode.pos.add(0d, i, 0d))))) {
 						maxHeight = i - this.getCollideSize().getY();
 						break;
 					}
@@ -392,15 +392,15 @@ public class EntityIMPigEngy extends EntityIMMob implements ICanDig, ICanBuild {
 
 				for (int i = 0; i < 4; i++) {
 					IBlockState blockState = terrainMap.getBlockState(
-							new BlockPos(currentNode.pos.addVector(Coords.offsetAdjX[i], 1, Coords.offsetAdjZ[i])));
+							new BlockPos(currentNode.pos.add(Coords.offsetAdjX[i], 1, Coords.offsetAdjZ[i])));
 					if (blockState.isNormalCube()) {
 						for (int height = 0; height < maxHeight; height++) {
 							blockState = terrainMap.getBlockState(new BlockPos(
-									currentNode.pos.addVector(Coords.offsetAdjX[i], height, Coords.offsetAdjZ[i])));
+									currentNode.pos.add(Coords.offsetAdjX[i], height, Coords.offsetAdjZ[i])));
 							if (blockState.getBlock() != Blocks.AIR) {
 								if (!blockState.isNormalCube())
 									break;
-								pathFinder.addNode(currentNode.pos.addVector(0d, 1d, 0d),
+								pathFinder.addNode(currentNode.pos.add(0d, 1d, 0d),
 										PathAction.ladderTowerIndexOrient[i]);
 								break;
 							}
@@ -415,7 +415,7 @@ public class EntityIMPigEngy extends EntityIMMob implements ICanDig, ICanBuild {
 			int data = ((IBlockAccessExtended) terrainMap).getLayeredData(currentNode.pos.x, currentNode.pos.y + 1,
 					currentNode.pos.z);
 			if (data == 16384) {
-				pathFinder.addNode(currentNode.pos.addVector(0d, 1d, 0d), PathAction.SCAFFOLD_UP);
+				pathFinder.addNode(currentNode.pos.add(0d, 1d, 0d), PathAction.SCAFFOLD_UP);
 			}
 		}
 	}
@@ -424,9 +424,9 @@ public class EntityIMPigEngy extends EntityIMMob implements ICanDig, ICanBuild {
 		for (int i = 0; i < 4; i++) {
 			if (terrainMap
 					.getBlockState(
-							new BlockPos(currentNode.pos.addVector(Coords.offsetAdjX[i], 1, Coords.offsetAdjZ[i])))
+							new BlockPos(currentNode.pos.add(Coords.offsetAdjX[i], 1, Coords.offsetAdjZ[i])))
 					.isNormalCube())
-				pathFinder.addNode(currentNode.pos.addVector(0d, 1d, 0d), PathAction.ladderIndexOrient[i]);
+				pathFinder.addNode(currentNode.pos.add(0d, 1d, 0d), PathAction.ladderIndexOrient[i]);
 		}
 	}
 
@@ -436,23 +436,23 @@ public class EntityIMPigEngy extends EntityIMMob implements ICanDig, ICanBuild {
 	protected boolean continueLadder(IBlockAccess terrainMap, PathNode currentNode, PathfinderIM pathFinder) {
 		switch (currentNode.action) {
 		case LADDER_TOWER_UP_PX:
-			if (terrainMap.getBlockState(new BlockPos(currentNode.pos.addVector(1d, 1d, 0d))).isNormalCube()) {
-				pathFinder.addNode(currentNode.pos.addVector(0d, 1d, 0d), PathAction.LADDER_UP_PX);
+			if (terrainMap.getBlockState(new BlockPos(currentNode.pos.add(1d, 1d, 0d))).isNormalCube()) {
+				pathFinder.addNode(currentNode.pos.add(0d, 1d, 0d), PathAction.LADDER_UP_PX);
 			}
 			return true;
 		case LADDER_TOWER_UP_NX:
-			if (terrainMap.getBlockState(new BlockPos(currentNode.pos.addVector(-1d, 1d, 0d))).isNormalCube()) {
-				pathFinder.addNode(currentNode.pos.addVector(0d, 1d, 0d), PathAction.LADDER_UP_NX);
+			if (terrainMap.getBlockState(new BlockPos(currentNode.pos.add(-1d, 1d, 0d))).isNormalCube()) {
+				pathFinder.addNode(currentNode.pos.add(0d, 1d, 0d), PathAction.LADDER_UP_NX);
 			}
 			return true;
 		case LADDER_TOWER_UP_PZ:
-			if (terrainMap.getBlockState(new BlockPos(currentNode.pos.addVector(0d, 1d, 1d))).isNormalCube()) {
-				pathFinder.addNode(currentNode.pos.addVector(0d, 1d, 0d), PathAction.LADDER_UP_PZ);
+			if (terrainMap.getBlockState(new BlockPos(currentNode.pos.add(0d, 1d, 1d))).isNormalCube()) {
+				pathFinder.addNode(currentNode.pos.add(0d, 1d, 0d), PathAction.LADDER_UP_PZ);
 			}
 			return true;
 		case LADDER_TOWER_UP_NZ:
-			if (terrainMap.getBlockState(new BlockPos(currentNode.pos.addVector(0d, 1d, -1d))).isNormalCube()) {
-				pathFinder.addNode(currentNode.pos.addVector(0d, 1d, 0d), PathAction.LADDER_UP_NZ);
+			if (terrainMap.getBlockState(new BlockPos(currentNode.pos.add(0d, 1d, -1d))).isNormalCube()) {
+				pathFinder.addNode(currentNode.pos.add(0d, 1d, 0d), PathAction.LADDER_UP_NZ);
 			}
 			return true;
 		default:

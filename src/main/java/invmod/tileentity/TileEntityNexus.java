@@ -97,16 +97,10 @@ public class TileEntityNexus extends TileEntity implements ITickable {
 
 	public TileEntityNexus(World world) {
 		this.world = world;
+		this.nexusKills = 0;
 		this.spawnRadius = 52;
 		this.waveSpawner = new IMWaveSpawner(this, this.spawnRadius);
 		this.waveBuilder = new IMWaveBuilder();
-		// this.nexusItemStacks = new ItemStack[this.getSlots()];
-		// for(int slot = 0; slot < this.getSlots(); slot++) {
-		// this.nexusItemStacks[slot] = ItemStack.EMPTY;
-		// }
-		// this.boundingBoxToRadius = new AxisAlignedBB(this.pos.getX(),
-		// this.pos.getY(), this.pos.getZ(), this.pos.getX(), this.pos.getY(),
-		// this.pos.getZ());
 		this.boundingBoxToRadius = new AxisAlignedBB(this.pos.getX() - (this.spawnRadius + 10),
 				this.pos.getY() - (this.spawnRadius + 40), this.pos.getZ() - (this.spawnRadius + 10),
 				this.pos.getX() + (this.spawnRadius + 10), this.pos.getY() + (this.spawnRadius + 40),
@@ -118,7 +112,6 @@ public class TileEntityNexus extends TileEntity implements ITickable {
 		this.cookTime = 0;
 		this.currentWave = 0;
 		this.nexusLevel = 1;
-		this.nexusKills = 0;
 		this.generation = 0;
 		this.maxHp = (this.hp = this.lastHp = 100);
 		this.mode = 0;
@@ -129,7 +122,7 @@ public class TileEntityNexus extends TileEntity implements ITickable {
 		this.nextAttackTime = 0;
 		this.daysToAttack = 0;
 		this.lastWorldTime = 0L;
-		this.tickCount = 0;;
+		this.tickCount = 0;
 		this.zapTimer = 0;
 		this.cleanupTimer = 0;
 		this.waveDelayTimer = -1L;

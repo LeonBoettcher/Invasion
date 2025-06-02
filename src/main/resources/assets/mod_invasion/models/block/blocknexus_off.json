@@ -1,0 +1,12 @@
+{
+    "parent": "block/cube",
+    "textures": {
+        "particle": "mod_invasion:blocks/nexus_side_off",
+        "down": "mod_invasion:blocks/nexus_top_off",
+        "up": "mod_invasion:blocks/nexus_top_off",
+        "north": "mod_invasion:blocks/nexus_side_off",
+        "east": "mod_invasion:blocks/nexus_side_off",
+        "south": "mod_invasion:blocks/nexus_side_off",
+        "west": "mod_invasion:blocks/nexus_side_off"
+    }
+} 

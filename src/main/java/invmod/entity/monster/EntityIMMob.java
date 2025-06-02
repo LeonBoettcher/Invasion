@@ -857,7 +857,7 @@ public abstract class EntityIMMob extends EntityIMLiving implements IMob, Sparro
 
 		if (node.action == PathAction.SWIM) {
 			multiplier *= ((node.pos.y <= prevNode.pos.y)
-					&& (!terrainMap.isAirBlock(new BlockPos(node.pos.addVector(0d, 1d, 0d)))) ? 3.0F : 1.0F);
+					&& (!terrainMap.isAirBlock(new BlockPos(node.pos.add(0d, 1d, 0d)))) ? 3.0F : 1.0F);
 			return prevNode.distanceTo(node) * 1.3F * multiplier;
 		}
 
@@ -877,7 +877,7 @@ public abstract class EntityIMMob extends EntityIMLiving implements IMob, Sparro
 
 		int height = this.getJumpHeight();
 		for (int i = 1; i <= height; i++) {
-			if (this.getCollide(terrainMap, currentNode.pos.addVector(0d, i, 0d)) == 0) {
+			if (this.getCollide(terrainMap, currentNode.pos.add(0d, i, 0d)) == 0) {
 				height = i - 1;
 			}
 		}
@@ -915,7 +915,7 @@ public abstract class EntityIMMob extends EntityIMLiving implements IMob, Sparro
 					passedLevel = true;
 					if (currentY != currentNode.pos.y) {
 						this.addAdjacent(terrainMap,
-								new BlockPos(currentNode.pos.addVector(Coords.offsetAdjX[i], 0, Coords.offsetAdjZ[i])),
+								new BlockPos(currentNode.pos.add(Coords.offsetAdjX[i], 0, Coords.offsetAdjZ[i])),
 								currentNode, pathFinder);
 					}
 
@@ -928,7 +928,7 @@ public abstract class EntityIMMob extends EntityIMLiving implements IMob, Sparro
 
 		if (this.canSwimHorizontal()) {
 			for (int i = 0; i < 4; i++) {
-				Vec3d vec = currentNode.pos.addVector(Coords.offsetAdjX[i], 0, Coords.offsetAdjZ[i]);
+				Vec3d vec = currentNode.pos.add(Coords.offsetAdjX[i], 0, Coords.offsetAdjZ[i]);
 				if (this.getCollide(terrainMap, vec) == -1)
 					pathFinder.addNode(vec, PathAction.SWIM);
 			}
@@ -936,8 +936,8 @@ public abstract class EntityIMMob extends EntityIMLiving implements IMob, Sparro
 	}
 
 	protected void calcPathOptionsVertical(IBlockAccess terrainMap, PathNode currentNode, PathfinderIM pathFinder) {
-		Vec3d vecAbove = currentNode.pos.addVector(0d, 1d, 0d);
-		Vec3d vecBelow = currentNode.pos.addVector(0d, -1d, 0d);
+		Vec3d vecAbove = currentNode.pos.add(0d, 1d, 0d);
+		Vec3d vecBelow = currentNode.pos.add(0d, -1d, 0d);
 		BlockPos posAbove = new BlockPos(vecAbove);
 		BlockPos posBelow = new BlockPos(vecBelow);
 		int collideAbove = this.getCollide(terrainMap, posAbove);
@@ -950,36 +950,36 @@ public abstract class EntityIMMob extends EntityIMLiving implements IMob, Sparro
 
 				PathAction action;
 				switch (meta) {
-				case EAST:
-					action = PathAction.LADDER_UP_PX;
-					break;
-				case WEST:
-					action = PathAction.LADDER_UP_NX;
-					break;
-				case NORTH:
-					action = PathAction.LADDER_UP_PZ;
-					break;
-				case SOUTH:
-					action = PathAction.LADDER_UP_NZ;
-					break;
-				default:
-					action = PathAction.NONE;
+					case EAST:
+						action = PathAction.LADDER_UP_PX;
+						break;
+					case WEST:
+						action = PathAction.LADDER_UP_NX;
+						break;
+					case NORTH:
+						action = PathAction.LADDER_UP_PZ;
+						break;
+					case SOUTH:
+						action = PathAction.LADDER_UP_NZ;
+						break;
+					default:
+						action = PathAction.NONE;
 				}
 
 				switch (currentNode.action) {
-				case NONE:
-					pathFinder.addNode(currentNode.pos.addVector(0d, 1d, 0d), action);
-					break;
-				case LADDER_UP_PX:
-				case LADDER_UP_NX:
-				case LADDER_UP_PZ:
-				case LADDER_UP_NZ:
-					if (action == currentNode.action) {
+					case NONE:
+						pathFinder.addNode(currentNode.pos.add(0d, 1d, 0d), action);
+						break;
+					case LADDER_UP_PX:
+					case LADDER_UP_NX:
+					case LADDER_UP_PZ:
+					case LADDER_UP_NZ:
+						if (action == currentNode.action) {
+							pathFinder.addNode(vecAbove, action);
+						}
+						break;
+					default:
 						pathFinder.addNode(vecAbove, action);
-					}
-					break;
-				default:
-					pathFinder.addNode(vecAbove, action);
 				}
 			} else if (this.getCanClimb()) {
 				if (this.isAdjacentSolidBlock(terrainMap, posAbove))
@@ -1127,6 +1127,13 @@ public abstract class EntityIMMob extends EntityIMLiving implements IMob, Sparro
 			bonus++;
 
 		return block.getExplosionResistance(null) * (1.0F + bonus * 0.1F);
+	}
+
+	@Override
+	public void setVelocity(double x, double y, double z) {
+		this.motionX = x;
+		this.motionY = y;
+		this.motionZ = z;
 	}
 
 }

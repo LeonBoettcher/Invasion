@@ -73,7 +73,9 @@ public class ProxyClient extends ProxyCommon {
 
 	@Override
 	public void registerEntityRenderers() {
-		GameRegistry.registerTileEntity(TileEntityNexus.class, new ResourceLocation(Reference.MODID, "nexus"));
+		// Remove TileEntity registration since it's now in the main mod class
+		// GameRegistry.registerTileEntity(TileEntityNexus.class, new
+		// ResourceLocation(Reference.MODID, "nexus"));
 
 		registerEntityRenderer(EntityIMZombie.class, RenderIMZombie.class);
 		registerEntityRenderer(EntityIMZombiePigman.class, RenderIMZombiePigman.class);
@@ -402,7 +404,8 @@ public class ProxyClient extends ProxyCommon {
 		rightInnerWingFrames.add(new KeyFrame(45.0F * frameUnit, 1.0F, -19.0F, 0.0F, InterpType.LINEAR));
 		rightInnerWingFrames.add(new KeyFrame(50.0F * frameUnit, -3.0F, -38.0F, 0.0F, InterpType.LINEAR));
 		rightInnerWingFrames.add(new KeyFrame(55.0F * frameUnit, -1.0F, -48.0F, 0.0F, InterpType.LINEAR));
-		rightInnerWingFrames.add(new KeyFrame(60.0F * frameUnit, 2.0F, -48.0F, 0.0F, InterpType.LINEAR));
+		rightInnerWingFrames
+				.add(new KeyFrame(60.0F * frameUnit, 2.0F, -48.0F, 0.0F, InterpType.LINEAR));
 		rightInnerWingFrames
 				.add(new KeyFrame(61.0F * frameUnit, 5.5F, -7.0F, 0.0F, 7.0F, -8.0F, 6.0F, InterpType.LINEAR));
 		rightInnerWingFrames
@@ -494,6 +497,6 @@ public class ProxyClient extends ProxyCommon {
 
 	@Override
 	public File getFile(String fileName) {
-		return new File(FMLClientHandler.instance().getClient().mcDataDir.getPath() + fileName);
+		return new File(FMLClientHandler.instance().getClient().gameDir.getPath() + fileName);
 	}
 }

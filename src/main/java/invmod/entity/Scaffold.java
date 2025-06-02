@@ -179,17 +179,17 @@ public class Scaffold implements IPathfindable {
 			for (int i = 0; i < this.targetHeight; i++) {
 				// set bool true, donno why
 				IBlockState blockState0 = world.getBlockState(new BlockPos(this.vec
-						.addVector(Coords.offsetAdjX[this.orientation], i, Coords.offsetAdjZ[this.orientation])));
+						.add(Coords.offsetAdjX[this.orientation], i, Coords.offsetAdjZ[this.orientation])));
 				if (blockState0.isOpaqueCube()/* isSolidFullCube() */) {
 					existingMainSectionBlocks++;
 				}
-				if (world.getBlockState(new BlockPos(this.vec.addVector(0d, i, 0d))).getBlock() == Blocks.LADDER) {
+				if (world.getBlockState(new BlockPos(this.vec.add(0d, i, 0d))).getBlock() == Blocks.LADDER) {
 					existingMainLadderBlocks++;
 				}
 				if (this.isLayerPlatform(i)) {
 					for (int j = 0; j < 8; j++) {
 						BlockPos pos = new BlockPos(
-								this.vec.addVector(Coords.offsetRing1X[j], i, Coords.offsetRing1Z[j]));
+								this.vec.add(Coords.offsetRing1X[j], i, Coords.offsetRing1Z[j]));
 						IBlockState blockState1 = world.getBlockState(pos);
 						if (blockState1.isSideSolid(world, pos,
 								EnumFacing.UP)/* .isFullyOpaque() *//* .isSolidFullCube() */) {
@@ -243,7 +243,7 @@ public class Scaffold implements IPathfindable {
 				.getBlockState(new BlockPos(currentNode.pos.x, currentNode.pos.y + 1, currentNode.pos.z)).getBlock();
 		if ((currentNode.getPrevious() != null) && (currentNode.getPrevious().action == PathAction.SCAFFOLD_UP)
 				&& (!this.avoidsBlock(block))) {
-			pathFinder.addNode(currentNode.pos.addVector(0d, 1d, 0d), PathAction.SCAFFOLD_UP);
+			pathFinder.addNode(currentNode.pos.add(0d, 1d, 0d), PathAction.SCAFFOLD_UP);
 			return;
 		}
 		int minDistance;
@@ -262,7 +262,7 @@ public class Scaffold implements IPathfindable {
 		if ((block == Blocks.AIR) && (blockState.getMaterial().isSolid())) {
 			boolean flag = false;
 			for (int i = 1; i < 4; i++) {
-				if (terrainMap.getBlockState(new BlockPos(currentNode.pos.addVector(0d, (double) i, 0d)))
+				if (terrainMap.getBlockState(new BlockPos(currentNode.pos.add(0d, (double) i, 0d)))
 						.getBlock() != Blocks.AIR) {
 					flag = true;
 					break;
@@ -270,7 +270,7 @@ public class Scaffold implements IPathfindable {
 			}
 
 			if (!flag)
-				pathFinder.addNode(currentNode.pos.addVector(0d, 1d, 0d), PathAction.SCAFFOLD_UP);
+				pathFinder.addNode(currentNode.pos.add(0d, 1d, 0d), PathAction.SCAFFOLD_UP);
 		}
 	}
 

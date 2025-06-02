@@ -84,7 +84,7 @@ public class PathCreator implements IPathSource {
 			startZ = entity.getEntityBoundingBox().minZ;
 		}
 		return this.createPath(entity, new Vec3d(startX, startY, startZ),
-				vec.addVector(0.5d - entity.width / 2.0F, 0d, 0.5d - entity.width / 2d), targetRadius, maxSearchRange,
+				vec.add(0.5d - entity.width / 2.0F, 0d, 0.5d - entity.width / 2d), targetRadius, maxSearchRange,
 				terrainMap);
 	}
 

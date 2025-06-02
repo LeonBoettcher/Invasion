@@ -141,8 +141,8 @@ public class WalkNodeProcessorIM extends WalkNodeProcessor {
 					if (pathpoint != null
 							&& (pathpoint.nodeType == PathNodeType.OPEN || pathpoint.nodeType == PathNodeType.WALKABLE)
 							&& this.entity.width < 1.0F) {
-						double d2 = (double) (x - facing.getFrontOffsetX()) + 0.5D;
-						double d3 = (double) (z - facing.getFrontOffsetZ()) + 0.5D;
+						double d2 = (double) (x - facing.getXOffset()) + 0.5D;
+						double d3 = (double) (z - facing.getZOffset()) + 0.5D;
 						AxisAlignedBB axisalignedbb = new AxisAlignedBB(d2 - d1, (double) y + 0.001D, d3 - d1, d2 + d1,
 								(double) ((float) y + this.entity.height), d3 + d1);
 						AxisAlignedBB axisalignedbb1 = this.blockaccess.getBlockState(blockpos)

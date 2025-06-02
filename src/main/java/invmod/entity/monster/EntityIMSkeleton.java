@@ -234,12 +234,12 @@ public class EntityIMSkeleton extends EntityIMMob implements IRangedAttackMob {
 		// setThrowableHeading(double x, double y, double z, float velocity, float
 		// inaccuracy)
 		entitytippedarrow.shoot(d0, d1 + d3 * 0.20000000298023224D, d2, 1.6F,
-				(float) (14 - this.world.getDifficulty().getDifficultyId() * 4));
+				(float) (14 - this.world.getDifficulty().getId() * 4));
 		int i = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.POWER, this);
 		int j = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.PUNCH, this);
 		DifficultyInstance difficultyinstance = this.world.getDifficultyForLocation(getPosition());
 		entitytippedarrow.setDamage((double) (p_82196_2_ * 2.0F) + this.rand.nextGaussian() * 0.25D
-				+ (double) ((float) this.world.getDifficulty().getDifficultyId() * 0.11F));
+				+ (double) ((float) this.world.getDifficulty().getId() * 0.11F));
 
 		if (i > 0) {
 			entitytippedarrow.setDamage(entitytippedarrow.getDamage() + (double) i * 0.5D + 0.5D);

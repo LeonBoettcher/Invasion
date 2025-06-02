@@ -394,26 +394,30 @@ public abstract class EntityIMFlying extends EntityIMMob {
 			return;
 		}
 
-		if (this.getCollide(terrainMap, currentNode.pos.addVector(0d, 1d, 0d)) > 0) {
-			pathFinder.addNode(currentNode.pos.addVector(0d, 1d, 0d), PathAction.NONE);
+		if (this.getCollide(terrainMap, currentNode.pos.add(0d, 1d, 0d)) > 0) {
+			pathFinder.addNode(currentNode.pos.add(0d, 1d, 0d), PathAction.NONE);
 		}
 
-		if (this.getCollide(terrainMap, currentNode.pos.addVector(0d, -1d, 0d)) > 0) {
-			pathFinder.addNode(currentNode.pos.addVector(0d, -1d, 0d), PathAction.NONE);
+		if (this.getCollide(terrainMap, currentNode.pos.add(0d, -1d, 0d)) > 0) {
+			pathFinder.addNode(currentNode.pos.add(0d, -1d, 0d), PathAction.NONE);
 		}
 
 		for (int i = 0; i < 4; i++) {
 			if (this.getCollide(terrainMap,
-					currentNode.pos.addVector(Coords.offsetAdjX[i], 0, Coords.offsetAdjZ[i])) > 0) {
-				pathFinder.addNode(currentNode.pos.addVector(Coords.offsetAdjX[i], 0, Coords.offsetAdjZ[i]),
+					currentNode.pos.add(Coords.offsetAdjX[i], 0, Coords.offsetAdjZ[i])) > 0) {
+				pathFinder.addNode(currentNode.pos.add(Coords.offsetAdjX[i], 0, Coords.offsetAdjZ[i]),
+						PathAction.NONE);
+			} else if (this.getCollide(terrainMap,
+					currentNode.pos.add(Coords.offsetAdjX[i], 0, Coords.offsetAdjZ[i])) == -1) {
+				pathFinder.addNode(currentNode.pos.add(Coords.offsetAdjX[i], 0, Coords.offsetAdjZ[i]),
 						PathAction.NONE);
 			}
 		}
 		if (this.canSwimHorizontal()) {
 			for (int i = 0; i < 4; i++) {
 				if (this.getCollide(terrainMap,
-						currentNode.pos.addVector(Coords.offsetAdjX[i], 0, Coords.offsetAdjZ[i])) == -1)
-					pathFinder.addNode(currentNode.pos.addVector(Coords.offsetAdjX[i], 0, Coords.offsetAdjZ[i]),
+						currentNode.pos.add(Coords.offsetAdjX[i], 0, Coords.offsetAdjZ[i])) == -1)
+					pathFinder.addNode(currentNode.pos.add(Coords.offsetAdjX[i], 0, Coords.offsetAdjZ[i]),
 							PathAction.SWIM);
 			}
 		}

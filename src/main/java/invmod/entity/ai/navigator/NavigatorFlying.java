@@ -345,7 +345,7 @@ public class NavigatorFlying extends NavigatorIM implements INavigationFlying {
 				double z = this.theEntity.posZ + Math.cos(nextAngleH / 180.0D * 3.141592653589793D) * distanceXZ;
 				Vec3d target = new Vec3d(x, y, z);
 				Vec3d origin = this.theEntity.getLook(1.0F);
-				origin.addVector(0.0D, 1.0D, 0.0D);
+				Vec3d vec = origin.add(0d, 1d, 0d);
 
 				// MovingObjectPosition object = this.theEntity.world.rayTraceBlocks(origin,
 				// target);
