@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#X#"
+  ],
+  "key": {
+    "X": {
+      "item": "mod_invasion:riftflux"
+    },
+    "#": {
+      "item": "minecraft:dye",
+      "data": 4
+    }
+  },
+  "result": {
+    "item": "mod_invasion:dampingagent",
+    "count": 1
+  }
+} 

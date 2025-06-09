@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "D#H",
+    " X "
+  ],
+  "key": {
+    "X": {
+      "item": "minecraft:bowl"
+    },
+    "#": {
+      "item": "minecraft:redstone"
+    },
+    "D": {
+      "item": "minecraft:bone"
+    },
+    "H": {
+      "item": "minecraft:rotten_flesh"
+    }
+  },
+  "result": {
+    "item": "mod_invasion:catalystmixture",
+    "count": 1
+  }
+} 

@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "mod_invasion:smallremnants"
+    },
+    {
+      "item": "mod_invasion:smallremnants"
+    },
+    {
+      "item": "mod_invasion:smallremnants"
+    },
+    {
+      "item": "mod_invasion:smallremnants"
+    },
+    {
+      "item": "mod_invasion:smallremnants"
+    },
+    {
+      "item": "mod_invasion:smallremnants"
+    },
+    {
+      "item": "mod_invasion:smallremnants"
+    },
+    {
+      "item": "mod_invasion:smallremnants"
+    },
+    {
+      "item": "mod_invasion:smallremnants"
+    }
+  ],
+  "result": {
+    "item": "mod_invasion:riftflux",
+    "count": 1
+  }
+} 
