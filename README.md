@@ -1,6 +1,9 @@
 # Invasion
 
-### A mod for Minecraft 1.12.2 with Forge Version 14.23.5.2772
+### EXPERIMENTAL UPDATE OF MY 1.12.2 Version of the MOD
+### DONT USE IN MOPDACKS AS IT IS NOT STABLE
+
+### A mod for Minecraft 1.19.2
 
 Forked from [DerToaster98](https://github.com/DerToaster98) / [Invasion-mod](https://github.com/UnstoppableN/Invasion-mod)  
 Many thanks to [HarryTechRevs](https://github.com/HarryTechRevs) and his [1.12 Modding Tutorial](https://github.com/HarryTechRevs/Minecraft-Modding-1.12)
@@ -16,7 +19,7 @@ Many thanks to [HarryTechRevs](https://github.com/HarryTechRevs) and his [1.12 M
 
 #### Nexus
 
-- [x] Change Nexus texture when active
+- [ ] Change Nexus texture when active
 - [ ] Nexus shows 52 mob kills on start
   - Non-existing pattern name in wave definition: `zombie_t2_any`
 - [ ] Activation item is not being logged
@@ -25,19 +28,19 @@ Many thanks to [HarryTechRevs](https://github.com/HarryTechRevs) and his [1.12 M
 #### Mobs
 
 - [ ] Mobs not correctly pathfinding to Nexus
-  - [x] ISpiders
-    - [x] Spawning
+  - [ ] ISpiders
+    - [ ] Spawning
   - [ ] IPigman Engineer
-    - [x] Spawning
-    - [x] Breaking blocks
+    - [ ] Spawning
+    - [ ] Breaking blocks
     - [ ] Bridging Up
     - [ ] Digging down
   - [ ] IZombie
-    - [x] Spawning
+    - [ ] Spawning
   - [ ] ICreeper
-    - [x] Spawning
+    - [ ] Spawning
   - [ ] ISkeleton
-    - [x] Spawning
+    - [ ] Spawning
   - [ ] IZombiePigman
     - [ ] Spawning
   - [ ] IGuardian
@@ -51,7 +54,7 @@ Many thanks to [HarryTechRevs](https://github.com/HarryTechRevs) and his [1.12 M
   - [ ] IBurrower
     - [ ] Spawning
   - [ ] IThrower
-    - [x] Spawning
+    - [ ] Spawning
   - [ ] IWolf
     - [ ] Spawning
 - [ ] Mobs not damaging the Nexus correctly or with heavy delay
@@ -60,7 +63,7 @@ Many thanks to [HarryTechRevs](https://github.com/HarryTechRevs) and his [1.12 M
 
 ### 🖥️ Server
 
-- [x] Server crashing when starting Invasion
+- [ ] Server crashing when starting Invasion
 
 ---
 
