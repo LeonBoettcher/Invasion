@@ -5,10 +5,10 @@ import com.google.common.io.ByteArrayDataOutput;
 
 import invmod.SoundHandler;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.Entity;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.MathHelper;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 
 public class EntityIMBolt extends Entity implements IEntityAdditionalSpawnData {
@@ -26,7 +26,7 @@ public class EntityIMBolt extends Entity implements IEntityAdditionalSpawnData {
 	private float vecZ;
 	private int soundMade;
 
-	public EntityIMBolt(World world) {
+	public EntityIMBolt(Level world) {
 		super(world);
 		this.age = 0;
 		this.timeCreated = (this.lastVertexUpdate = System.currentTimeMillis());
@@ -35,12 +35,12 @@ public class EntityIMBolt extends Entity implements IEntityAdditionalSpawnData {
 		this.ignoreFrustumCheck = true;
 	}
 
-	public EntityIMBolt(World world, double x, double y, double z) {
+	public EntityIMBolt(Level world, double x, double y, double z) {
 		this(world);
 		this.setPosition(x, y, z);
 	}
 
-	public EntityIMBolt(World world, double x, double y, double z, double x2, double y2, double z2, int ticksToRender,
+	public EntityIMBolt(Level world, double x, double y, double z, double x2, double y2, double z2, int ticksToRender,
 			int soundMade) {
 		this(world, x, y, z);
 		this.vecX = ((float) (x2 - x));
@@ -121,11 +121,11 @@ public class EntityIMBolt extends Entity implements IEntityAdditionalSpawnData {
 	}
 
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+	protected void readEntityFromNBT(CompoundTag nbttagcompound) {
 	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+	protected void writeEntityToNBT(CompoundTag nbttagcompound) {
 	}
 
 	private void setHeading(float x, float y, float z) {

@@ -8,7 +8,7 @@ import invmod.entity.monster.EntityIMImp;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.ResourceLocation;
 
 public class RenderImp extends RenderLiving<EntityIMImp> {
 	private static final ResourceLocation texture = new ResourceLocation(Reference.MODID + ":textures/imp.png");

@@ -4,16 +4,16 @@
 //
 //import java.util.Iterator;
 //
-//import net.minecraft.block.Block;
-//import net.minecraft.block.material.Material;
-//import net.minecraft.init.Blocks;
-//import net.minecraft.util.MathHelper;
-//import net.minecraft.world.Explosion;
-//import net.minecraft.world.World;
+//import net.minecraft.world.level.level.block.Block;
+//import net.minecraft.world.level.level.block.material.Material;
+//import net.minecraft.world.level.block.Blocks;
+//import net.minecraft.core.MathHelper;
+//import net.minecraft.world.level.Explosion;
+//import net.minecraft.world.level.Level;
 //
 //public class ExplosionUtil {
 //
-//	public static void doExplosionB(World world,Explosion explosion,boolean p_77279_1_)
+//	public static void doExplosionB(Level world,Explosion explosion,boolean p_77279_1_)
 //	  {
 //		world.playSoundEffect(explosion.explosionX, explosion.explosionY, explosion.explosionZ, "random.explode", 4.0F, (1.0F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F) * 0.7F);
 //

@@ -29,29 +29,29 @@ import invmod.entity.ai.navigator.PathNode;
 import invmod.entity.ai.navigator.PathfinderIM;
 import invmod.tileentity.TileEntityNexus;
 import invmod.util.Coords;
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITasks;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.level.level.block.Block;
+import net.minecraft.world.level.level.block.state.BlockState;
+import net.minecraft.world.level.entity.ai.EntityAIHurtByTarget;
+import net.minecraft.world.level.entity.ai.EntityAILookIdle;
+import net.minecraft.world.level.entity.ai.EntityAISwimming;
+import net.minecraft.world.level.entity.ai.EntityAITasks;
+import net.minecraft.world.level.entity.ai.EntityAIWatchClosest;
+import net.minecraft.world.level.entity.player.Player;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Items;
+import net.minecraft.world.level.block.SoundEvents;
+import net.minecraft.world.level.item.Item;
+import net.minecraft.world.level.item.ItemStack;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.core.DamageSource;
+import net.minecraft.core.InteractionHand;
+import net.minecraft.core.SoundEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3d;
+import net.minecraft.world.level.IBlockAccess;
+import net.minecraft.world.level.Level;
 
 public class EntityIMPigEngy extends EntityIMMob implements ICanDig, ICanBuild {
 
@@ -77,7 +77,7 @@ public class EntityIMPigEngy extends EntityIMMob implements ICanDig, ICanBuild {
 	private TerrainBuilder terrainBuilder = null;
 	// private ItemStack currentItem;
 
-	public EntityIMPigEngy(World world, TileEntityNexus nexus) {
+	public EntityIMPigEngy(Level world, TileEntityNexus nexus) {
 		super(world, nexus);
 		IPathSource pathSource = this.getPathSource();
 		pathSource.setSearchDepth(1500);
@@ -102,7 +102,7 @@ public class EntityIMPigEngy extends EntityIMMob implements ICanDig, ICanBuild {
 		this.askForScaffoldTimer = 0;
 		this.isImmuneToFire = true;
 
-		this.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.IRON_PICKAXE));
+		this.setHeldItem(InteractionHand.MAIN_HAND, new ItemStack(Items.IRON_PICKAXE));
 
 		this.setMaxHealthAndHealth(mod_invasion.getMobHealth(this));
 		this.setName("Pigman Engineer");
@@ -113,15 +113,15 @@ public class EntityIMPigEngy extends EntityIMMob implements ICanDig, ICanBuild {
 
 		int r = this.rand.nextInt(3);
 		if (r == 0)
-			this.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Item.getItemFromBlock(Blocks.LADDER)));
+			this.setHeldItem(InteractionHand.MAIN_HAND, new ItemStack(Item.getItemFromBlock(Blocks.LADDER)));
 		else if (r == 1)
-			this.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.IRON_PICKAXE));
+			this.setHeldItem(InteractionHand.MAIN_HAND, new ItemStack(Items.IRON_PICKAXE));
 		else
-			this.setHeldItem(EnumHand.MAIN_HAND,
+			this.setHeldItem(InteractionHand.MAIN_HAND,
 					new ItemStack(/* BlocksAndItems.itemEngyHammer */ModItems.ENGY_HAMMER));
 	}
 
-	public EntityIMPigEngy(World world) {
+	public EntityIMPigEngy(Level world) {
 		this(world, null);
 	}
 
@@ -135,22 +135,22 @@ public class EntityIMPigEngy extends EntityIMMob implements ICanDig, ICanBuild {
 	protected void initEntityAI() {
 		this.tasksIM = new EntityAITasks(this.world.profiler);
 		this.tasksIM.addTask(0, new EntityAISwimming(this));
-		this.tasksIM.addTask(1, new EntityAIKillEntity(this, EntityPlayer.class, 60));
+		this.tasksIM.addTask(1, new EntityAIKillEntity(this, Player.class, 60));
 		this.tasksIM.addTask(2, new EntityAIAttackNexus(this));
 		this.tasksIM.addTask(3, new EntityAIGoToNexus(this));
 		this.tasksIM.addTask(7, new EntityAIWanderIM(this));
-		this.tasksIM.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 7.0F));
+		this.tasksIM.addTask(8, new EntityAIWatchClosest(this, Player.class, 7.0F));
 		this.tasksIM.addTask(9, new EntityAIWatchClosest(this, EntityIMCreeper.class, 12.0F));
 		this.tasksIM.addTask(9, new EntityAILookIdle(this));
 
 		this.targetTasksIM = new EntityAITasks(this.world.profiler);
 		if (this.isNexusBound()) {
-			this.targetTasksIM.addTask(1, new EntityAISimpleTarget(this, EntityPlayer.class, 3.0F, true));
+			this.targetTasksIM.addTask(1, new EntityAISimpleTarget(this, Player.class, 3.0F, true));
 		} else {
 			this.targetTasksIM.addTask(1,
-					new EntityAISimpleTarget(this, EntityPlayer.class, this.getSenseRange(), false));
+					new EntityAISimpleTarget(this, Player.class, this.getSenseRange(), false));
 			this.targetTasksIM.addTask(2,
-					new EntityAISimpleTarget(this, EntityPlayer.class, this.getAggroRange(), true));
+					new EntityAISimpleTarget(this, Player.class, this.getAggroRange(), true));
 		}
 		this.targetTasksIM.addTask(3, new EntityAIHurtByTarget(this, false));
 	}
@@ -277,7 +277,7 @@ public class EntityIMPigEngy extends EntityIMMob implements ICanDig, ICanBuild {
 
 	@Override
 	public boolean canClearBlock(BlockPos pos) {
-		IBlockState blockState = this.world.getBlockState(pos);
+		BlockState blockState = this.world.getBlockState(pos);
 		return (blockState.getBlock() == Blocks.AIR) || (this.isBlockDestructible(this.world, pos, blockState));
 	}
 
@@ -298,7 +298,7 @@ public class EntityIMPigEngy extends EntityIMMob implements ICanDig, ICanBuild {
 	public float getBlockPathCost(PathNode prevNode, PathNode node, IBlockAccess terrainMap) {
 		if ((node.pos.x == -21) && (node.pos.z == 180))
 			this.planks = 10;
-		IBlockState blockState = terrainMap.getBlockState(new BlockPos(node.pos));
+		BlockState blockState = terrainMap.getBlockState(new BlockPos(node.pos));
 		float materialMultiplier = (blockState.getBlock() != Blocks.AIR)
 				&& (this.isBlockDestructible(terrainMap, new BlockPos(node.pos), blockState)) ? 3.2F : 1.0F;
 
@@ -391,7 +391,7 @@ public class EntityIMPigEngy extends EntityIMMob implements ICanDig, ICanBuild {
 				}
 
 				for (int i = 0; i < 4; i++) {
-					IBlockState blockState = terrainMap.getBlockState(
+					BlockState blockState = terrainMap.getBlockState(
 							new BlockPos(currentNode.pos.add(Coords.offsetAdjX[i], 1, Coords.offsetAdjZ[i])));
 					if (blockState.isNormalCube()) {
 						for (int height = 0; height < maxHeight; height++) {
@@ -478,7 +478,7 @@ public class EntityIMPigEngy extends EntityIMMob implements ICanDig, ICanBuild {
 		if ((!this.world.isRemote) && (this.terrainModifier.isBusy())) {
 			this.setSwinging(true);
 			PathAction currentAction = this.getNavigatorNew().getCurrentWorkingAction();
-			this.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(currentAction == PathAction.NONE ? Items.IRON_PICKAXE
+			this.setHeldItem(InteractionHand.MAIN_HAND, new ItemStack(currentAction == PathAction.NONE ? Items.IRON_PICKAXE
 					: /* BlocksAndItems.itemEngyHammer */ModItems.ENGY_HAMMER));
 		}
 		int swingSpeed = this.getSwingSpeed();
@@ -519,7 +519,7 @@ public class EntityIMPigEngy extends EntityIMMob implements ICanDig, ICanBuild {
 	}
 
 	@Override
-	public void onBlockRemoved(BlockPos pos, IBlockState state) {
+	public void onBlockRemoved(BlockPos pos, BlockState state) {
 		// TODO Auto-generated method stub
 
 	}

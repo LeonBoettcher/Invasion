@@ -1,11 +1,11 @@
 package invmod.entity.ai;
 
 import invmod.entity.monster.EntityIMSkeleton;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemBow;
-import net.minecraft.util.EnumHand;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.ai.EntityAIBase;
+import net.minecraft.world.level.block.Items;
+import net.minecraft.world.level.item.ItemBow;
+import net.minecraft.core.InteractionHand;
 
 public class EntityAIAttackRangedBowIM extends EntityAIBase {
 
@@ -77,7 +77,7 @@ public class EntityAIAttackRangedBowIM extends EntityAIBase {
 	 */
 	@Override
 	public void updateTask() {
-		EntityLivingBase entitylivingbase = this.entity.getAttackTarget();
+		LivingEntity entitylivingbase = this.entity.getAttackTarget();
 
 		if (entitylivingbase != null) {
 			double d0 = this.entity.getDistanceSq(entitylivingbase.posX, entitylivingbase.getEntityBoundingBox().minY,
@@ -142,7 +142,7 @@ public class EntityAIAttackRangedBowIM extends EntityAIBase {
 					}
 				}
 			} else if (--this.attackTime <= 0 && this.seeTime >= -60) {
-				this.entity.setActiveHand(EnumHand.MAIN_HAND);
+				this.entity.setActiveHand(InteractionHand.MAIN_HAND);
 			}
 		}
 	}

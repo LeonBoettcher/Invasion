@@ -3,7 +3,7 @@ package invmod.client.gui;
 import java.util.Set;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraftforge.fml.client.IModGuiFactory;
 
 public class ConfigGuiFactory implements IModGuiFactory {
@@ -14,12 +14,12 @@ public class ConfigGuiFactory implements IModGuiFactory {
 	}
 
 	@Override
-	public GuiScreen createConfigGui(GuiScreen parentScreen) {
+	public Screen createConfigGui(Screen parentScreen) {
 		return new ConfigGui(parentScreen);
 	}
 
 	/*
-	 * @Override public Class<? extends GuiScreen> mainConfigGuiClass() { return
+	 * @Override public Class<? extends Screen> mainConfigGuiClass() { return
 	 * ConfigGui.class; }
 	 */
 

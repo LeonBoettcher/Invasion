@@ -1,9 +1,9 @@
 package invmod.entity;
 
 import invmod.INotifyTask;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.level.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.core.BlockPos;
 
 public class TerrainDigger implements ITerrainDig, INotifyTask {
 	private ICanDig digger;

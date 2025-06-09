@@ -3,7 +3,7 @@
 //import io.netty.buffer.ByteBuf;
 //import io.netty.channel.ChannelHandlerContext;
 //
-//import net.minecraft.entity.player.EntityPlayer;
+//import net.minecraft.world.level.entity.player.Player;
 //
 //
 ///**
@@ -33,12 +33,12 @@
 //     *
 //     * @param player the player reference
 //     */
-//    public abstract void handleClientSide(EntityPlayer player);
+//    public abstract void handleClientSide(Player player);
 //
 //    /**
 //     * Handle a packet on the server side. Note this occurs after decoding has completed.
 //     *
 //     * @param player the player reference
 //     */
-//    public abstract void handleServerSide(EntityPlayer player);
+//    public abstract void handleServerSide(Player player);
 //}

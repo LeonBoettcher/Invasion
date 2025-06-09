@@ -14,15 +14,15 @@ import invmod.entity.ai.navigator.PathfinderIM;
 import invmod.tileentity.TileEntityNexus;
 import invmod.util.Coords;
 import invmod.util.MathUtil;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.level.block.Block;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.MathHelper;
+import net.minecraft.core.Vec3d;
+import net.minecraft.world.level.IBlockAccess;
+import net.minecraft.world.level.Level;
 
 public abstract class EntityIMFlying extends EntityIMMob {
 
@@ -61,11 +61,11 @@ public abstract class EntityIMFlying extends EntityIMMob {
 	private boolean flyPathfind;
 	private boolean debugFlying;
 
-	public EntityIMFlying(World world) {
+	public EntityIMFlying(Level world) {
 		this(world, null);
 	}
 
-	public EntityIMFlying(World world, TileEntityNexus nexus) {
+	public EntityIMFlying(Level world, TileEntityNexus nexus) {
 		super(world, nexus);
 		this.debugFlying = true;
 		this.flyState = FlyState.GROUNDED;

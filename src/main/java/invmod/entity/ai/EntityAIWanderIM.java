@@ -2,8 +2,8 @@ package invmod.entity.ai;
 
 import invmod.entity.ai.navigator.Path;
 import invmod.entity.monster.EntityIMMob;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.level.entity.ai.EntityAIBase;
+import net.minecraft.core.BlockPos;
 
 public class EntityAIWanderIM extends EntityAIBase {
 	private static final int MIN_HORIZONTAL_PATH = 1;

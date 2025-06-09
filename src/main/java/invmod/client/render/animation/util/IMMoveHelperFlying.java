@@ -2,10 +2,10 @@ package invmod.client.render.animation.util;
 
 import invmod.entity.MoveState;
 import invmod.entity.monster.EntityIMFlying;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.MathHelper;
+import net.minecraft.core.Vec3d;
 
 public class IMMoveHelperFlying extends IMMoveHelper {
 	private EntityIMFlying a;

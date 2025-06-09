@@ -28,8 +28,8 @@ import invmod.item.trap.ItemEmptyTrap;
 import invmod.item.trap.ItemFlameTrap;
 import invmod.item.trap.ItemPoisonTrap;
 import invmod.item.trap.ItemRiftTrap;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.level.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -127,7 +127,7 @@ public class ModItems {
 			return setItemNameAndTab(item, name, mod_invasion.tabInvmod);
 		}
 
-		private static Item setItemNameAndTab(Item item, String name, @Nullable CreativeTabs tab) {
+		private static Item setItemNameAndTab(Item item, String name, @Nullable CreativeModeTab tab) {
 			return item.setTranslationKey(name).setRegistryName(Reference.MODID, name).setCreativeTab(tab);
 		}
 	}

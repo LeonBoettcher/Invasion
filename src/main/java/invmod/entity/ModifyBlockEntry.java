@@ -1,22 +1,22 @@
 package invmod.entity;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.level.level.block.Block;
+import net.minecraft.world.level.level.block.state.BlockState;
+import net.minecraft.core.BlockPos;
 
 public class ModifyBlockEntry
 /* implements IPosition */ {
 	private BlockPos pos;
-	private IBlockState oldBlock;
-	private IBlockState newBlock;
-	// private IBlockState newBlockMeta;
+	private BlockState oldBlock;
+	private BlockState newBlock;
+	// private BlockState newBlockMeta;
 	private int cost;
 
 	public ModifyBlockEntry(BlockPos pos, Block newBlock) {
 		this(pos, newBlock.getDefaultState(), 0, null);
 	}
 
-	public ModifyBlockEntry(BlockPos pos, IBlockState newBlock) {
+	public ModifyBlockEntry(BlockPos pos, BlockState newBlock) {
 		this(pos, newBlock, 0, null);
 	}
 
@@ -24,7 +24,7 @@ public class ModifyBlockEntry
 		this(pos, newBlock != null ? newBlock.getDefaultState() : null, cost, null);
 	}
 
-	public ModifyBlockEntry(BlockPos pos, IBlockState newBlock, int cost) {
+	public ModifyBlockEntry(BlockPos pos, BlockState newBlock, int cost) {
 		this(pos, newBlock, cost, null);
 	}
 
@@ -32,8 +32,8 @@ public class ModifyBlockEntry
 		this(pos, newBlock.getDefaultState(), cost, oldBlock != null ? oldBlock.getDefaultState() : null);
 	}
 
-	public ModifyBlockEntry(BlockPos pos, IBlockState newBlock, int cost,
-			/* IBlockState newBlockMeta, */ IBlockState oldBlock) {
+	public ModifyBlockEntry(BlockPos pos, BlockState newBlock, int cost,
+			/* BlockState newBlockMeta, */ BlockState oldBlock) {
 		this.pos = pos;
 		this.newBlock = newBlock;
 		this.cost = cost;
@@ -53,23 +53,23 @@ public class ModifyBlockEntry
 	 * @Override public int getZCoord(){ return this.zCoord; }
 	 */
 
-	public IBlockState getNewBlock() {
+	public BlockState getNewBlock() {
 		return this.newBlock;
 	}
 
 	/*
-	 * public IBlockState getNewBlockMeta() { return this.newBlockMeta; }
+	 * public BlockState getNewBlockMeta() { return this.newBlockMeta; }
 	 */
 
 	public int getCost() {
 		return this.cost;
 	}
 
-	public IBlockState getOldBlock() {
+	public BlockState getOldBlock() {
 		return this.oldBlock;
 	}
 
-	public void setOldBlock(IBlockState state) {
+	public void setOldBlock(BlockState state) {
 		this.oldBlock = state;
 	}
 

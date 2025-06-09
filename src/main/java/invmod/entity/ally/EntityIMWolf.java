@@ -11,23 +11,23 @@ import invmod.nexus.SpawnType;
 import invmod.tileentity.TileEntityNexus;
 import invmod.util.ComparatorDistanceFrom;
 import invmod.util.ModLogger;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.item.EntityXPOrb;
-import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.passive.EntityWolf;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.SharedMonsterAttributes;
+import net.minecraft.world.level.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.world.level.entity.item.EntityXPOrb;
+import net.minecraft.world.level.entity.monster.IMob;
+import net.minecraft.world.level.entity.passive.EntityWolf;
+import net.minecraft.world.level.block.SoundEvents;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+import net.minecraft.core.DamageSource;
+import net.minecraft.core.ParticleTypes;
+import net.minecraft.core.SoundEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.MathHelper;
+import net.minecraft.world.level.Level;
 
 public class EntityIMWolf extends EntityWolf {
 
@@ -52,7 +52,7 @@ public class EntityIMWolf extends EntityWolf {
 	private boolean loadedFromNBT;
 	private float maxHealth;
 
-	public EntityIMWolf(World world) {
+	public EntityIMWolf(Level world) {
 		this(world, null);
 	}
 
@@ -72,7 +72,7 @@ public class EntityIMWolf extends EntityWolf {
 		this.aiSit.setSitting(this.isSitting());
 	}
 
-	public EntityIMWolf(World world, TileEntityNexus nexus) {
+	public EntityIMWolf(Level world, TileEntityNexus nexus) {
 		super(world);
 		// this.targetTasks.addTask(5, new EntityAINearestAttackableTarget(this,
 		// IMob.class, true)); //DarthXenon: No! classTarget must be a subclass of
@@ -172,7 +172,7 @@ public class EntityIMWolf extends EntityWolf {
 				double d = this.rand.nextGaussian() * 0.02D;
 				double d1 = this.rand.nextGaussian() * 0.02D;
 				double d2 = this.rand.nextGaussian() * 0.02D;
-				this.world.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL,
+				this.world.spawnParticle(ParticleTypes.EXPLOSION_NORMAL,
 						this.posX + this.rand.nextFloat() * this.width * 2.0F - this.width,
 						this.posY + this.rand.nextFloat() * this.height,
 						this.posZ + this.rand.nextFloat() * this.width * 2.0F - this.width, d, d1, d2);
@@ -242,7 +242,7 @@ public class EntityIMWolf extends EntityWolf {
 	}
 
 //	@Override
-//	public boolean interact(EntityPlayer player)
+//	public boolean interact(Player player)
 //	{
 //		ItemStack itemstack = player.inventory.getCurrentItem();
 //		if (itemstack != null)
@@ -282,7 +282,7 @@ public class EntityIMWolf extends EntityWolf {
 //	}
 
 	@Override
-	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+	public void writeEntityToNBT(CompoundTag nbttagcompound) {
 		super.writeEntityToNBT(nbttagcompound);
 		if (this.nexus != null) {
 			nbttagcompound.setInteger("nexusX", this.nexus.getPos().getX());
@@ -295,7 +295,7 @@ public class EntityIMWolf extends EntityWolf {
 	}
 
 	@Override
-	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+	public void readEntityFromNBT(CompoundTag nbttagcompound) {
 		super.readEntityFromNBT(nbttagcompound);
 		// this.nexusX = ;
 		this.nexusPos = new BlockPos(nbttagcompound.getInteger("nexusX"), nbttagcompound.getInteger("nexusY"),

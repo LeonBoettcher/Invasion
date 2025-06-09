@@ -18,31 +18,31 @@ import invmod.entity.ai.EntityAIWanderIM;
 import invmod.nexus.EntityConstruct;
 import invmod.nexus.IMEntityType;
 import invmod.tileentity.TileEntityNexus;
-import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EnumCreatureAttribute;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITasks;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.level.level.block.Block;
+import net.minecraft.world.level.level.block.SoundType;
+import net.minecraft.world.level.level.block.state.BlockState;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.EnumCreatureAttribute;
+import net.minecraft.world.level.entity.ai.EntityAIHurtByTarget;
+import net.minecraft.world.level.entity.ai.EntityAILookIdle;
+import net.minecraft.world.level.entity.ai.EntityAISwimming;
+import net.minecraft.world.level.entity.ai.EntityAITasks;
+import net.minecraft.world.level.entity.ai.EntityAIWatchClosest;
+import net.minecraft.world.level.entity.player.Player;
+import net.minecraft.world.level.entity.player.EntityPlayerMP;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Items;
+import net.minecraft.world.level.block.SoundEvents;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+import net.minecraft.core.DamageSource;
+import net.minecraft.core.SoundEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.MathHelper;
+import net.minecraft.world.level.Level;
 
 public class EntityIMSpider extends EntityIMMob implements ISpawnsOffspring {
 
@@ -58,11 +58,11 @@ public class EntityIMSpider extends EntityIMMob implements ISpawnsOffspring {
 	public static final DataParameter<Integer> FLAVOUR = EntityDataManager.createKey(EntityIMSpider.class,
 			DataSerializers.VARINT); // 28
 
-	public EntityIMSpider(World world) {
+	public EntityIMSpider(Level world) {
 		this(world, null);
 	}
 
-	public EntityIMSpider(World world, TileEntityNexus nexus) {
+	public EntityIMSpider(Level world, TileEntityNexus nexus) {
 		super(world, nexus);
 		this.setSize(1.4F, 0.9F);
 		this.setCanClimb(true);
@@ -81,21 +81,21 @@ public class EntityIMSpider extends EntityIMMob implements ISpawnsOffspring {
 	protected void initEntityAI() {
 		this.tasksIM = new EntityAITasks(this.world.profiler);
 		this.tasksIM.addTask(0, new EntityAISwimming(this));
-		this.tasksIM.addTask(1, new EntityAIKillEntity(this, EntityPlayer.class, 40));
+		this.tasksIM.addTask(1, new EntityAIKillEntity(this, Player.class, 40));
 		this.tasksIM.addTask(1, new EntityAIKillEntity(this, EntityPlayerMP.class, 40));
 		this.tasksIM.addTask(2, new EntityAIAttackNexus(this));
 		this.tasksIM.addTask(3, new EntityAIWaitForEngy(this, 5.0F, false));
-		this.tasksIM.addTask(4, new EntityAIKillEntity(this, EntityLiving.class, 40));
+		this.tasksIM.addTask(4, new EntityAIKillEntity(this, LivingEntity.class, 40));
 		this.tasksIM.addTask(5, new EntityAIGoToNexus(this));
 		this.tasksIM.addTask(7, new EntityAIWanderIM(this));
-		this.tasksIM.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+		this.tasksIM.addTask(8, new EntityAIWatchClosest(this, Player.class, 8.0F));
 
 		this.tasksIM.addTask(9, new EntityAILookIdle(this));
 
 		this.targetTasksIM = new EntityAITasks(this.world.profiler);
-		this.targetTasksIM.addTask(0, new EntityAITargetRetaliate(this, EntityLiving.class, 12.0F));
-		this.targetTasksIM.addTask(1, new EntityAISimpleTarget(this, EntityPlayer.class, this.getSenseRange(), false));
-		this.targetTasksIM.addTask(2, new EntityAISimpleTarget(this, EntityPlayer.class, this.getAggroRange(), true));
+		this.targetTasksIM.addTask(0, new EntityAITargetRetaliate(this, LivingEntity.class, 12.0F));
+		this.targetTasksIM.addTask(1, new EntityAISimpleTarget(this, Player.class, this.getSenseRange(), false));
+		this.targetTasksIM.addTask(2, new EntityAISimpleTarget(this, Player.class, this.getAggroRange(), true));
 		this.targetTasksIM.addTask(3, new EntityAITargetOnNoNexusPath(this, EntityIMPigEngy.class, 3.5F));
 		this.targetTasksIM.addTask(4, new EntityAIHurtByTarget(this, false));
 
@@ -263,13 +263,13 @@ public class EntityIMSpider extends EntityIMMob implements ISpawnsOffspring {
 	}
 
 	@Override
-	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+	public void writeEntityToNBT(CompoundTag nbttagcompound) {
 		nbttagcompound.setInteger("flavour", this.flavour);
 		super.writeEntityToNBT(nbttagcompound);
 	}
 
 	@Override
-	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+	public void readEntityFromNBT(CompoundTag nbttagcompound) {
 		super.readEntityFromNBT(nbttagcompound);
 		this.setFlavour(this.flavour = nbttagcompound.getInteger("flavour"));
 	}
@@ -356,7 +356,7 @@ public class EntityIMSpider extends EntityIMMob implements ISpawnsOffspring {
 		if (i > 0) {
 			BlockPos pos = new BlockPos(MathHelper.floor(this.posX), MathHelper.floor(this.posY - 0.2D),
 					MathHelper.floor(this.posZ));
-			IBlockState blockState = this.world.getBlockState(pos);
+			BlockState blockState = this.world.getBlockState(pos);
 			if (blockState.getBlock() != Blocks.AIR) {
 				// some cheating with sounds, not sure it this will work
 				SoundType stepsound = blockState.getBlock().getSoundType(blockState, this.world, pos, this);

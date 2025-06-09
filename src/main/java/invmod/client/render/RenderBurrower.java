@@ -8,7 +8,7 @@ import invmod.entity.monster.EntityIMBurrower;
 import invmod.util.PosRotate3D;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.ResourceLocation;
 
 public class RenderBurrower extends Render<EntityIMBurrower> {
 	private static final ResourceLocation texture = new ResourceLocation(Reference.MODID + ":textures/burrower.png");

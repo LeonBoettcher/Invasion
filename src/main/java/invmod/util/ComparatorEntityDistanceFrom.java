@@ -2,7 +2,7 @@ package invmod.util;
 
 import java.util.Comparator;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.world.level.entity.Entity;
 
 public class ComparatorEntityDistanceFrom implements Comparator<Entity> {
 	private double posX;

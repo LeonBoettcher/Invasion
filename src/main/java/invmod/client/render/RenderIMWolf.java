@@ -5,8 +5,8 @@ import org.lwjgl.opengl.GL11;
 import invmod.Reference;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderWolf;
-import net.minecraft.entity.passive.EntityWolf;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.level.entity.passive.EntityWolf;
+import net.minecraft.core.ResourceLocation;
 
 public class RenderIMWolf extends RenderWolf {
 	public RenderIMWolf(RenderManager renderManager) {

@@ -1,7 +1,7 @@
 package invmod.entity.ai.navigator;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.core.Vec3d;
 
 public class Path {
 	public final PathNode[] points;

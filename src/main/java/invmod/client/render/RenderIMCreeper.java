@@ -7,10 +7,10 @@ import invmod.entity.monster.EntityIMCreeper;
 import net.minecraft.client.model.ModelCreeper;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.core.ResourceLocation;
+import net.minecraft.core.MathHelper;
 
 public class RenderIMCreeper extends RenderLiving<EntityIMCreeper> {
 	private static final ResourceLocation texture = new ResourceLocation(Reference.MODID + ":textures/creeper.png");
@@ -90,7 +90,7 @@ public class RenderIMCreeper extends RenderLiving<EntityIMCreeper> {
 		return -1;
 	}
 
-	protected int inheritRenderPass(EntityLivingBase par1EntityLiving, int par2, float par3) {
+	protected int inheritRenderPass(LivingEntity par1EntityLiving, int par2, float par3) {
 		return this.func_27007_b((EntityIMCreeper) par1EntityLiving, par2, par3);
 	}
 

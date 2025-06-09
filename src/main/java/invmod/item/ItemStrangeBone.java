@@ -3,14 +3,14 @@ package invmod.item;
 import invmod.ModBlocks;
 import invmod.entity.ally.EntityIMWolf;
 import invmod.tileentity.TileEntityNexus;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.passive.EntityWolf;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.passive.EntityWolf;
+import net.minecraft.world.level.entity.player.Player;
+import net.minecraft.world.level.item.ItemStack;
+import net.minecraft.core.InteractionHand;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.MathHelper;
+import net.minecraft.core.text.TextComponentTranslation;
 
 public class ItemStrangeBone extends ModItem {
 
@@ -25,8 +25,8 @@ public class ItemStrangeBone extends ModItem {
 	}
 
 	@Override
-	public boolean itemInteractionForEntity(ItemStack itemStack, EntityPlayer player, EntityLivingBase targetEntity,
-			EnumHand hand) {
+	public boolean itemInteractionForEntity(ItemStack itemStack, Player player, LivingEntity targetEntity,
+			InteractionHand hand) {
 		if ((!targetEntity.world.isRemote) && ((targetEntity instanceof EntityWolf))
 				&& (!(targetEntity instanceof EntityIMWolf))) {
 			EntityWolf wolf = (EntityWolf) targetEntity;

@@ -2,10 +2,10 @@ package invmod.entity;
 
 import invmod.IPathfindable;
 import invmod.entity.ai.navigator.Path;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3d;
+import net.minecraft.world.level.IBlockAccess;
 
 public interface IPathSource {
 

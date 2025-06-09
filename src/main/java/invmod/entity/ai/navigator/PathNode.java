@@ -1,7 +1,7 @@
 package invmod.entity.ai.navigator;
 
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.core.MathHelper;
+import net.minecraft.core.Vec3d;
 
 public class PathNode {
 

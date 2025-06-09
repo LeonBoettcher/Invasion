@@ -10,8 +10,8 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.VertexFormat;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.core.ResourceLocation;
+import net.minecraft.core.Vec3d;
 
 public class RenderB extends RenderLiving<EntityIMBird> {
 	private ModelBird modelBird;

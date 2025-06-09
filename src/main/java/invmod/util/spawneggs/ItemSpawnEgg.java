@@ -3,24 +3,24 @@ package invmod.util.spawneggs;
 import java.util.Set;
 
 import invmod.mod_invasion;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockLiquid;
+import net.minecraft.world.level.level.block.Block;
+import net.minecraft.world.level.level.block.BlockLiquid;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.player.Player;
+import net.minecraft.world.level.item.Item;
+import net.minecraft.world.level.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.ActionResult;
+import net.minecraft.core.EnumActionResult;
+import net.minecraft.core.Direction;
+import net.minecraft.core.InteractionHand;
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.RayTraceResult;
+import net.minecraft.world.level.Level;
 
 public class ItemSpawnEgg extends Item {
 
@@ -47,7 +47,7 @@ public class ItemSpawnEgg extends Item {
 		String displayName = info.displayName;
 
 		if (stack.hasTagCompound()) {
-			NBTTagCompound compound = stack.getTagCompound();
+			CompoundTag compound = stack.getTagCompound();
 			if (compound.hasKey("mobID"))
 				mobID = compound.getString("mobID");
 			if (compound.hasKey("displayName"))
@@ -72,7 +72,7 @@ public class ItemSpawnEgg extends Item {
 		int color = (par2 == 0) ? info.primaryColor : info.secondaryColor;
 
 		if (stack.hasTagCompound()) {
-			NBTTagCompound compound = stack.getTagCompound();
+			CompoundTag compound = stack.getTagCompound();
 			if (par2 == 0 && compound.hasKey("primaryColor"))
 				color = compound.getInteger("primaryColor");
 			if (par2 != 0 && compound.hasKey("secondaryColor"))
@@ -82,12 +82,12 @@ public class ItemSpawnEgg extends Item {
 		return color;
 	}
 
-	// public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World
-	// world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY,
+	// public EnumActionResult onItemUse(ItemStack stack, Player player, Level
+	// world, BlockPos pos, InteractionHand hand, Direction side, float hitX, float hitY,
 	// float hitZ)
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand,
-			EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(Player player, Level worldIn, BlockPos pos, InteractionHand hand,
+			Direction facing, float hitX, float hitY, float hitZ) {
 		/*
 		 * return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
 		 * }
@@ -100,15 +100,15 @@ public class ItemSpawnEgg extends Item {
 		pos = pos.offset(facing);
 		double d0 = 0.0D;
 
-		if (facing == EnumFacing.UP && block != null)// && //TODO block.getRenderType() == 11)
+		if (facing == Direction.UP && block != null)// && //TODO block.getRenderType() == 11)
 			d0 = 0.5D;
 
 		Entity entity = spawnCreature(worldIn, stack,
 				new BlockPos((double) pos.getX() + 0.5D, (double) pos.getY() + d0, (double) pos.getZ() + 0.5D));
 
 		if (entity != null) {
-			if (entity instanceof EntityLiving && stack.hasDisplayName())
-				((EntityLiving) entity).setCustomNameTag(stack.getDisplayName());
+			if (entity instanceof LivingEntity && stack.hasDisplayName())
+				((LivingEntity) entity).setCustomNameTag(stack.getDisplayName());
 			if (!player.capabilities.isCreativeMode)
 				// --stack.stackSize;
 				stack.shrink(1);
@@ -119,10 +119,10 @@ public class ItemSpawnEgg extends Item {
 
 	/*
 	 * @Override public ActionResult<ItemStack> onItemRightClick(ItemStack stack,
-	 * World world, EntityPlayer player, EnumHand hand) {
+	 * Level world, Player player, InteractionHand hand) {
 	 */
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand handIn) {
+	public ActionResult<ItemStack> onItemRightClick(Level world, Player player, InteractionHand handIn) {
 		ItemStack stack = player.getHeldItem(handIn);
 		if (world.isRemote)
 			return new ActionResult(EnumActionResult.PASS, stack);
@@ -145,8 +145,8 @@ public class ItemSpawnEgg extends Item {
 				Entity entity = spawnCreature(world, stack, blockpos);
 
 				if (entity != null) {
-					if (entity instanceof EntityLiving && stack.hasDisplayName())
-						((EntityLiving) entity).setCustomNameTag(stack.getDisplayName());
+					if (entity instanceof LivingEntity && stack.hasDisplayName())
+						((LivingEntity) entity).setCustomNameTag(stack.getDisplayName());
 					if (!player.capabilities.isCreativeMode)
 						stack.shrink(1);
 					;
@@ -157,17 +157,17 @@ public class ItemSpawnEgg extends Item {
 		return new ActionResult(EnumActionResult.SUCCESS, stack);
 	}
 
-	public static Entity spawnCreature(World world, ItemStack stack, BlockPos blockpos) {
+	public static Entity spawnCreature(Level world, ItemStack stack, BlockPos blockpos) {
 		SpawnEggInfo info = SpawnEggRegistry.getEggInfo((short) stack.getItemDamage());
 
 		if (info == null)
 			return null;
 
 		String mobID = info.mobID;
-		NBTTagCompound spawnData = info.spawnData;
+		CompoundTag spawnData = info.spawnData;
 
 		if (stack.hasTagCompound()) {
-			NBTTagCompound compound = stack.getTagCompound();
+			CompoundTag compound = stack.getTagCompound();
 			if (compound.hasKey("mobID"))
 				mobID = compound.getString("mobID");
 			if (compound.hasKey("spawnData"))
@@ -179,8 +179,8 @@ public class ItemSpawnEgg extends Item {
 		/*
 		 * entity = EntityList.createEntityByName(mobID, world);
 		 * 
-		 * if (entity != null) { if (entity instanceof EntityLiving) { EntityLiving
-		 * entityliving = (EntityLiving)entity;
+		 * if (entity != null) { if (entity instanceof LivingEntity) { LivingEntity
+		 * entityliving = (LivingEntity)entity;
 		 * entity.setLocationAndAngles(blockpos.getX(), blockpos.getY(),
 		 * blockpos.getZ(), MathHelper.wrapDegrees(world.rand.nextFloat() * 360.0F),
 		 * 0.0F); entityliving.rotationYawHead = entityliving.rotationYaw;
@@ -194,7 +194,7 @@ public class ItemSpawnEgg extends Item {
 		return entity;
 	}
 
-	private static void spawnRiddenCreatures(Entity entity, World world, NBTTagCompound cur) {
+	private static void spawnRiddenCreatures(Entity entity, Level world, CompoundTag cur) {
 		while (cur.hasKey("Riding")) {
 			cur = cur.getCompoundTag("Riding");
 			/*
@@ -209,8 +209,8 @@ public class ItemSpawnEgg extends Item {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static void addNBTData(Entity entity, NBTTagCompound spawnData) {
-		NBTTagCompound newTag = new NBTTagCompound();
+	private static void addNBTData(Entity entity, CompoundTag spawnData) {
+		CompoundTag newTag = new CompoundTag();
 		entity.writeToNBTOptional(newTag);
 
 		for (String name : (Set<String>) spawnData.getKeySet())
@@ -220,13 +220,13 @@ public class ItemSpawnEgg extends Item {
 	}
 
 	@Override
-	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
+	public void getSubItems(CreativeModeTab tab, NonNullList<ItemStack> items) {
 		for (SpawnEggInfo info : SpawnEggRegistry.getEggInfoList())
 			items.add(new ItemStack(this, 1, info.eggID));
 	}
 	/*
 	 * @SuppressWarnings({ "unchecked", "rawtypes" }) public void getSubItems(Item
-	 * item, CreativeTabs par2CreativeTabs, List list) { for (SpawnEggInfo info :
+	 * item, CreativeModeTab par2CreativeTabs, List list) { for (SpawnEggInfo info :
 	 * SpawnEggRegistry.getEggInfoList()) list.add(new ItemStack(item, 1,
 	 * info.eggID)); }
 	 */

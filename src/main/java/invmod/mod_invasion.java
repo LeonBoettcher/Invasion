@@ -18,18 +18,18 @@ import invmod.util.ISelect;
 import invmod.util.config.Config;
 import net.minecraft.command.CommandHandler;
 import net.minecraft.command.ICommandManager;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.EnumCreatureType;
+import net.minecraft.world.level.entity.player.Player;
+import net.minecraft.world.level.entity.player.EntityPlayerMP;
+import net.minecraft.world.level.item.ItemStack;
+import net.minecraft.world.level.level.block.entity.BlockEntity;
+import net.minecraft.core.ResourceLocation;
+import net.minecraft.core.text.TextComponentTranslation;
+import net.minecraft.core.text.TextFormatting;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -70,7 +70,7 @@ public class mod_invasion {
 	public static HashMap<String, Integer> mobHealthInvasion = new HashMap();
 
 	// Creative tab declaration
-	public static CreativeTabs tabInvmod = new CreativeTabs("invasionTab") {
+	public static CreativeModeTab tabInvmod = new CreativeModeTab("invasionTab") {
 		public ItemStack getTabIconItem() {
 			return new ItemStack(ModItems.PROBE);
 		}
@@ -91,7 +91,7 @@ public class mod_invasion {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		Config.load(event);
-		// Register TileEntity
+		// Register BlockEntity
 		GameRegistry.registerTileEntity(TileEntityNexus.class, new ResourceLocation(Reference.MODID, "nexus"));
 		// this.nightSpawnConfig();
 		this.loadHealthConfig();
@@ -269,9 +269,9 @@ public class mod_invasion {
 		 * SpawnEggInfo((short) 4, Reference.MODID+".IMZombie", "Zombie Brute T3",
 		 * CustomTags.IMZombie_T3(), 0x586146, 0x1E4639));
 		 * SpawnEggRegistry.registerSpawnEgg(new SpawnEggInfo((short) 5,
-		 * Reference.MODID+".IMSkeleton", "Skeleton T1", new NBTTagCompound(), 0x9B9B9B,
+		 * Reference.MODID+".IMSkeleton", "Skeleton T1", new CompoundTag(), 0x9B9B9B,
 		 * 0x797979)); SpawnEggRegistry.registerSpawnEgg(new SpawnEggInfo((short) 6,
-		 * Reference.MODID+".IMSpider", "Spider T1", new NBTTagCompound(), 0x504A3E,
+		 * Reference.MODID+".IMSpider", "Spider T1", new CompoundTag(), 0x504A3E,
 		 * 0xA4121C)); SpawnEggRegistry.registerSpawnEgg(new SpawnEggInfo((short) 7,
 		 * Reference.MODID+".IMSpider", "Spider T1 Baby", CustomTags.IMSpider_T1_baby(),
 		 * 0x504A3E, 0xA4121C)); SpawnEggRegistry.registerSpawnEgg(new
@@ -281,16 +281,16 @@ public class mod_invasion {
 		 * Reference.MODID+".IMSpider", "Spider T2 Mother",
 		 * CustomTags.IMSpider_T2_mother(), 0x444167, 0x0A0328));
 		 * SpawnEggRegistry.registerSpawnEgg(new SpawnEggInfo((short) 10,
-		 * Reference.MODID+".IMCreeper", "Creeper T1", new NBTTagCompound(), 0x238F1F,
+		 * Reference.MODID+".IMCreeper", "Creeper T1", new CompoundTag(), 0x238F1F,
 		 * 0xA5AAA6)); SpawnEggRegistry.registerSpawnEgg(new SpawnEggInfo((short) 11,
-		 * Reference.MODID+".IMPigEngy", "Pigman Engineer T1", new NBTTagCompound(),
+		 * Reference.MODID+".IMPigEngy", "Pigman Engineer T1", new CompoundTag(),
 		 * 0xEC9695, 0x420000)); SpawnEggRegistry.registerSpawnEgg(new
 		 * SpawnEggInfo((short) 12, Reference.MODID+".IMThrower", "Thrower T1", new
-		 * NBTTagCompound(), 0x545F37, 0x1D2D3E)); SpawnEggRegistry.registerSpawnEgg(new
+		 * CompoundTag(), 0x545F37, 0x1D2D3E)); SpawnEggRegistry.registerSpawnEgg(new
 		 * SpawnEggInfo((short) 13, Reference.MODID+".IMThrower", "Thrower T2",
 		 * CustomTags.IMThrower_T2(), 0x5303814, 0x632808));
 		 * SpawnEggRegistry.registerSpawnEgg(new SpawnEggInfo((short) 14,
-		 * Reference.MODID+".IMImp", "Imp T1", new NBTTagCompound(), 0xB40113,
+		 * Reference.MODID+".IMImp", "Imp T1", new CompoundTag(), 0xB40113,
 		 * 0xFF0000)); SpawnEggRegistry.registerSpawnEgg(new SpawnEggInfo((short) 15,
 		 * Reference.MODID+".IMZombiePigman", "Zombie Pigman T1",
 		 * CustomTags.IMZombiePigman_T1(), 0xEB8E91, 0x49652F));
@@ -302,7 +302,7 @@ public class mod_invasion {
 		 * CustomTags.IMZombiePigman_T3(), 0xEB8E91, 0x49652F));
 		 * 
 		 * if (Config.DEBUG){ SpawnEggRegistry.registerSpawnEgg(new SpawnEggInfo((short)
-		 * 18, Reference.MODID+".IMGiantBird", "Vulture T1", new NBTTagCompound(),
+		 * 18, Reference.MODID+".IMGiantBird", "Vulture T1", new CompoundTag(),
 		 * 0x2B2B2B, 0xEA7EDC)); }
 		 */
 
@@ -339,7 +339,7 @@ public class mod_invasion {
 		return "mod_Invasion";
 	}
 
-	public static Entity[] getNightMobSpawns1(World world) {
+	public static Entity[] getNightMobSpawns1(Level world) {
 		ISelect mobPool = getMobSpawnPool();
 		int numberOfMobs = world.rand.nextInt(Config.NIGHTSPAWNS_MOB_MAX_GROUPSIZE) + 1;
 		Entity[] entities = new Entity[numberOfMobs];
@@ -417,14 +417,14 @@ public class mod_invasion {
 	}
 
 	public static void sendMessageToPlayer(EntityPlayerMP player, String message, TextFormatting color) {
-		sendMessageToPlayer((EntityPlayer) player, message, color);
+		sendMessageToPlayer((Player) player, message, color);
 	}
 
-	public static void sendMessageToPlayer(EntityPlayer player, String message) {
+	public static void sendMessageToPlayer(Player player, String message) {
 		sendMessageToPlayer(player, message, null);
 	}
 
-	public static void sendMessageToPlayer(EntityPlayer player, String message, TextFormatting color) {
+	public static void sendMessageToPlayer(Player player, String message, TextFormatting color) {
 		TextComponentTranslation s = new TextComponentTranslation(message);
 		if (color != null)
 			s.getStyle().setColor(color);

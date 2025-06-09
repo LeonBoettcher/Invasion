@@ -12,11 +12,11 @@ import invmod.entity.monster.EntityIMZombie;
 import invmod.entity.monster.EntityIMZombiePigman;
 import invmod.tileentity.TileEntityNexus;
 import invmod.util.ModLogger;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 public class MobBuilder {
 
-	public EntityIMMob createMobFromConstruct(EntityConstruct mobConstruct, World world, TileEntityNexus nexus) {
+	public EntityIMMob createMobFromConstruct(EntityConstruct mobConstruct, Level world, TileEntityNexus nexus) {
 		EntityIMMob mob = null;
 		switch (mobConstruct.getMobType()) {
 		case ZOMBIE:

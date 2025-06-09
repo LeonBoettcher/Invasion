@@ -5,24 +5,24 @@ import java.util.List;
 import invmod.ModItems;
 import invmod.SoundHandler;
 import invmod.entity.monster.EntityIMMob;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.item.EntityItem;
+import net.minecraft.world.level.entity.player.Player;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundEvents;
+import net.minecraft.world.level.item.Item;
+import net.minecraft.world.level.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+import net.minecraft.core.DamageSource;
+import net.minecraft.core.InteractionHand;
+import net.minecraft.core.ParticleTypes;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.MathHelper;
+import net.minecraft.world.level.Level;
 
 public class EntityIMTrap extends Entity {
 
@@ -46,7 +46,7 @@ public class EntityIMTrap extends Entity {
 	private static final DataParameter<Boolean> IS_EMPTY = EntityDataManager.<Boolean>createKey(EntityIMTrap.class,
 			DataSerializers.BOOLEAN);
 
-	public EntityIMTrap(World world) {
+	public EntityIMTrap(Level world) {
 		super(world);
 		this.setSize(0.5F, 0.28F);
 		this.ticks = 0;
@@ -62,7 +62,7 @@ public class EntityIMTrap extends Entity {
 		this.getDataManager().register(IS_EMPTY, this.isEmpty);
 	}
 
-	public EntityIMTrap(World world, double x, double y, double z, int trapType) {
+	public EntityIMTrap(Level world, double x, double y, double z, int trapType) {
 		this(world);
 		this.trapType = trapType;
 		// this.dataWatcher.updateObject(30, Integer.valueOf(trapType));
@@ -105,10 +105,10 @@ public class EntityIMTrap extends Entity {
 			return;
 		}
 
-		List<EntityLivingBase> entities = this.world.getEntitiesWithinAABB(EntityLivingBase.class,
+		List<LivingEntity> entities = this.world.getEntitiesWithinAABB(LivingEntity.class,
 				this.getEntityBoundingBox());
 		if ((entities.size() > 0) && (!this.isEmpty)) {
-			for (EntityLivingBase entity : entities) {
+			for (LivingEntity entity : entities) {
 				if (this.trapEffect(entity)) {
 					this.setEmpty();
 					return;
@@ -117,14 +117,14 @@ public class EntityIMTrap extends Entity {
 		}
 	}
 
-	public boolean trapEffect(EntityLivingBase triggerEntity) {
+	public boolean trapEffect(LivingEntity triggerEntity) {
 
 		switch (this.trapType) {
 		default:
 			triggerEntity.attackEntityFrom(DamageSource.GENERIC, 4.0F);
 			break;
 		case 1:
-			triggerEntity.attackEntityFrom(DamageSource.MAGIC, (triggerEntity instanceof EntityPlayer) ? 12.0F : 38.0F);
+			triggerEntity.attackEntityFrom(DamageSource.MAGIC, (triggerEntity instanceof Player) ? 12.0F : 38.0F);
 
 			List<Entity> entities = this.world.getEntitiesWithinAABBExcludingEntity(this,
 					this.getEntityBoundingBox().expand(1.899999976158142D, 1.0D, 1.899999976158142D));
@@ -154,7 +154,7 @@ public class EntityIMTrap extends Entity {
 	}
 
 	@Override
-	public void onCollideWithPlayer(EntityPlayer entityPlayer) {
+	public void onCollideWithPlayer(Player entityPlayer) {
 		if ((!this.world.isRemote) && (this.ticks > 30) && (this.isEmpty)) {
 			if (entityPlayer.inventory
 					.addItemStackToInventory(new ItemStack(/* BlocksAndItems.itemEmptyTrap */ModItems.TRAP_EMPTY, 1))) {
@@ -169,12 +169,12 @@ public class EntityIMTrap extends Entity {
 	}
 
 	// @Override
-	// public boolean interactFirst(EntityPlayer entityPlayer) {
-	// public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d
-	// vec, @Nullable ItemStack stack, EnumHand hand)
+	// public boolean interactFirst(Player entityPlayer) {
+	// public EnumActionResult applyPlayerInteraction(Player player, Vec3d
+	// vec, @Nullable ItemStack stack, InteractionHand hand)
 	// {
 	@Override
-	public boolean processInitialInteract(EntityPlayer player, EnumHand hand) {
+	public boolean processInitialInteract(Player player, InteractionHand hand) {
 		if ((this.world.isRemote) || (this.isEmpty))
 			return false;
 		ItemStack curItem = player.inventory.getCurrentItem();
@@ -235,7 +235,7 @@ public class EntityIMTrap extends Entity {
 	// }
 
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+	protected void readEntityFromNBT(CompoundTag nbttagcompound) {
 		this.isEmpty = nbttagcompound.getBoolean("isEmpty");
 		this.trapType = nbttagcompound.getInteger("type");
 		// this.dataWatcher.updateObject(31, Byte.valueOf((byte) (this.isEmpty ? 0 :
@@ -246,7 +246,7 @@ public class EntityIMTrap extends Entity {
 	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+	protected void writeEntityToNBT(CompoundTag nbttagcompound) {
 		nbttagcompound.setBoolean("isEmpty", this.isEmpty);
 		nbttagcompound.setInteger("type", this.trapType);
 	}
@@ -296,7 +296,7 @@ public class EntityIMTrap extends Entity {
 		for (int i = 0; i < 300; i++) {
 			float x = this.rand.nextFloat() * 6.0F - 3.0F;
 			float z = this.rand.nextFloat() * 6.0F - 3.0F;
-			this.world.spawnParticle(EnumParticleTypes.PORTAL, this.posX + x, this.posY + 2.0D, this.posZ + z,
+			this.world.spawnParticle(ParticleTypes.PORTAL, this.posX + x, this.posY + 2.0D, this.posZ + z,
 					-x / 3.0F, -2.0D, -z / 3.0F);
 		}
 	}

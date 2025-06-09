@@ -1,17 +1,17 @@
 package invmod.entity;
 
 import invmod.mod_invasion;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.EnumSkyBlock;
-import net.minecraft.world.World;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.MathHelper;
+import net.minecraft.world.level.EnumSkyBlock;
+import net.minecraft.world.level.Level;
 
-public class EntityIMSpawnProxy extends EntityLiving {
+public class EntityIMSpawnProxy extends LivingEntity {
 
-	public EntityIMSpawnProxy(World world) {
+	public EntityIMSpawnProxy(Level world) {
 		super(world);
 	}
 
@@ -28,11 +28,11 @@ public class EntityIMSpawnProxy extends EntityLiving {
 	}
 
 	@Override
-	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+	public void writeEntityToNBT(CompoundTag nbttagcompound) {
 	}
 
 	@Override
-	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+	public void readEntityFromNBT(CompoundTag nbttagcompound) {
 	}
 
 	public float getBlockPathWeight(int i, int j, int k) {

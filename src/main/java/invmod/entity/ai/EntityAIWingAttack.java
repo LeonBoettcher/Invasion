@@ -1,12 +1,12 @@
 package invmod.entity.ai;
 
 import invmod.entity.monster.EntityIMBird;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.world.level.entity.LivingEntity;
 
 public class EntityAIWingAttack extends EntityAIMeleeAttack {
 	private EntityIMBird theEntity;
 
-	public EntityAIWingAttack(EntityIMBird entity, Class<? extends EntityLivingBase> targetClass, int attackDelay) {
+	public EntityAIWingAttack(EntityIMBird entity, Class<? extends LivingEntity> targetClass, int attackDelay) {
 		super(entity, targetClass, attackDelay);
 		this.theEntity = entity;
 	}
@@ -25,7 +25,7 @@ public class EntityAIWingAttack extends EntityAIMeleeAttack {
 	}
 
 	protected boolean isInStartMeleeRange() {
-		EntityLivingBase target = this.theEntity.getAttackTarget();
+		LivingEntity target = this.theEntity.getAttackTarget();
 		if (target == null) {
 			return false;
 		}

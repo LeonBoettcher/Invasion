@@ -5,7 +5,7 @@ import invmod.client.render.RenderIMSkeleton;
 import invmod.client.render.model.ModelIMSkeleton;
 import invmod.entity.monster.EntityIMSkeleton;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.ResourceLocation;
 
 //Copied from LayerSkeletonType
 public class LayerSkeletonCloak implements LayerRenderer<EntityIMSkeleton> {

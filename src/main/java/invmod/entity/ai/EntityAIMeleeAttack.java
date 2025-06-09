@@ -2,10 +2,10 @@ package invmod.entity.ai;
 
 import invmod.entity.Goal;
 import invmod.entity.monster.EntityIMMob;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.ai.EntityAIBase;
 
-public class EntityAIMeleeAttack<T extends EntityLivingBase> extends EntityAIBase {
+public class EntityAIMeleeAttack<T extends LivingEntity> extends EntityAIBase {
 	private EntityIMMob theEntity;
 	private Class<? extends T> targetClass;
 	private float attackRange;
@@ -22,7 +22,7 @@ public class EntityAIMeleeAttack<T extends EntityLivingBase> extends EntityAIBas
 
 	@Override
 	public boolean shouldExecute() {
-		EntityLivingBase target = this.theEntity.getAttackTarget();
+		LivingEntity target = this.theEntity.getAttackTarget();
 		return (target != null)
 				&& (this.theEntity.getAIGoal() == Goal.MELEE_TARGET) && (this.theEntity
 						.getDistance(target) < (this.attackRange + this.theEntity.width + target.width) * 4.0F)
@@ -31,7 +31,7 @@ public class EntityAIMeleeAttack<T extends EntityLivingBase> extends EntityAIBas
 
 	@Override
 	public void updateTask() {
-		EntityLivingBase target = this.theEntity.getAttackTarget();
+		LivingEntity target = this.theEntity.getAttackTarget();
 		if (this.canAttackEntity(target)) {
 			this.attackEntity(target);
 		}
@@ -42,12 +42,12 @@ public class EntityAIMeleeAttack<T extends EntityLivingBase> extends EntityAIBas
 		return this.targetClass;
 	}
 
-	protected void attackEntity(EntityLivingBase target) {
+	protected void attackEntity(LivingEntity target) {
 		this.theEntity.attackEntityAsMob(target);
 		this.setAttackTime(this.getAttackDelay());
 	}
 
-	protected boolean canAttackEntity(EntityLivingBase target) {
+	protected boolean canAttackEntity(LivingEntity target) {
 		if (this.getAttackTime() <= 0) {
 			double d = this.theEntity.width + this.attackRange;
 			return this.theEntity.getDistanceSq(target.posX, target.getEntityBoundingBox().minY, target.posZ) < d * d;

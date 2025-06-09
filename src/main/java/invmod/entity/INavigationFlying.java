@@ -1,6 +1,6 @@
 package invmod.entity;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.world.level.entity.Entity;
 
 public abstract interface INavigationFlying extends INavigation {
 	public abstract void setMovementType(MoveType paramMoveType);

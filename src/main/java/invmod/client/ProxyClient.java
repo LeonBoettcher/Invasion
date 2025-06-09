@@ -57,9 +57,9 @@ import invmod.entity.projectile.EntityIMBoulder;
 import invmod.tileentity.TileEntityNexus;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.core.ResourceLocation;
+import net.minecraft.core.text.Component;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -67,13 +67,13 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ProxyClient extends ProxyCommon {
 
-	public void printGuiMessage(ITextComponent message) {
+	public void printGuiMessage(Component message) {
 		FMLClientHandler.instance().getClient().ingameGUI.getChatGUI().printChatMessage(message);
 	}
 
 	@Override
 	public void registerEntityRenderers() {
-		// Remove TileEntity registration since it's now in the main mod class
+		// Remove BlockEntity registration since it's now in the main mod class
 		// GameRegistry.registerTileEntity(TileEntityNexus.class, new
 		// ResourceLocation(Reference.MODID, "nexus"));
 

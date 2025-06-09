@@ -1,7 +1,7 @@
 package invmod.item;
 
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.level.item.Item;
 
 public class ModItem extends Item {
 
@@ -17,7 +17,7 @@ public class ModItem extends Item {
 	}
 
 	@Override
-	public ModItem setCreativeTab(CreativeTabs tab) {
+	public ModItem setCreativeTab(CreativeModeTab tab) {
 		super.setCreativeTab(tab);
 		return this;
 	}

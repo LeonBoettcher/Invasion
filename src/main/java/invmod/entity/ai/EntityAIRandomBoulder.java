@@ -2,7 +2,7 @@ package invmod.entity.ai;
 
 import invmod.entity.monster.EntityIMThrower;
 import invmod.tileentity.TileEntityNexus;
-import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.world.level.entity.ai.EntityAIBase;
 
 public class EntityAIRandomBoulder extends EntityAIBase {
 

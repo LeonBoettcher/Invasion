@@ -6,8 +6,8 @@ import invmod.entity.Goal;
 import invmod.entity.ISpawnsOffspring;
 import invmod.entity.block.EntityIMEgg;
 import invmod.entity.monster.EntityIMMob;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.ai.EntityAIBase;
 
 public class EntityAILayEgg extends EntityAIBase {
 

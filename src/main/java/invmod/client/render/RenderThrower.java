@@ -8,7 +8,7 @@ import invmod.entity.monster.EntityIMThrower;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.ResourceLocation;
 
 public class RenderThrower extends RenderLiving<EntityIMThrower> {
 	private static final ResourceLocation texture_T1 = new ResourceLocation(

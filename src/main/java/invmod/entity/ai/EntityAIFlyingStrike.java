@@ -4,8 +4,8 @@ package invmod.entity.ai;
 
 import invmod.entity.Goal;
 import invmod.entity.monster.EntityIMBird;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.ai.EntityAIBase;
 
 public class EntityAIFlyingStrike extends EntityAIBase {
 	private EntityIMBird theEntity;
@@ -31,7 +31,7 @@ public class EntityAIFlyingStrike extends EntityAIBase {
 	}
 
 	private void doStrike() {
-		EntityLivingBase target = this.theEntity.getAttackTarget();
+		LivingEntity target = this.theEntity.getAttackTarget();
 		if (target == null) {
 			this.theEntity.transitionAIGoal(Goal.NONE);
 			return;
@@ -60,7 +60,7 @@ public class EntityAIFlyingStrike extends EntityAIBase {
 		}
 	}
 
-	private void doFlyByAttack(EntityLivingBase entity) {
+	private void doFlyByAttack(LivingEntity entity) {
 		this.theEntity.attackEntityAsMob(entity, 5);
 	}
 }

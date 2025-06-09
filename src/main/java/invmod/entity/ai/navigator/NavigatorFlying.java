@@ -9,12 +9,12 @@ import invmod.entity.monster.EntityIMFlying;
 import invmod.util.Distance;
 import invmod.util.MathUtil;
 import invmod.util.Pair;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.level.level.block.Block;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.RayTraceResult;
+import net.minecraft.core.Vec3d;
 
 public class NavigatorFlying extends NavigatorIM implements INavigationFlying {
 	private static final int VISION_RESOLUTION_H = 30;
@@ -567,7 +567,7 @@ public class NavigatorFlying extends NavigatorIM implements INavigationFlying {
 				if (!this.theEntity.avoidsBlock(Block)) {
 					safety += 0.7F;
 				}
-				if (rtr.sideHit == EnumFacing.UP) {
+				if (rtr.sideHit == Direction.UP) {
 					safety += 0.3F;
 				}
 				double dX = rtr.hitVec.x - this.theEntity.posX;

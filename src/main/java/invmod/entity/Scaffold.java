@@ -9,15 +9,15 @@ import invmod.entity.ai.navigator.PathfinderIM;
 import invmod.tileentity.TileEntityNexus;
 import invmod.util.Coords;
 import invmod.util.Distance;
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.world.level.level.block.Block;
+import net.minecraft.world.level.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3d;
+import net.minecraft.world.level.IBlockAccess;
+import net.minecraft.world.level.Level;
 
 public class Scaffold implements IPathfindable {
 
@@ -126,7 +126,7 @@ public class Scaffold implements IPathfindable {
 		return false;
 	}
 
-	public void readFromNBT(NBTTagCompound nbttagcompound) {
+	public void readFromNBT(CompoundTag nbttagcompound) {
 		this.vec = new Vec3d(nbttagcompound.getDouble("xCoord"), nbttagcompound.getDouble("yCoord"),
 				nbttagcompound.getDouble("zCoord"));
 		this.targetHeight = nbttagcompound.getInteger("targetHeight");
@@ -136,7 +136,7 @@ public class Scaffold implements IPathfindable {
 		this.calcPlatforms();
 	}
 
-	public void writeToNBT(NBTTagCompound nbttagcompound) {
+	public void writeToNBT(CompoundTag nbttagcompound) {
 		nbttagcompound.setDouble("xCoord", this.vec.x);
 		nbttagcompound.setDouble("yCoord", this.vec.y);
 		nbttagcompound.setDouble("zCoord", this.vec.z);
@@ -175,10 +175,10 @@ public class Scaffold implements IPathfindable {
 			int existingMainSectionBlocks = 0;
 			int existingMainLadderBlocks = 0;
 			int existingPlatformBlocks = 0;
-			World world = this.nexus.getWorld();
+			Level world = this.nexus.getWorld();
 			for (int i = 0; i < this.targetHeight; i++) {
 				// set bool true, donno why
-				IBlockState blockState0 = world.getBlockState(new BlockPos(this.vec
+				BlockState blockState0 = world.getBlockState(new BlockPos(this.vec
 						.add(Coords.offsetAdjX[this.orientation], i, Coords.offsetAdjZ[this.orientation])));
 				if (blockState0.isOpaqueCube()/* isSolidFullCube() */) {
 					existingMainSectionBlocks++;
@@ -190,9 +190,9 @@ public class Scaffold implements IPathfindable {
 					for (int j = 0; j < 8; j++) {
 						BlockPos pos = new BlockPos(
 								this.vec.add(Coords.offsetRing1X[j], i, Coords.offsetRing1Z[j]));
-						IBlockState blockState1 = world.getBlockState(pos);
+						BlockState blockState1 = world.getBlockState(pos);
 						if (blockState1.isSideSolid(world, pos,
-								EnumFacing.UP)/* .isFullyOpaque() *//* .isSolidFullCube() */) {
+								Direction.UP)/* .isFullyOpaque() *//* .isSolidFullCube() */) {
 							existingPlatformBlocks++;
 						}
 					}
@@ -210,7 +210,7 @@ public class Scaffold implements IPathfindable {
 
 	@Override
 	public float getBlockPathCost(PathNode prevNode, PathNode node, IBlockAccess terrainMap) {
-		IBlockState blockState = terrainMap.getBlockState(new BlockPos(node.pos));
+		BlockState blockState = terrainMap.getBlockState(new BlockPos(node.pos));
 		float materialMultiplier = blockState.getMaterial().isSolid() ? 2.2F : 1.0F;
 		if (node.action == PathAction.SCAFFOLD_UP) {
 			if (prevNode.action != PathAction.SCAFFOLD_UP) {
@@ -258,7 +258,7 @@ public class Scaffold implements IPathfindable {
 			}
 		}
 
-		IBlockState blockState = terrainMap.getBlockState(new BlockPos(currentNode.pos.subtract(0d, 2d, 0d)));
+		BlockState blockState = terrainMap.getBlockState(new BlockPos(currentNode.pos.subtract(0d, 2d, 0d)));
 		if ((block == Blocks.AIR) && (blockState.getMaterial().isSolid())) {
 			boolean flag = false;
 			for (int i = 1; i < 4; i++) {

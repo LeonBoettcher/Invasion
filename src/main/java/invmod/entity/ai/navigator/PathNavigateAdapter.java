@@ -1,10 +1,10 @@
 package invmod.entity.ai.navigator;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.world.level.entity.Entity;
 import net.minecraft.pathfinding.PathFinder;
 import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.pathfinding.WalkNodeProcessor;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.core.Vec3d;
 
 public class PathNavigateAdapter extends PathNavigateGround {
 

@@ -1,12 +1,12 @@
 package invmod.item;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.entity.player.Player;
+import net.minecraft.world.level.item.Item;
+import net.minecraft.core.EnumActionResult;
+import net.minecraft.core.Direction;
+import net.minecraft.core.InteractionHand;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 public class ItemRiftFlux extends Item {
 
@@ -23,13 +23,13 @@ public class ItemRiftFlux extends Item {
 
 	/*
 	 * @Override public EnumActionResult onItemUseFirst(ItemStack itemstack,
-	 * EntityPlayer entityplayer, World world, BlockPos blockPos, EnumFacing side,
-	 * float hitX, float hitY, float hitZ, EnumHand hand) { return
+	 * Player entityplayer, Level world, BlockPos blockPos, Direction side,
+	 * float hitX, float hitY, float hitZ, InteractionHand hand) { return
 	 * EnumActionResult.FAIL; }
 	 */
 	@Override
-	public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX,
-			float hitY, float hitZ, EnumHand hand) {
+	public EnumActionResult onItemUseFirst(Player player, Level world, BlockPos pos, Direction side, float hitX,
+			float hitY, float hitZ, InteractionHand hand) {
 		return EnumActionResult.FAIL;
 	}
 

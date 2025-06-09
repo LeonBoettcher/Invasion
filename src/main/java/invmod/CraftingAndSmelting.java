@@ -1,6 +1,6 @@
 package invmod;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.level.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class CraftingAndSmelting {

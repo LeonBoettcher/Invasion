@@ -1,8 +1,8 @@
 package invmod.entity.monster;
 
 import invmod.tileentity.TileEntityNexus;
-import net.minecraft.entity.monster.IMob;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.level.entity.monster.IMob;
+import net.minecraft.core.BlockPos;
 
 public interface IMobIM extends IMob {
 

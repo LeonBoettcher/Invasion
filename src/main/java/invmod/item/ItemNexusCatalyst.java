@@ -1,6 +1,6 @@
 package invmod.item;
 
-import net.minecraft.item.Item;
+import net.minecraft.world.level.item.Item;
 
 public class ItemNexusCatalyst extends Item {
 

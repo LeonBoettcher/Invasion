@@ -6,17 +6,17 @@ import invmod.entity.INavigation;
 import invmod.entity.IPathSource;
 import invmod.tileentity.TileEntityNexus;
 import invmod.util.Distance;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.ChunkCache;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.level.block.Block;
+import net.minecraft.world.level.level.block.material.Material;
+import net.minecraft.world.level.level.block.state.BlockState;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.core.AxisAlignedBB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.MathHelper;
+import net.minecraft.core.Vec3d;
+import net.minecraft.world.level.ChunkCache;
+import net.minecraft.world.level.IBlockAccess;
 
 public class NavigatorIM implements INotifyTask, INavigation {
 
@@ -775,7 +775,7 @@ public class NavigatorIM implements INotifyTask, INavigation {
 				double d1 = l + 0.5D - entityPostion.z;
 
 				if (d * par8 + d1 * par10 >= 0.0D) {
-					IBlockState blockState = this.theEntity.world.getBlockState(new BlockPos(k, yOffset - 1, l));
+					BlockState blockState = this.theEntity.world.getBlockState(new BlockPos(k, yOffset - 1, l));
 
 					if (blockState.getBlock() == Blocks.AIR) {
 						return false;

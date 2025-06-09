@@ -2,14 +2,14 @@ package invmod;
 
 import invmod.entity.ai.navigator.PathAction;
 import invmod.entity.ai.navigator.PathNode;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IntHashMap;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.WorldType;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.world.level.level.block.state.BlockState;
+import net.minecraft.world.level.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
+import net.minecraft.core.IntHashMap;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.IBlockAccess;
+import net.minecraft.world.level.WorldType;
+import net.minecraft.world.level.biome.Biome;
 
 public class TerrainDataLayer implements IBlockAccessExtended {
 	public static final int EXT_DATA_SCAFFOLD_METAPOSITION = 16384;
@@ -40,7 +40,7 @@ public class TerrainDataLayer implements IBlockAccessExtended {
 	}
 
 	@Override
-	public IBlockState getBlockState(BlockPos blockPos) {
+	public BlockState getBlockState(BlockPos blockPos) {
 		return this.world.getBlockState(blockPos);
 	}
 
@@ -65,19 +65,19 @@ public class TerrainDataLayer implements IBlockAccessExtended {
 	 */
 
 	@Override
-	public TileEntity getTileEntity(BlockPos blockPos) {
+	public BlockEntity getTileEntity(BlockPos blockPos) {
 		return this.world.getTileEntity(blockPos);
 	}
 
 	@Override
-	public boolean isSideSolid(BlockPos blockPos, EnumFacing side, boolean _default) {
+	public boolean isSideSolid(BlockPos blockPos, Direction side, boolean _default) {
 		// return this.world.getBlockState(blockPos).getBlock().getMaterial().isSolid();
-		IBlockState blockState = this.world.getBlockState(blockPos);
+		BlockState blockState = this.world.getBlockState(blockPos);
 		return blockState.getBlock().getMaterial(blockState).isSolid(); // DarthXenon: Redundant, in my opinion.
 	}
 
 	@Override
-	public int getStrongPower(BlockPos pos, EnumFacing direction) {
+	public int getStrongPower(BlockPos pos, Direction direction) {
 		return this.world.getStrongPower(pos, direction);
 	}
 

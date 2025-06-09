@@ -12,26 +12,26 @@ import invmod.entity.ai.navigator.PathCreator;
 import invmod.entity.ai.navigator.PathNavigateAdapter;
 import invmod.tileentity.TileEntityNexus;
 import invmod.util.Coords;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockBush;
-import net.minecraft.block.BlockDeadBush;
-import net.minecraft.block.BlockDoor;
-import net.minecraft.block.BlockFence;
-import net.minecraft.block.BlockFlower;
-import net.minecraft.block.BlockTallGrass;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.level.level.block.Block;
+import net.minecraft.world.level.level.block.BlockBush;
+import net.minecraft.world.level.level.block.BlockDeadBush;
+import net.minecraft.world.level.level.block.BlockDoor;
+import net.minecraft.world.level.level.block.BlockFence;
+import net.minecraft.world.level.level.block.BlockFlower;
+import net.minecraft.world.level.level.block.BlockTallGrass;
+import net.minecraft.world.level.level.block.state.BlockState;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.EntityCreature;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.MathHelper;
+import net.minecraft.core.Vec3d;
+import net.minecraft.world.level.IBlockAccess;
+import net.minecraft.world.level.Level;
 
 public abstract class EntityIMLiving extends EntityCreature implements IHasNexus, IPathfindable {
 
@@ -59,11 +59,11 @@ public abstract class EntityIMLiving extends EntityCreature implements IHasNexus
 	protected static List<Block> unDestructableBlocks = Arrays.asList(Blocks.BEDROCK, Blocks.COMMAND_BLOCK,
 			Blocks.END_PORTAL_FRAME, Blocks.LADDER, Blocks.CHEST);
 
-	public EntityIMLiving(World worldIn) {
+	public EntityIMLiving(Level worldIn) {
 		this(worldIn, null);
 	}
 
-	public EntityIMLiving(World worldIn, TileEntityNexus nexus) {
+	public EntityIMLiving(Level worldIn, TileEntityNexus nexus) {
 		super(worldIn);
 		this.targetNexus = nexus;
 		this.collideSize = new BlockPos(this.width + 1.0F, this.height + 1.0F, this.width + 1.0F);
@@ -163,14 +163,14 @@ public abstract class EntityIMLiving extends EntityCreature implements IHasNexus
 	}
 
 	@Override
-	public void writeEntityToNBT(NBTTagCompound tag) {
+	public void writeEntityToNBT(CompoundTag tag) {
 		super.writeEntityToNBT(tag);
 		tag.setInteger("tier", this.getDataManager().get(TIER));
 		tag.setInteger("textureId", this.getDataManager().get(TEXTURE));
 	}
 
 	@Override
-	public void readEntityFromNBT(NBTTagCompound tag) {
+	public void readEntityFromNBT(CompoundTag tag) {
 		if (!this.world.isRemote) {
 			this.setTexture(tag.getInteger("textureId"));
 			this.setTier(tag.getInteger("tier"));
@@ -226,14 +226,14 @@ public abstract class EntityIMLiving extends EntityCreature implements IHasNexus
 	protected boolean isAdjacentSolidBlock(IBlockAccess terrainMap, BlockPos pos) {
 		if ((this.collideSize.getX() == 1) && (this.collideSize.getZ() == 1)) {
 			for (int i = 0; i < 4; i++) {
-				IBlockState blockState = terrainMap
+				BlockState blockState = terrainMap
 						.getBlockState(pos.add(Coords.offsetAdjX[i], 0, Coords.offsetAdjZ[i]));
 				if ((blockState.getBlock() != Blocks.AIR) && (blockState.getMaterial().isSolid()))
 					return true;
 			}
 		} else if ((this.collideSize.getX() == 2) && (this.collideSize.getZ() == 2)) {
 			for (int i = 0; i < 8; i++) {
-				IBlockState blockState = terrainMap
+				BlockState blockState = terrainMap
 						.getBlockState(pos.add(Coords.offsetAdj2X[i], 0, Coords.offsetAdj2Z[i]));
 				if ((blockState.getBlock() != Blocks.AIR) && (blockState.getMaterial().isSolid()))
 					return true;
@@ -252,8 +252,8 @@ public abstract class EntityIMLiving extends EntityCreature implements IHasNexus
 		for (int xOffset = pos.getX(); xOffset < pos.getX() + this.collideSize.getX(); xOffset++) {
 			for (int yOffset = pos.getY(); yOffset < pos.getY() + this.collideSize.getY(); yOffset++) {
 				for (int zOffset = pos.getZ(); zOffset < pos.getZ() + this.collideSize.getZ(); zOffset++) {
-					IBlockState blockState = terrainMap.getBlockState(new BlockPos(xOffset, yOffset, zOffset));
-					IBlockState blockState0 = terrainMap.getBlockState(new BlockPos(xOffset, yOffset - 1, zOffset));
+					BlockState blockState = terrainMap.getBlockState(new BlockPos(xOffset, yOffset, zOffset));
+					BlockState blockState0 = terrainMap.getBlockState(new BlockPos(xOffset, yOffset - 1, zOffset));
 					if (blockState.getBlock() != Blocks.AIR) {
 						if ((blockState.getBlock() == Blocks.WATER) || (blockState.getBlock() == Blocks.LAVA)) {
 							liquidFlag = true;
@@ -298,7 +298,7 @@ public abstract class EntityIMLiving extends EntityCreature implements IHasNexus
 				|| (block == Blocks.STONE_PRESSURE_PLATE);
 	}
 
-	public boolean isBlockDestructible(IBlockAccess terrainMap, BlockPos pos, IBlockState state) {
+	public boolean isBlockDestructible(IBlockAccess terrainMap, BlockPos pos, BlockState state) {
 		// check if mobgriefing is enabled
 		boolean mobgriefing = this.world.getGameRules().getBoolean("mobGriefing");
 		if (!mobgriefing)

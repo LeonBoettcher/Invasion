@@ -6,23 +6,23 @@ import java.util.List;
 
 import invmod.entity.monster.EntityIMMob;
 import invmod.util.ComparatorEntityDistanceFrom;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.ai.EntityAIBase;
+import net.minecraft.world.level.entity.player.Player;
 
 public class EntityAISimpleTarget extends EntityAIBase {
 	private final EntityIMMob theEntity;
-	private EntityLivingBase targetEntity;
-	private Class<? extends EntityLivingBase> targetClass;
+	private LivingEntity targetEntity;
+	private Class<? extends LivingEntity> targetClass;
 	private int outOfLosTimer;
 	private float distance;
 	private boolean needsLos;
 
-	public EntityAISimpleTarget(EntityIMMob entity, Class<? extends EntityLivingBase> targetType, float distance) {
+	public EntityAISimpleTarget(EntityIMMob entity, Class<? extends LivingEntity> targetType, float distance) {
 		this(entity, targetType, distance, true);
 	}
 
-	public EntityAISimpleTarget(EntityIMMob entity, Class<? extends EntityLivingBase> targetType, float distance,
+	public EntityAISimpleTarget(EntityIMMob entity, Class<? extends LivingEntity> targetType, float distance,
 			boolean needsLoS) {
 		this.theEntity = entity;
 		this.targetClass = targetType;
@@ -38,8 +38,8 @@ public class EntityAISimpleTarget extends EntityAIBase {
 
 	@Override
 	public boolean shouldExecute() {
-		if (this.targetClass == EntityPlayer.class) {
-			EntityPlayer entityplayer = this.theEntity.world.getClosestPlayerToEntity(this.theEntity, this.distance);
+		if (this.targetClass == Player.class) {
+			Player entityplayer = this.theEntity.world.getClosestPlayerToEntity(this.theEntity, this.distance);
 			if (this.isValidTarget(entityplayer)) {
 				this.targetEntity = entityplayer;
 				return true;
@@ -54,7 +54,7 @@ public class EntityAISimpleTarget extends EntityAIBase {
 
 		boolean foundEntity = false;
 		while (list.size() > 0) {
-			EntityLivingBase entity = (EntityLivingBase) list.remove(list.size() - 1);
+			LivingEntity entity = (LivingEntity) list.remove(list.size() - 1);
 			if (this.isValidTarget(entity)) {
 				this.targetEntity = entity;
 				return true;
@@ -65,7 +65,7 @@ public class EntityAISimpleTarget extends EntityAIBase {
 
 	@Override
 	public boolean shouldContinueExecuting() {
-		EntityLivingBase entityliving = this.theEntity.getAttackTarget();
+		LivingEntity entityliving = this.theEntity.getAttackTarget();
 		if (entityliving == null) {
 			return false;
 		}
@@ -99,7 +99,7 @@ public class EntityAISimpleTarget extends EntityAIBase {
 		this.theEntity.setAttackTarget(null);
 	}
 
-	public Class<? extends EntityLivingBase> getTargetType() {
+	public Class<? extends LivingEntity> getTargetType() {
 		return this.targetClass;
 	}
 
@@ -107,11 +107,11 @@ public class EntityAISimpleTarget extends EntityAIBase {
 		return this.distance;
 	}
 
-	protected void setTarget(EntityLivingBase entity) {
+	protected void setTarget(LivingEntity entity) {
 		this.targetEntity = entity;
 	}
 
-	protected boolean isValidTarget(EntityLivingBase entity) {
+	protected boolean isValidTarget(LivingEntity entity) {
 		if (entity == null) {
 			return false;
 		}
@@ -123,8 +123,8 @@ public class EntityAISimpleTarget extends EntityAIBase {
 		}
 
 		// players in creative mode won't be targeted
-		if (this.targetClass == EntityPlayer.class) {
-			if (((EntityPlayer) entity).capabilities.disableDamage) {
+		if (this.targetClass == Player.class) {
+			if (((Player) entity).capabilities.disableDamage) {
 				return false;
 			}
 		}

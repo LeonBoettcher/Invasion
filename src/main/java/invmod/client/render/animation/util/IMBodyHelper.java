@@ -1,10 +1,10 @@
 package invmod.client.render.animation.util;
 
-import net.minecraft.entity.EntityBodyHelper;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.world.level.entity.EntityBodyHelper;
+import net.minecraft.world.level.entity.LivingEntity;
 
 public class IMBodyHelper extends EntityBodyHelper {
-	public IMBodyHelper(EntityLiving par1EntityLiving) {
+	public IMBodyHelper(LivingEntity par1EntityLiving) {
 		super(par1EntityLiving);
 	}
 

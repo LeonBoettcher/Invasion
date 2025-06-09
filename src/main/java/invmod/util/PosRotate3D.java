@@ -1,6 +1,6 @@
 package invmod.util;
 
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.core.Vec3d;
 
 public class PosRotate3D {
 	private double posX;

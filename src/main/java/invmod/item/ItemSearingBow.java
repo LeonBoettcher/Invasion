@@ -1,6 +1,6 @@
 package invmod.item;
 
-import net.minecraft.item.ItemBow;
+import net.minecraft.world.level.item.ItemBow;
 
 public class ItemSearingBow extends ItemBow {
 
@@ -17,12 +17,12 @@ public class ItemSearingBow extends ItemBow {
 	}
 
 	/*
-	 * @Override public void onPlayerStoppedUsing(ItemStack stackIn, World worldIn,
-	 * EntityLivingBase wielder, int timeLeft) { int var6 =
+	 * @Override public void onPlayerStoppedUsing(ItemStack stackIn, Level worldIn,
+	 * LivingEntity wielder, int timeLeft) { int var6 =
 	 * this.getMaxItemUseDuration(stackIn) - timeLeft;
 	 * 
-	 * if (wielder instanceof EntityPlayer) { EntityPlayer player =
-	 * (EntityPlayer)wielder;
+	 * if (wielder instanceof Player) { Player player =
+	 * (Player)wielder;
 	 * 
 	 * boolean flag = player.capabilities.isCreativeMode ||
 	 * EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stackIn) > 0;
@@ -81,8 +81,8 @@ public class ItemSearingBow extends ItemBow {
 	 * 
 	 * }
 	 * 
-	 * @Override public ItemStack onItemUseFinish(ItemStack stackIn, World worldIn,
-	 * EntityLivingBase entity) { return stackIn; }
+	 * @Override public ItemStack onItemUseFinish(ItemStack stackIn, Level worldIn,
+	 * LivingEntity entity) { return stackIn; }
 	 * 
 	 * @Override public int getMaxItemUseDuration(ItemStack itemstack) { return
 	 * 72000; }
@@ -93,8 +93,8 @@ public class ItemSearingBow extends ItemBow {
 	 * 
 	 * //DarthXenon: Too similar to super.onItemRightClick() to necessitate
 	 * overriding. /*@Override public ActionResult<ItemStack>
-	 * onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer,
-	 * EnumHand hand) { /*ArrowNockEvent event = new ArrowNockEvent(entityPlayer,
+	 * onItemRightClick(ItemStack itemStack, Level world, Player entityPlayer,
+	 * InteractionHand hand) { /*ArrowNockEvent event = new ArrowNockEvent(entityPlayer,
 	 * itemStack, hand, world, true); MinecraftForge.EVENT_BUS.post(event); if
 	 * (event.isCanceled()) { return event.getResult(); }
 	 */
@@ -116,11 +116,11 @@ public class ItemSearingBow extends ItemBow {
 	/*
 	 * public String getName() { return this.name; }
 	 * 
-	 * protected ItemStack findAmmo(EntityPlayer player) { if
-	 * (this.isArrow(player.getHeldItem(EnumHand.OFF_HAND))) { return
-	 * player.getHeldItem(EnumHand.OFF_HAND); } else if
-	 * (this.isArrow(player.getHeldItem(EnumHand.MAIN_HAND))) { return
-	 * player.getHeldItem(EnumHand.MAIN_HAND); } else { for (int i = 0; i <
+	 * protected ItemStack findAmmo(Player player) { if
+	 * (this.isArrow(player.getHeldItem(InteractionHand.OFF_HAND))) { return
+	 * player.getHeldItem(InteractionHand.OFF_HAND); } else if
+	 * (this.isArrow(player.getHeldItem(InteractionHand.MAIN_HAND))) { return
+	 * player.getHeldItem(InteractionHand.MAIN_HAND); } else { for (int i = 0; i <
 	 * player.inventory.getSizeInventory(); ++i) { ItemStack itemstack =
 	 * player.inventory.getStackInSlot(i); if (this.isArrow(itemstack)) return
 	 * itemstack; }

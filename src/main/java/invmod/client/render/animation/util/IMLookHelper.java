@@ -2,10 +2,10 @@ package invmod.client.render.animation.util;
 
 import invmod.entity.monster.EntityIMMob;
 import invmod.util.MathUtil;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.ai.EntityLookHelper;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.ai.EntityLookHelper;
+import net.minecraft.core.MathHelper;
 
 public class IMLookHelper extends EntityLookHelper {
 	private final EntityIMMob theEntity;
@@ -25,7 +25,7 @@ public class IMLookHelper extends EntityLookHelper {
 	public void setLookPositionWithEntity(Entity par1Entity, float par2, float par3) {
 		this.e = par1Entity.posX;
 
-		if ((par1Entity instanceof EntityLiving)) {
+		if ((par1Entity instanceof LivingEntity)) {
 			this.f = (par1Entity.posY + par1Entity.getEyeHeight());
 		} else {
 			this.f = ((par1Entity.getEntityBoundingBox().minY + par1Entity.getEntityBoundingBox().maxY) / 2.0D);

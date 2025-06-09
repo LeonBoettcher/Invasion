@@ -6,15 +6,15 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemBow;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.player.Player;
+import net.minecraft.world.level.block.Items;
+import net.minecraft.world.level.item.Item;
+import net.minecraft.world.level.item.BlockItem;
+import net.minecraft.world.level.item.ItemBow;
+import net.minecraft.world.level.item.ItemStack;
 
-public class LayerHeldItemBigBiped implements LayerRenderer<EntityLivingBase> {
+public class LayerHeldItemBigBiped implements LayerRenderer<LivingEntity> {
 
 	private final RenderLivingBase renderLivingEntity;
 
@@ -23,7 +23,7 @@ public class LayerHeldItemBigBiped implements LayerRenderer<EntityLivingBase> {
 	}
 
 	@Override
-	public void doRenderLayer(EntityLivingBase entityLiving, float limbSwing, float limbSwingAmount, float partialTicks,
+	public void doRenderLayer(LivingEntity entityLiving, float limbSwing, float limbSwingAmount, float partialTicks,
 			float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		ItemStack itemstack = entityLiving.getActiveItemStack(); // .getHeldItem();
 
@@ -40,14 +40,14 @@ public class LayerHeldItemBigBiped implements LayerRenderer<EntityLivingBase> {
 			((ModelBigBiped) this.renderLivingEntity.getMainModel()).itemArmPostRender(1.0F);
 			GlStateManager.translate(-0.0625F, 0.4375F, 0.0625F);
 
-			if (entityLiving instanceof EntityPlayer && ((EntityPlayer) entityLiving).fishEntity != null) {
+			if (entityLiving instanceof Player && ((Player) entityLiving).fishEntity != null) {
 				itemstack = new ItemStack(Items.FISHING_ROD, 0);
 			}
 
 			Item item = itemstack.getItem();
 			Minecraft minecraft = Minecraft.getMinecraft();
 
-			if (item instanceof ItemBlock) // && Block.getBlockFromItem(item).getRenderType() == 2)
+			if (item instanceof BlockItem) // && Block.getBlockFromItem(item).getRenderType() == 2)
 			{
 				GlStateManager.translate(0.0F, 0.1875F, -0.3125F);
 				GlStateManager.rotate(20.0F, 1.0F, 0.0F, 0.0F);

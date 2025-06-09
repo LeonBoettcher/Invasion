@@ -10,16 +10,16 @@ import invmod.client.render.animation.util.MouthController;
 import invmod.client.render.animation.util.WingController;
 import invmod.entity.MoveState;
 import invmod.tileentity.TileEntityNexus;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.passive.EntityWolf;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.passive.EntityWolf;
+import net.minecraft.world.level.entity.player.Player;
+import net.minecraft.world.level.block.MobEffects;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
+import net.minecraft.core.DamageSource;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeHooks;
 
 public class EntityIMBird extends EntityIMFlying {
@@ -37,11 +37,11 @@ public class EntityIMBird extends EntityIMFlying {
 	private float carriedEntityYawOffset;
 	private int tier;
 
-	public EntityIMBird(World world) {
+	public EntityIMBird(Level world) {
 		this(world, null);
 	}
 
-	public EntityIMBird(World world, TileEntityNexus nexus) {
+	public EntityIMBird(Level world, TileEntityNexus nexus) {
 		super(world, nexus);
 		this.animationRun = new AnimationState(AnimationRegistry.instance().getAnimation("bird_run"));
 		this.animationFlap = new AnimationState(AnimationRegistry.instance().getAnimation("wing_flap_2_piece"));
@@ -180,12 +180,12 @@ public class EntityIMBird extends EntityIMFlying {
 		Entity entity = par1DamageSource.getTrueSource();
 
 		if (entity != null) {
-			if ((entity instanceof EntityLivingBase))
-				this.setRevengeTarget((EntityLivingBase) entity);
+			if ((entity instanceof LivingEntity))
+				this.setRevengeTarget((LivingEntity) entity);
 
-			if ((entity instanceof EntityPlayer)) {
+			if ((entity instanceof Player)) {
 				this.recentlyHit = 100;
-				this.attackingPlayer = ((EntityPlayer) entity);
+				this.attackingPlayer = ((Player) entity);
 			} else if ((entity instanceof EntityWolf)) {
 				EntityWolf entitywolf = (EntityWolf) entity;
 

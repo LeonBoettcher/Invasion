@@ -10,7 +10,7 @@ import java.util.List;
 import invmod.Reference;
 import invmod.mod_invasion;
 import invmod.util.config.Config;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.world.level.entity.player.EntityPlayerMP;
 
 public class VersionChecker {
 

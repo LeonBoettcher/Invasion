@@ -4,24 +4,24 @@ import java.util.List;
 
 import invmod.ModBlocks;
 import invmod.tileentity.TileEntityNexus;
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.World;
+import net.minecraft.world.level.level.block.Block;
+import net.minecraft.world.level.level.block.state.BlockState;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.player.Player;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundEvents;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.DamageSource;
+import net.minecraft.core.ParticleTypes;
+import net.minecraft.core.AxisAlignedBB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.MathHelper;
+import net.minecraft.core.RayTraceResult;
+import net.minecraft.core.Vec3d;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
 
 public class EntityIMBoulder extends Entity {
 	private int xTile;
@@ -33,12 +33,12 @@ public class EntityIMBoulder extends Entity {
 	private int life;
 	public boolean doesArrowBelongToPlayer;
 	public int arrowShake;
-	public EntityLivingBase shootingEntity;
+	public LivingEntity shootingEntity;
 	private int ticksInGround;
 	private int ticksInAir;
 	public boolean arrowCritical;
 
-	public EntityIMBoulder(World world) {
+	public EntityIMBoulder(Level world) {
 		super(world);
 		this.xTile = -1;
 		this.yTile = -1;
@@ -54,7 +54,7 @@ public class EntityIMBoulder extends Entity {
 		this.setSize(0.5F, 0.5F);
 	}
 
-	public EntityIMBoulder(World world, double d, double d1, double d2) {
+	public EntityIMBoulder(Level world, double d, double d1, double d2) {
 		super(world);
 		this.xTile = -1;
 		this.yTile = -1;
@@ -71,7 +71,7 @@ public class EntityIMBoulder extends Entity {
 		this.setPosition(d, d1, d2);
 	}
 
-	public EntityIMBoulder(World world, EntityLivingBase entityliving, float f) {
+	public EntityIMBoulder(Level world, LivingEntity entityliving, float f) {
 		super(world);
 		this.xTile = -1;
 		this.yTile = -1;
@@ -85,7 +85,7 @@ public class EntityIMBoulder extends Entity {
 		this.ticksInAir = 0;
 		this.arrowCritical = false;
 		this.shootingEntity = entityliving;
-		this.doesArrowBelongToPlayer = (entityliving instanceof EntityPlayer);
+		this.doesArrowBelongToPlayer = (entityliving instanceof Player);
 		this.setSize(0.5F, 0.5F);
 		this.setLocationAndAngles(entityliving.posX, entityliving.posY + entityliving.getEyeHeight(), entityliving.posZ,
 				entityliving.rotationYaw, entityliving.rotationPitch);
@@ -153,7 +153,7 @@ public class EntityIMBoulder extends Entity {
 			this.prevRotationPitch = (this.rotationPitch = (float) (Math.atan2(this.motionY, f) * 180.0D / Math.PI));
 		}
 
-		IBlockState blockState = this.world.getBlockState(new BlockPos(this.xTile, this.yTile, this.zTile));
+		BlockState blockState = this.world.getBlockState(new BlockPos(this.xTile, this.yTile, this.zTile));
 		if (blockState.getBlock() != Blocks.AIR) {
 			// block.setBlockBoundsBasedOnState(this.world, new BlockPos(this.xTile,
 			// this.yTile, this.zTile));
@@ -212,9 +212,9 @@ public class EntityIMBoulder extends Entity {
 				if (damage > 14)
 					damage = 14;
 				if (rtr0.entityHit.attackEntityFrom(DamageSource.causeMobDamage(this.shootingEntity), damage)) {
-					if ((rtr0.entityHit instanceof EntityLiving)) {
+					if ((rtr0.entityHit instanceof LivingEntity)) {
 						if (!this.world.isRemote) {
-							EntityLiving entityLiving = (EntityLiving) rtr0.entityHit;
+							LivingEntity entityLiving = (LivingEntity) rtr0.entityHit;
 							entityLiving.setArrowCountInEntity(entityLiving.getArrowCountInEntity() + 1);
 						}
 					}
@@ -284,7 +284,7 @@ public class EntityIMBoulder extends Entity {
 
 		if (this.arrowCritical) {
 			for (int i1 = 0; i1 < 4; i1++) {
-				this.world.spawnParticle(EnumParticleTypes.CRIT, this.posX + this.motionX * i1 / 4.0D,
+				this.world.spawnParticle(ParticleTypes.CRIT, this.posX + this.motionX * i1 / 4.0D,
 						this.posY + this.motionY * i1 / 4.0D, this.posZ + this.motionZ * i1 / 4.0D, -this.motionX,
 						-this.motionY + 0.2D, -this.motionZ);
 			}
@@ -314,7 +314,7 @@ public class EntityIMBoulder extends Entity {
 		if (this.isInWater()) {
 			for (int k1 = 0; k1 < 4; k1++) {
 				float f7 = 0.25F;
-				this.world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX - this.motionX * f7,
+				this.world.spawnParticle(ParticleTypes.WATER_BUBBLE, this.posX - this.motionX * f7,
 						this.posY - this.motionY * f7, this.posZ - this.motionZ * f7, this.motionX, this.motionY,
 						this.motionZ);
 			}
@@ -329,7 +329,7 @@ public class EntityIMBoulder extends Entity {
 	}
 
 	@Override
-	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+	public void writeEntityToNBT(CompoundTag nbttagcompound) {
 		nbttagcompound.setShort("xTile", (short) this.xTile);
 		nbttagcompound.setShort("yTile", (short) this.yTile);
 		nbttagcompound.setShort("zTile", (short) this.zTile);
@@ -341,7 +341,7 @@ public class EntityIMBoulder extends Entity {
 	}
 
 	@Override
-	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+	public void readEntityFromNBT(CompoundTag nbttagcompound) {
 		this.xTile = nbttagcompound.getShort("xTile");
 		this.yTile = nbttagcompound.getShort("yTile");
 		this.zTile = nbttagcompound.getShort("zTile");
@@ -353,7 +353,7 @@ public class EntityIMBoulder extends Entity {
 	}
 
 	@Override
-	public void onCollideWithPlayer(EntityPlayer entityplayer) {
+	public void onCollideWithPlayer(Player entityplayer) {
 		if (this.world.isRemote)
 			;
 	}

@@ -1,11 +1,11 @@
 package invmod.entity.monster;
 
 import invmod.tileentity.TileEntityNexus;
-import net.minecraft.entity.EntityCreature;
+import net.minecraft.world.level.entity.EntityCreature;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 public class EntityIMMob2 extends EntityCreature {
 
@@ -16,11 +16,11 @@ public class EntityIMMob2 extends EntityCreature {
 
 	private TileEntityNexus nexus;
 
-	public EntityIMMob2(World worldIn) {
+	public EntityIMMob2(Level worldIn) {
 		super(worldIn);
 	}
 
-	public EntityIMMob2(World worldIn, TileEntityNexus nexus) {
+	public EntityIMMob2(Level worldIn, TileEntityNexus nexus) {
 		super(worldIn);
 		this.nexus = nexus;
 	}

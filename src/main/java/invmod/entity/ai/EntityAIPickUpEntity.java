@@ -3,9 +3,9 @@ package invmod.entity.ai;
 import invmod.entity.Goal;
 import invmod.entity.monster.EntityIMBird;
 import invmod.util.MathUtil;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.ai.EntityAIBase;
 
 public class EntityAIPickUpEntity extends EntityAIBase {
 
@@ -52,7 +52,7 @@ public class EntityAIPickUpEntity extends EntityAIBase {
 
 	@Override
 	public boolean shouldContinueExecuting() {
-		EntityLivingBase target = this.theEntity.getAttackTarget();
+		LivingEntity target = this.theEntity.getAttackTarget();
 		if ((target != null) && (!target.isDead)) {
 			if (!this.isHoldingEntity) {
 				if ((this.time > this.abortTime) && (this.isLinedUp(target)))
@@ -70,7 +70,7 @@ public class EntityAIPickUpEntity extends EntityAIBase {
 	public void updateTask() {
 		this.time += 1;
 		if (!this.isHoldingEntity) {
-			EntityLivingBase target = this.theEntity.getAttackTarget();
+			LivingEntity target = this.theEntity.getAttackTarget();
 			double dY = target.prevPosY - this.theEntity.prevPosY;
 			System.out.println(dY);
 			if (Math.abs(dY - this.pickupPointY) < this.pickupRangeY) {

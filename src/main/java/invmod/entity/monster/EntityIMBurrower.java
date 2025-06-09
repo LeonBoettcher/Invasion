@@ -10,15 +10,15 @@ import invmod.entity.ai.navigator.NavigatorBurrower;
 import invmod.entity.ai.navigator.PathNavigateAdapter;
 import invmod.tileentity.TileEntityNexus;
 import invmod.util.PosRotate3D;
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.ai.EntityAITasks;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.level.block.Block;
+import net.minecraft.world.level.level.block.state.BlockState;
+import net.minecraft.world.level.entity.ai.EntityAITasks;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.pathfinding.PathPoint;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.MathHelper;
+import net.minecraft.world.level.IBlockAccess;
+import net.minecraft.world.level.Level;
 
 //NOOB HAUS: This one is done I think...
 public class EntityIMBurrower extends EntityIMMob implements ICanDig {
@@ -38,11 +38,11 @@ public class EntityIMBurrower extends EntityIMMob implements ICanDig {
 	protected float prevRotY;
 	protected float prevRotZ;
 
-	public EntityIMBurrower(World world) {
+	public EntityIMBurrower(Level world) {
 		this(world, null);
 	}
 
-	public EntityIMBurrower(World world, TileEntityNexus nexus) {
+	public EntityIMBurrower(Level world, TileEntityNexus nexus) {
 		super(world, nexus);
 
 		IPathSource pathSource = this.getPathSource();
@@ -117,7 +117,7 @@ public class EntityIMBurrower extends EntityIMMob implements ICanDig {
 
 	@Override
 	public boolean canClearBlock(BlockPos pos) {
-		IBlockState blockState = this.world.getBlockState(pos);
+		BlockState blockState = this.world.getBlockState(pos);
 		return (blockState.getBlock() == Blocks.AIR) || (this.isBlockDestructible(this.world, pos, blockState));
 	}
 
@@ -290,7 +290,7 @@ public class EntityIMBurrower extends EntityIMMob implements ICanDig {
 	}
 
 	@Override
-	public void onBlockRemoved(BlockPos pos, IBlockState state) {
+	public void onBlockRemoved(BlockPos pos, BlockState state) {
 		// TODO Auto-generated method stub
 
 	}

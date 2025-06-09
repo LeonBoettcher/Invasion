@@ -3,7 +3,7 @@ package invmod.entity;
 import invmod.INotifyTask;
 import invmod.entity.ai.navigator.Path;
 import invmod.entity.ai.navigator.PathAction;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.level.entity.Entity;
 
 public interface INavigation extends INotifyTask {
 

@@ -5,7 +5,7 @@ import invmod.entity.monster.EntityIMSpider;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.ResourceLocation;
 
 public class LayerIMSpiderEyes<T extends EntityIMSpider> implements LayerRenderer<T> {
 

@@ -3,7 +3,7 @@ package invmod.entity.ai.navigator;
 import invmod.entity.IPathSource;
 import invmod.entity.monster.EntityIMMob;
 import invmod.util.PosRotate3D;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
 
 public abstract class NavigatorParametric extends NavigatorIM {
 

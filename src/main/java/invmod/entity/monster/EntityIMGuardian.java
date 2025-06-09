@@ -8,54 +8,54 @@ import invmod.entity.ICanDig;
 import invmod.entity.TerrainDigger;
 import invmod.entity.TerrainModifier;
 import invmod.tileentity.TileEntityNexus;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.ai.EntityLookHelper;
-import net.minecraft.entity.ai.EntityMoveHelper;
-import net.minecraft.entity.passive.EntitySquid;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.MobEffects;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.level.level.block.material.Material;
+import net.minecraft.world.level.level.block.state.BlockState;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.SharedMonsterAttributes;
+import net.minecraft.world.level.entity.ai.EntityAIBase;
+import net.minecraft.world.level.entity.ai.EntityAILookIdle;
+import net.minecraft.world.level.entity.ai.EntityAIMoveTowardsRestriction;
+import net.minecraft.world.level.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.world.level.entity.ai.EntityAIWander;
+import net.minecraft.world.level.entity.ai.EntityAIWatchClosest;
+import net.minecraft.world.level.entity.ai.EntityLookHelper;
+import net.minecraft.world.level.entity.ai.EntityMoveHelper;
+import net.minecraft.world.level.entity.passive.EntitySquid;
+import net.minecraft.world.level.entity.player.Player;
+import net.minecraft.world.level.entity.player.EntityPlayerMP;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.MobEffects;
+import net.minecraft.world.level.block.SoundEvents;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SPacketChangeGameState;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateSwimmer;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.EnumDifficulty;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraft.world.storage.loot.LootTableList;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.world.effect.Potion;
+import net.minecraft.world.effect.PotionEffect;
+import net.minecraft.core.DamageSource;
+import net.minecraft.core.ParticleTypes;
+import net.minecraft.core.ResourceLocation;
+import net.minecraft.core.SoundEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.MathHelper;
+import net.minecraft.core.Vec3d;
+import net.minecraft.world.level.EnumDifficulty;
+import net.minecraft.world.level.IBlockAccess;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.loot.LootTableList;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class EntityIMGuardian extends EntityIMMob implements ICanDig {
 
 	private TerrainModifier terrainModifier;
 	private TerrainDigger terrainDigger;
 
-	public EntityIMGuardian(World worldIn, TileEntityNexus nexus) {
+	public EntityIMGuardian(Level worldIn, TileEntityNexus nexus) {
 		super(worldIn);
 		this.experienceValue = 30;
 		this.setSize(0.85F, 0.85F);
@@ -79,12 +79,12 @@ public class EntityIMGuardian extends EntityIMMob implements ICanDig {
 
 	@Override
 	public boolean canClearBlock(BlockPos pos) {
-		IBlockState state = this.world.getBlockState(pos);
+		BlockState state = this.world.getBlockState(pos);
 		return (state.getBlock() == Blocks.AIR) || (this.isBlockDestructible(this.world, pos, state));
 	}
 
 	@Override
-	public void onBlockRemoved(BlockPos pos, IBlockState state) {
+	public void onBlockRemoved(BlockPos pos, BlockState state) {
 
 	}
 
@@ -104,12 +104,12 @@ public class EntityIMGuardian extends EntityIMMob implements ICanDig {
 	private float clientSideTailAnimationSpeed;
 	private float clientSideSpikesAnimation;
 	private float clientSideSpikesAnimationO;
-	private EntityLivingBase targetedEntity;
+	private LivingEntity targetedEntity;
 	private int clientSideAttackTime;
 	private boolean clientSideTouchedGround;
 	private EntityAIWander wander;
 
-	public EntityIMGuardian(World worldIn) {
+	public EntityIMGuardian(Level worldIn) {
 		this(worldIn, null);
 	}
 
@@ -120,12 +120,12 @@ public class EntityIMGuardian extends EntityIMMob implements ICanDig {
 		this.tasksIM.addTask(4, new EntityIMGuardian.AIGuardianAttack(this));
 		this.tasksIM.addTask(5, entityaimovetowardsrestriction);
 		this.tasksIM.addTask(7, this.wander);
-		this.tasksIM.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+		this.tasksIM.addTask(8, new EntityAIWatchClosest(this, Player.class, 8.0F));
 		this.tasksIM.addTask(8, new EntityAIWatchClosest(this, EntityIMGuardian.class, 12.0F, 0.01F));
 		this.tasksIM.addTask(9, new EntityAILookIdle(this));
 		this.wander.setMutexBits(3);
 		entityaimovetowardsrestriction.setMutexBits(3);
-		this.targetTasksIM.addTask(1, new EntityAINearestAttackableTarget(this, EntityLivingBase.class, 10, true, false,
+		this.targetTasksIM.addTask(1, new EntityAINearestAttackableTarget(this, LivingEntity.class, 10, true, false,
 				new EntityIMGuardian.GuardianTargetSelector(this)));
 	}
 
@@ -140,14 +140,14 @@ public class EntityIMGuardian extends EntityIMMob implements ICanDig {
 
 	/*
 	 * public static void func_189766_b(DataFixer p_189766_0_){
-	 * EntityLiving.func_189752_a(p_189766_0_, "Guardian"); }
+	 * LivingEntity.func_189752_a(p_189766_0_, "Guardian"); }
 	 */
 
 	/**
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
 	@Override
-	public void readEntityFromNBT(NBTTagCompound compound) {
+	public void readEntityFromNBT(CompoundTag compound) {
 		super.readEntityFromNBT(compound);
 		this.setElder(compound.getBoolean("Elder"));
 	}
@@ -156,7 +156,7 @@ public class EntityIMGuardian extends EntityIMMob implements ICanDig {
 	 * (abstract) Protected helper method to write subclass entity data to NBT.
 	 */
 	@Override
-	public void writeEntityToNBT(NBTTagCompound compound) {
+	public void writeEntityToNBT(CompoundTag compound) {
 		super.writeEntityToNBT(compound);
 		compound.setBoolean("Elder", this.isElder());
 	}
@@ -164,7 +164,7 @@ public class EntityIMGuardian extends EntityIMMob implements ICanDig {
 	/**
 	 * Returns new PathNavigateGround instance
 	 */
-	protected PathNavigate getNewNavigator(World worldIn) {
+	protected PathNavigate getNewNavigator(Level worldIn) {
 		return new PathNavigateSwimmer(this, worldIn);
 	}
 
@@ -229,7 +229,7 @@ public class EntityIMGuardian extends EntityIMMob implements ICanDig {
 		}
 	}
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void setElder() {
 		this.setElder(true);
 		this.clientSideSpikesAnimation = 1.0F;
@@ -244,7 +244,7 @@ public class EntityIMGuardian extends EntityIMMob implements ICanDig {
 		return ((Integer) this.dataManager.get(TARGET_ENTITY)).intValue() != 0;
 	}
 
-	public EntityLivingBase getTargetedEntity() {
+	public LivingEntity getTargetedEntity() {
 		if (!this.hasTargetedEntity())
 			return null;
 		if (this.world.isRemote) {
@@ -253,8 +253,8 @@ public class EntityIMGuardian extends EntityIMMob implements ICanDig {
 			} else {
 				Entity entity = this.world.getEntityByID(((Integer) this.dataManager.get(TARGET_ENTITY)).intValue());
 
-				if (entity instanceof EntityLivingBase) {
-					this.targetedEntity = (EntityLivingBase) entity;
+				if (entity instanceof LivingEntity) {
+					this.targetedEntity = (LivingEntity) entity;
 					return this.targetedEntity;
 				} else {
 					return null;
@@ -376,7 +376,7 @@ public class EntityIMGuardian extends EntityIMMob implements ICanDig {
 				Vec3d vec3d = this.getLook(0.0F);
 
 				for (int i = 0; i < 2; ++i) {
-					this.world.spawnParticle(EnumParticleTypes.WATER_BUBBLE,
+					this.world.spawnParticle(ParticleTypes.WATER_BUBBLE,
 							this.posX + (this.rand.nextDouble() - 0.5D) * (double) this.width - vec3d.x * 1.5D,
 							this.posY + this.rand.nextDouble() * (double) this.height - vec3d.y * 1.5D,
 							this.posZ + (this.rand.nextDouble() - 0.5D) * (double) this.width - vec3d.z * 1.5D, 0.0D,
@@ -388,7 +388,7 @@ public class EntityIMGuardian extends EntityIMMob implements ICanDig {
 				if (this.clientSideAttackTime < this.getAttackDuration())
 					++this.clientSideAttackTime;
 
-				EntityLivingBase entitylivingbase = this.getTargetedEntity();
+				LivingEntity entitylivingbase = this.getTargetedEntity();
 
 				if (entitylivingbase != null) {
 					this.getLookHelper().setLookPositionWithEntity(entitylivingbase, 90.0F, 90.0F);
@@ -406,7 +406,7 @@ public class EntityIMGuardian extends EntityIMMob implements ICanDig {
 
 					while (d4 < d3) {
 						d4 += 1.8D - d5 + this.rand.nextDouble() * (1.7D - d5);
-						this.world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX + d0 * d4,
+						this.world.spawnParticle(ParticleTypes.WATER_BUBBLE, this.posX + d0 * d4,
 								this.posY + d1 * d4 + (double) this.getEyeHeight(), this.posZ + d2 * d4, 0.0D, 0.0D,
 								0.0D, new int[0]);
 					}
@@ -432,13 +432,13 @@ public class EntityIMGuardian extends EntityIMMob implements ICanDig {
 		super.onLivingUpdate();
 	}
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public float getTailAnimation(float p_175471_1_) {
 		return this.clientSideTailAnimationO
 				+ (this.clientSideTailAnimation - this.clientSideTailAnimationO) * p_175471_1_;
 	}
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public float getSpikesAnimation(float p_175469_1_) {
 		return this.clientSideSpikesAnimationO
 				+ (this.clientSideSpikesAnimation - this.clientSideSpikesAnimationO) * p_175469_1_;
@@ -521,8 +521,8 @@ public class EntityIMGuardian extends EntityIMMob implements ICanDig {
 	 */
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
-		if (!this.isMoving() && !source.isMagicDamage() && source.getTrueSource() instanceof EntityLivingBase) {
-			EntityLivingBase entitylivingbase = (EntityLivingBase) source.getTrueSource();
+		if (!this.isMoving() && !source.isMagicDamage() && source.getTrueSource() instanceof LivingEntity) {
+			LivingEntity entitylivingbase = (LivingEntity) source.getTrueSource();
 			if (!source.isExplosion())
 				entitylivingbase.attackEntityFrom(DamageSource.causeThornsDamage(this), 2.0F);
 		}
@@ -582,7 +582,7 @@ public class EntityIMGuardian extends EntityIMMob implements ICanDig {
 		 */
 		@Override
 		public boolean shouldExecute() {
-			EntityLivingBase entitylivingbase = this.theEntity.getAttackTarget();
+			LivingEntity entitylivingbase = this.theEntity.getAttackTarget();
 			return entitylivingbase != null && entitylivingbase.isEntityAlive();
 		}
 
@@ -612,7 +612,7 @@ public class EntityIMGuardian extends EntityIMMob implements ICanDig {
 		@Override
 		public void resetTask() {
 			this.theEntity.setTargetedEntity(0);
-			this.theEntity.setAttackTarget((EntityLivingBase) null);
+			this.theEntity.setAttackTarget((LivingEntity) null);
 			this.theEntity.wander.makeUpdate();
 		}
 
@@ -621,12 +621,12 @@ public class EntityIMGuardian extends EntityIMMob implements ICanDig {
 		 */
 		@Override
 		public void updateTask() {
-			EntityLivingBase entitylivingbase = this.theEntity.getAttackTarget();
+			LivingEntity entitylivingbase = this.theEntity.getAttackTarget();
 			this.theEntity.getNavigator().clearPath();
 			this.theEntity.getLookHelper().setLookPositionWithEntity(entitylivingbase, 90.0F, 90.0F);
 
 			if (!this.theEntity.canEntityBeSeen(entitylivingbase)) {
-				this.theEntity.setAttackTarget((EntityLivingBase) null);
+				this.theEntity.setAttackTarget((LivingEntity) null);
 			} else {
 				++this.tickCounter;
 
@@ -647,7 +647,7 @@ public class EntityIMGuardian extends EntityIMMob implements ICanDig {
 					entitylivingbase.attackEntityFrom(DamageSource.causeMobDamage(this.theEntity),
 							(float) this.theEntity.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE)
 									.getAttributeValue());
-					this.theEntity.setAttackTarget((EntityLivingBase) null);
+					this.theEntity.setAttackTarget((LivingEntity) null);
 				}
 
 				super.updateTask();
@@ -715,7 +715,7 @@ public class EntityIMGuardian extends EntityIMMob implements ICanDig {
 		}
 	}
 
-	static class GuardianTargetSelector implements Predicate<EntityLivingBase> {
+	static class GuardianTargetSelector implements Predicate<LivingEntity> {
 		private final EntityIMGuardian parentEntity;
 
 		public GuardianTargetSelector(EntityIMGuardian guardian) {
@@ -723,8 +723,8 @@ public class EntityIMGuardian extends EntityIMMob implements ICanDig {
 		}
 
 		@Override
-		public boolean apply(@Nullable EntityLivingBase p_apply_1_) {
-			return (p_apply_1_ instanceof EntityPlayer || p_apply_1_ instanceof EntitySquid)
+		public boolean apply(@Nullable LivingEntity p_apply_1_) {
+			return (p_apply_1_ instanceof Player || p_apply_1_ instanceof EntitySquid)
 					&& p_apply_1_.getDistanceSq(this.parentEntity) > 9.0D;
 		}
 	}

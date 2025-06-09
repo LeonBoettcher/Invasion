@@ -1,8 +1,8 @@
 package invmod.entity;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.level.block.state.BlockState;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.IBlockAccess;
 
 public interface ICanDig {
 
@@ -12,7 +12,7 @@ public interface ICanDig {
 
 	public boolean canClearBlock(BlockPos pos);
 
-	public void onBlockRemoved(BlockPos pos, IBlockState state);
+	public void onBlockRemoved(BlockPos pos, BlockState state);
 
 	public IBlockAccess getTerrain();
 

@@ -9,9 +9,9 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.VertexFormat;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.core.ResourceLocation;
+import net.minecraft.core.Vec3d;
 
 public class RenderGiantBird extends RenderIMMob<EntityIMBird> {
 	private static final ResourceLocation texture = new ResourceLocation(Reference.MODID + ":textures/vulture.png");
@@ -43,7 +43,7 @@ public class RenderGiantBird extends RenderIMMob<EntityIMBird> {
 		super.doRenderLiving(entityBird, renderX, renderY, renderZ, interpYaw, partialTick);
 	}
 
-	protected void renderModel(EntityLiving par1EntityLiving, float par2, float par3, float par4, float par5,
+	protected void renderModel(LivingEntity par1EntityLiving, float par2, float par3, float par4, float par5,
 			float par6, float par7) {
 		this.modelBird.setRotationAngles(par2, par3, par4, par5, par6, par7, par1EntityLiving);
 		// super.renderModel(par1EntityLiving, par2, par3, par4, par5, par6, par7);

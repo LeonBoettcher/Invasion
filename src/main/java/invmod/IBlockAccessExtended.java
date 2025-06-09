@@ -1,8 +1,8 @@
 package invmod;
 
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.core.MathHelper;
+import net.minecraft.core.Vec3d;
+import net.minecraft.world.level.IBlockAccess;
 
 public interface IBlockAccessExtended extends IBlockAccess {
 

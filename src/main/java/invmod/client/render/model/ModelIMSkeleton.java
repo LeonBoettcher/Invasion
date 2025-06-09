@@ -4,13 +4,13 @@ import invmod.entity.monster.EntityIMSkeleton;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.model.ModelSkeleton;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumHandSide;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.block.Items;
+import net.minecraft.world.level.item.ItemStack;
+import net.minecraft.core.InteractionHand;
+import net.minecraft.core.EnumHandSide;
+import net.minecraft.core.MathHelper;
 
 public class ModelIMSkeleton extends ModelSkeleton {
 
@@ -23,10 +23,10 @@ public class ModelIMSkeleton extends ModelSkeleton {
 	}
 
 	@Override
-	public void setLivingAnimations(EntityLivingBase entityIn, float par2, float par3, float par4) {
+	public void setLivingAnimations(LivingEntity entityIn, float par2, float par3, float par4) {
 		this.rightArmPose = ModelBiped.ArmPose.EMPTY;
 		this.leftArmPose = ModelBiped.ArmPose.EMPTY;
-		ItemStack itemstack = entityIn.getHeldItem(EnumHand.MAIN_HAND);
+		ItemStack itemstack = entityIn.getHeldItem(InteractionHand.MAIN_HAND);
 
 		if (itemstack != null && itemstack.getItem() == Items.BOW && ((EntityIMSkeleton) entityIn).isSwingingArms()) {
 			if (entityIn.getPrimaryHand() == EnumHandSide.RIGHT) {
@@ -57,7 +57,7 @@ public class ModelIMSkeleton extends ModelSkeleton {
 	@SuppressWarnings("incomplete-switch")
 	protected void setRotationAnglesModelBiped(float limbSwing, float limbSwingAmount, float ageInTicks,
 			float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
-		boolean flag = entityIn instanceof EntityLivingBase && ((EntityLivingBase) entityIn).getTicksElytraFlying() > 4;
+		boolean flag = entityIn instanceof LivingEntity && ((LivingEntity) entityIn).getTicksElytraFlying() > 4;
 		this.bipedHead.rotateAngleY = netHeadYaw * 0.017453292F;
 
 		if (flag) {

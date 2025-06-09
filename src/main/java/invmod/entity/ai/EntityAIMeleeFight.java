@@ -3,10 +3,10 @@ package invmod.entity.ai;
 import invmod.entity.Goal;
 import invmod.entity.INavigation;
 import invmod.entity.monster.EntityIMMob;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.LivingEntity;
 
-public class EntityAIMeleeFight<T extends EntityLivingBase> extends EntityAIMeleeAttack<T> {
+public class EntityAIMeleeFight<T extends LivingEntity> extends EntityAIMeleeAttack<T> {
 	private EntityIMMob theEntity;
 	private int time;
 	private float startingHealth;
@@ -75,7 +75,7 @@ public class EntityAIMeleeFight<T extends EntityLivingBase> extends EntityAIMele
 	}
 
 	@Override
-	protected void attackEntity(EntityLivingBase target) {
+	protected void attackEntity(LivingEntity target) {
 		float h = target.getHealth();
 		super.attackEntity(target);
 		h -= target.getHealth();

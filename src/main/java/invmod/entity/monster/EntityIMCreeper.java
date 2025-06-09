@@ -16,33 +16,33 @@ import invmod.entity.ai.EntityAIWanderIM;
 import invmod.entity.ai.navigator.Path;
 import invmod.entity.ai.navigator.PathNode;
 import invmod.tileentity.TileEntityNexus;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.ai.EntityAIAvoidEntity;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITasks;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.passive.EntityOcelot;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.level.level.block.Block;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.ai.EntityAIAvoidEntity;
+import net.minecraft.world.level.entity.ai.EntityAIHurtByTarget;
+import net.minecraft.world.level.entity.ai.EntityAILookIdle;
+import net.minecraft.world.level.entity.ai.EntityAISwimming;
+import net.minecraft.world.level.entity.ai.EntityAITasks;
+import net.minecraft.world.level.entity.ai.EntityAIWatchClosest;
+import net.minecraft.world.level.entity.monster.EntitySkeleton;
+import net.minecraft.world.level.entity.passive.EntityOcelot;
+import net.minecraft.world.level.entity.player.Player;
+import net.minecraft.world.level.entity.player.EntityPlayerMP;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Items;
+import net.minecraft.world.level.block.SoundEvents;
+import net.minecraft.world.level.item.Item;
+import net.minecraft.world.level.item.ItemStack;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.core.DamageSource;
+import net.minecraft.core.SoundEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.IBlockAccess;
+import net.minecraft.world.level.Level;
 
 public class EntityIMCreeper extends EntityIMMob {
 
@@ -55,11 +55,11 @@ public class EntityIMCreeper extends EntityIMMob {
 	private boolean commitToExplode;
 	private int explodeDirection;
 
-	public EntityIMCreeper(World world) {
+	public EntityIMCreeper(Level world) {
 		this(world, null);
 	}
 
-	public EntityIMCreeper(World world, TileEntityNexus nexus) {
+	public EntityIMCreeper(Level world, TileEntityNexus nexus) {
 		super(world, nexus);
 		this.setName("Creeper");
 		this.setGender(0);
@@ -79,25 +79,25 @@ public class EntityIMCreeper extends EntityIMMob {
 				return entity instanceof EntityOcelot;
 			}
 		}, 6.0F, 0.25D, 0.300000011920929D));
-		this.tasksIM.addTask(3, new EntityAIKillEntity(this, EntityPlayer.class, 40));
+		this.tasksIM.addTask(3, new EntityAIKillEntity(this, Player.class, 40));
 		this.tasksIM.addTask(3, new EntityAIKillEntity(this, EntityPlayerMP.class, 40));
 		this.tasksIM.addTask(4, new EntityAIAttackNexus(this));
 		this.tasksIM.addTask(5, new EntityAIWaitForEngy(this, 4.0F, true));
-		this.tasksIM.addTask(6, new EntityAIKillEntity(this, EntityLiving.class, 40));
+		this.tasksIM.addTask(6, new EntityAIKillEntity(this, LivingEntity.class, 40));
 		this.tasksIM.addTask(7, new EntityAIGoToNexus(this));
 		this.tasksIM.addTask(8, new EntityAIWanderIM(this));
-		this.tasksIM.addTask(9, new EntityAIWatchClosest(this, EntityPlayer.class, 4.8F));
+		this.tasksIM.addTask(9, new EntityAIWatchClosest(this, Player.class, 4.8F));
 		this.tasksIM.addTask(9, new EntityAILookIdle(this));
 
 		this.targetTasksIM = new EntityAITasks(this.world.profiler);
-		this.targetTasksIM.addTask(0, new EntityAITargetRetaliate(this, EntityLiving.class, 12.0F));
+		this.targetTasksIM.addTask(0, new EntityAITargetRetaliate(this, LivingEntity.class, 12.0F));
 		if (this.isNexusBound()) {
-			this.targetTasksIM.addTask(1, new EntityAISimpleTarget(this, EntityPlayer.class, 20.0F, true));
+			this.targetTasksIM.addTask(1, new EntityAISimpleTarget(this, Player.class, 20.0F, true));
 		} else {
 			this.targetTasksIM.addTask(1,
-					new EntityAISimpleTarget(this, EntityPlayer.class, this.getSenseRange(), false));
+					new EntityAISimpleTarget(this, Player.class, this.getSenseRange(), false));
 			this.targetTasksIM.addTask(2,
-					new EntityAISimpleTarget(this, EntityPlayer.class, this.getAggroRange(), true));
+					new EntityAISimpleTarget(this, Player.class, this.getAggroRange(), true));
 		}
 		this.targetTasksIM.addTask(3, new EntityAIHurtByTarget(this, false));
 	}

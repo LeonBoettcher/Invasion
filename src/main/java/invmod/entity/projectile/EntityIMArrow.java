@@ -2,24 +2,24 @@ package invmod.entity.projectile;
 
 import java.util.List;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityEnderman;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityTippedArrow;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.world.level.level.block.Block;
+import net.minecraft.world.level.level.block.material.Material;
+import net.minecraft.world.level.level.block.state.BlockState;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.monster.EntityEnderman;
+import net.minecraft.world.level.entity.player.Player;
+import net.minecraft.world.level.entity.projectile.EntityTippedArrow;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundEvents;
+import net.minecraft.core.DamageSource;
+import net.minecraft.core.ParticleTypes;
+import net.minecraft.core.AxisAlignedBB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.MathHelper;
+import net.minecraft.core.RayTraceResult;
+import net.minecraft.core.Vec3d;
+import net.minecraft.world.level.Level;
 
 public class EntityIMArrow extends EntityTippedArrow {
 
@@ -40,24 +40,24 @@ public class EntityIMArrow extends EntityTippedArrow {
 	/** The amount of knockback an arrow applies when it hits a mob. */
 	private int knockbackStrength;
 
-	public EntityIMArrow(World world) {
+	public EntityIMArrow(Level world) {
 		super(world);
 	}
 
-	public EntityIMArrow(World world, double x, double y, double z) {
+	public EntityIMArrow(Level world, double x, double y, double z) {
 		super(world, x, y, z);
 	}
 
-	public EntityIMArrow(World world, EntityLivingBase shooter) {
+	public EntityIMArrow(Level world, LivingEntity shooter) {
 		super(world, shooter);
 	}
 
 	/*
-	 * public EntityIMArrow(World world, EntityLivingBase livingBase1,
-	 * EntityLivingBase livingBase2, float value1, float value2) { super(world,
+	 * public EntityIMArrow(Level world, LivingEntity livingBase1,
+	 * LivingEntity livingBase2, float value1, float value2) { super(world,
 	 * livingBase1, livingBase2, value1, value2); }
 	 * 
-	 * public EntityIMArrow(World world, EntityLivingBase livingBase, float speed) {
+	 * public EntityIMArrow(Level world, LivingEntity livingBase, float speed) {
 	 * super(world, livingBase, speed); }
 	 */
 
@@ -72,7 +72,7 @@ public class EntityIMArrow extends EntityTippedArrow {
 			this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(this.motionY, f) * 180.0D / Math.PI);
 		}
 
-		IBlockState blockState = this.world.getBlockState(new BlockPos(this.posX, this.posY, this.posZ));
+		BlockState blockState = this.world.getBlockState(new BlockPos(this.posX, this.posY, this.posZ));
 
 		if (blockState.getMaterial() != Material.AIR) {
 
@@ -150,11 +150,11 @@ public class EntityIMArrow extends EntityTippedArrow {
 
 			if (entity != null)
 				rtr = new RayTraceResult(entity);
-			if (rtr != null && rtr.entityHit != null && rtr.entityHit instanceof EntityPlayer) {
-				EntityPlayer entityplayer = (EntityPlayer) rtr.entityHit;
+			if (rtr != null && rtr.entityHit != null && rtr.entityHit instanceof Player) {
+				Player entityplayer = (Player) rtr.entityHit;
 
-				if (entityplayer.capabilities.disableDamage || this.shootingEntity instanceof EntityPlayer
-						&& !((EntityPlayer) this.shootingEntity).canAttackPlayer(entityplayer)) {
+				if (entityplayer.capabilities.disableDamage || this.shootingEntity instanceof Player
+						&& !((Player) this.shootingEntity).canAttackPlayer(entityplayer)) {
 					rtr = null;
 				}
 			}
@@ -177,8 +177,8 @@ public class EntityIMArrow extends EntityTippedArrow {
 						rtr.entityHit.setFire(5);
 
 					if (rtr.entityHit.attackEntityFrom(damagesource, k)) {
-						if (rtr.entityHit instanceof EntityLivingBase) {
-							EntityLivingBase entitylivingbase = (EntityLivingBase) rtr.entityHit;
+						if (rtr.entityHit instanceof LivingEntity) {
+							LivingEntity entitylivingbase = (LivingEntity) rtr.entityHit;
 
 							if (!this.world.isRemote)
 								entitylivingbase.setArrowCountInEntity(entitylivingbase.getArrowCountInEntity() + 1);
@@ -196,12 +196,12 @@ public class EntityIMArrow extends EntityTippedArrow {
 							// TODO DarthXenon: Unsure what these do
 							/*
 							 * if (this.shootingEntity != null) if(this.shootingEntity instanceof
-							 * EntityLivingBase) { EnchantmentHelper.func_151384_a(entitylivingbase,
-							 * this.shootingEntity); EnchantmentHelper.func_151385_b((EntityLivingBase)
+							 * LivingEntity) { EnchantmentHelper.func_151384_a(entitylivingbase,
+							 * this.shootingEntity); EnchantmentHelper.func_151385_b((LivingEntity)
 							 * this.shootingEntity, entitylivingbase); }
 							 * 
 							 * if (this.shootingEntity != null && rtr.entityHit != this.shootingEntity &&
-							 * rtr.entityHit instanceof EntityPlayer && this.shootingEntity instanceof
+							 * rtr.entityHit instanceof Player && this.shootingEntity instanceof
 							 * EntityPlayerMP) { ((EntityPlayerMP)
 							 * this.shootingEntity).playerNetServerHandler.sendPacket(new
 							 * SPacketChangeGameState(6, 0.0F)); }
@@ -258,7 +258,7 @@ public class EntityIMArrow extends EntityTippedArrow {
 
 			if (this.getIsCritical()) {
 				for (i = 0; i < 4; ++i) {
-					this.world.spawnParticle(EnumParticleTypes.CRIT, this.posX + this.motionX * i / 4.0D,
+					this.world.spawnParticle(ParticleTypes.CRIT, this.posX + this.motionX * i / 4.0D,
 							this.posY + this.motionY * i / 4.0D, this.posZ + this.motionZ * i / 4.0D, -this.motionX,
 							-this.motionY + 0.2D, -this.motionZ);
 				}
@@ -295,7 +295,7 @@ public class EntityIMArrow extends EntityTippedArrow {
 			if (this.isInWater()) {
 				for (int l = 0; l < 4; ++l) {
 					f4 = 0.25F;
-					this.world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX - this.motionX * f4,
+					this.world.spawnParticle(ParticleTypes.WATER_BUBBLE, this.posX - this.motionX * f4,
 							this.posY - this.motionY * f4, this.posZ - this.motionZ * f4, this.motionX, this.motionY,
 							this.motionZ);
 				}

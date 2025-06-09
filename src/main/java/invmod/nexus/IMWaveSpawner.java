@@ -9,7 +9,7 @@ import invmod.entity.EntityIMLiving;
 import invmod.entity.monster.EntityIMZombie;
 import invmod.tileentity.TileEntityNexus;
 import invmod.util.ModLogger;
-import net.minecraft.entity.EntityList;
+import net.minecraft.world.level.entity.EntityList;
 
 public class IMWaveSpawner implements ISpawnerAccess {
 	private final int MAX_SPAWN_TRIES = 20;

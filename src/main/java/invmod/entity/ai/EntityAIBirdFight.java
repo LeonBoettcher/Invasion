@@ -4,12 +4,12 @@ import invmod.entity.Goal;
 import invmod.entity.INavigationFlying;
 import invmod.entity.ai.navigator.Path;
 import invmod.entity.monster.EntityIMBird;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.block.SoundEvents;
+import net.minecraft.core.MathHelper;
 
-public class EntityAIBirdFight<T extends EntityLivingBase> extends EntityAIMeleeFight<T> {
+public class EntityAIBirdFight<T extends LivingEntity> extends EntityAIMeleeFight<T> {
 	private EntityIMBird theEntity;
 	private boolean wantsToRetreat;
 	private boolean buffetedTarget;
@@ -62,7 +62,7 @@ public class EntityAIBirdFight<T extends EntityLivingBase> extends EntityAIMelee
 	}
 
 	@Override
-	protected void attackEntity(EntityLivingBase target) {
+	protected void attackEntity(LivingEntity target) {
 		this.theEntity.doMeleeSound();
 		super.attackEntity(target);
 		if (this.wantsToRetreat) {
@@ -72,7 +72,7 @@ public class EntityAIBirdFight<T extends EntityLivingBase> extends EntityAIMelee
 	}
 
 	protected boolean isInStartMeleeRange() {
-		EntityLivingBase target = this.theEntity.getAttackTarget();
+		LivingEntity target = this.theEntity.getAttackTarget();
 		if (target == null) {
 			return false;
 		}
@@ -80,7 +80,7 @@ public class EntityAIBirdFight<T extends EntityLivingBase> extends EntityAIMelee
 		return this.theEntity.getDistanceSq(target.posX, target.getEntityBoundingBox().minY, target.posZ) < d * d;
 	}
 
-	protected void doWingBuffetAttack(EntityLivingBase target) {
+	protected void doWingBuffetAttack(LivingEntity target) {
 		int knockback = 2;
 		target.addVelocity(-MathHelper.sin(this.theEntity.rotationYaw * 3.141593F / 180.0F) * knockback * 0.5F, 0.4D,
 				MathHelper.cos(this.theEntity.rotationYaw * 3.141593F / 180.0F) * knockback * 0.5F);

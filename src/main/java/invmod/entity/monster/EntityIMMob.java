@@ -14,30 +14,30 @@ import invmod.util.Coords;
 import invmod.util.Distance;
 import invmod.util.MathUtil;
 import invmod.util.config.Config;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockLadder;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAITasks;
-import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.level.level.block.Block;
+import net.minecraft.world.level.level.block.BlockLadder;
+import net.minecraft.world.level.level.block.state.BlockState;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.SharedMonsterAttributes;
+import net.minecraft.world.level.entity.ai.EntityAITasks;
+import net.minecraft.world.level.entity.monster.IMob;
+import net.minecraft.world.level.entity.player.Player;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundEvents;
+import net.minecraft.world.level.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.EnumSkyBlock;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.core.DamageSource;
+import net.minecraft.core.Direction;
+import net.minecraft.core.AxisAlignedBB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.MathHelper;
+import net.minecraft.core.Vec3d;
+import net.minecraft.world.level.EnumSkyBlock;
+import net.minecraft.world.level.IBlockAccess;
+import net.minecraft.world.level.Level;
 
 public abstract class EntityIMMob extends EntityIMLiving implements IMob, SparrowAPI {
 
@@ -107,11 +107,11 @@ public abstract class EntityIMMob extends EntityIMLiving implements IMob, Sparro
 	 * META_ROTATION = 24; protected static final byte META_RENDERLABEL = 25;
 	 */
 
-	public EntityIMMob(World world) {
+	public EntityIMMob(Level world) {
 		super(world);
 	}
 
-	public EntityIMMob(World world, TileEntityNexus nexus) {
+	public EntityIMMob(Level world, TileEntityNexus nexus) {
 		super(world, nexus);
 		this.debugMode = Config.DEBUG ? 1 : 0;
 		this.shouldRenderLabel = Config.DEBUG;
@@ -391,7 +391,7 @@ public abstract class EntityIMMob extends EntityIMLiving implements IMob, Sparro
 
 	/*
 	 * // TODO: Fix This // @Override // public Entity findPlayerToAttack() { //
-	 * EntityPlayer entityPlayer = this.world.getClosestPlayerToEntity( // this,
+	 * Player entityPlayer = this.world.getClosestPlayerToEntity( // this,
 	 * getSenseRange()); // if (entityPlayer != null) { // return entityPlayer; // }
 	 * // entityPlayer = this.world.getClosestPlayerToEntity(this, //
 	 * getAggroRange()); // if ((entityPlayer != null) &&
@@ -400,13 +400,13 @@ public abstract class EntityIMMob extends EntityIMLiving implements IMob, Sparro
 	 */
 
 	@Override
-	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+	public void writeEntityToNBT(CompoundTag nbttagcompound) {
 		nbttagcompound.setBoolean("alwaysIndependent", this.alwaysIndependent);
 		super.writeEntityToNBT(nbttagcompound);
 	}
 
 	@Override
-	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+	public void readEntityFromNBT(CompoundTag nbttagcompound) {
 		this.alwaysIndependent = nbttagcompound.getBoolean("alwaysIndependent");
 		if (this.alwaysIndependent) {
 			this.setBurnsInDay(Config.NIGHTSPAWNS_MOB_BURN_DURING_DAY);
@@ -460,9 +460,9 @@ public abstract class EntityIMMob extends EntityIMLiving implements IMob, Sparro
 		boolean lightFlag = ((this.nexusBound) || (this.getLightLevelBelow8()));
 		BlockPos pos = new BlockPos(this.posX, this.getEntityBoundingBox().minY + 0.5D, this.posZ);
 		// boolean onGround =
-		// WorldEntitySpawner.canCreatureTypeSpawnAtLocation(EntityLiving.SpawnPlacementType.ON_GROUND,
+		// WorldEntitySpawner.canCreatureTypeSpawnAtLocation(LivingEntity.SpawnPlacementType.ON_GROUND,
 		// this.world, pos);
-		boolean onGround = this.world.isSideSolid(pos.down(), EnumFacing.UP, false);
+		boolean onGround = this.world.isSideSolid(pos.down(), Direction.UP, false);
 		boolean inWall = this.isEntityInOpaqueBlockBeforeSpawn();
 		boolean flag = (super.getCanSpawnHere()) && (lightFlag) && (onGround && !inWall);
 		return flag;
@@ -586,7 +586,7 @@ public abstract class EntityIMMob extends EntityIMLiving implements IMob, Sparro
 
 	@Override
 	public boolean isThreatTo(Entity entity) {
-		return this.isHostile && entity instanceof EntityPlayer;
+		return this.isHostile && entity instanceof Player;
 	}
 
 	@Override
@@ -684,7 +684,7 @@ public abstract class EntityIMMob extends EntityIMLiving implements IMob, Sparro
 
 	public boolean checkForAdjacentClimbBlock() {
 		BlockPos pos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
-		IBlockState blockState = this.world.getBlockState(pos);
+		BlockState blockState = this.world.getBlockState(pos);
 		if (blockState == null)
 			return false;
 		return (blockState.getBlock().isLadder(blockState, this.world, pos, this));
@@ -945,8 +945,8 @@ public abstract class EntityIMMob extends EntityIMLiving implements IMob, Sparro
 
 		if (collideAbove > 0) {
 			if (terrainMap.getBlockState(posAbove).getBlock() instanceof BlockLadder) {
-				IBlockState blockState = terrainMap.getBlockState(posAbove);
-				EnumFacing meta = (EnumFacing) blockState.getProperties().get(BlockLadder.FACING);
+				BlockState blockState = terrainMap.getBlockState(posAbove);
+				Direction meta = (Direction) blockState.getProperties().get(BlockLadder.FACING);
 
 				PathAction action;
 				switch (meta) {
@@ -1110,7 +1110,7 @@ public abstract class EntityIMMob extends EntityIMLiving implements IMob, Sparro
 	protected void onDebugChange() {
 	}
 
-	public static float getBlockStrength(BlockPos pos, Block block, World world) {
+	public static float getBlockStrength(BlockPos pos, Block block, Level world) {
 
 		int bonus = 0;
 		if (world.getBlockState(pos.down()).getBlock() == block)

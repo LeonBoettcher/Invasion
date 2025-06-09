@@ -25,35 +25,35 @@ import invmod.entity.ai.navigator.PathAction;
 import invmod.entity.ai.navigator.PathNode;
 import invmod.tileentity.TileEntityNexus;
 import invmod.util.config.Config;
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITasks;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.EntityGolem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.level.level.block.Block;
+import net.minecraft.world.level.level.block.state.BlockState;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.ai.EntityAIHurtByTarget;
+import net.minecraft.world.level.entity.ai.EntityAILookIdle;
+import net.minecraft.world.level.entity.ai.EntityAISwimming;
+import net.minecraft.world.level.entity.ai.EntityAITasks;
+import net.minecraft.world.level.entity.ai.EntityAIWatchClosest;
+import net.minecraft.world.level.entity.monster.EntityGolem;
+import net.minecraft.world.level.entity.player.Player;
+import net.minecraft.world.level.entity.player.EntityPlayerMP;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Items;
+import net.minecraft.world.level.block.SoundEvents;
+import net.minecraft.world.inventory.EntityEquipmentSlot;
+import net.minecraft.world.level.item.Item;
+import net.minecraft.world.level.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.core.DamageSource;
+import net.minecraft.core.InteractionHand;
+import net.minecraft.core.SoundEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.MathHelper;
+import net.minecraft.world.level.IBlockAccess;
+import net.minecraft.world.level.Level;
 
 public class EntityIMZombie extends EntityIMMob implements ICanDig {
 
@@ -74,11 +74,11 @@ public class EntityIMZombie extends EntityIMMob implements ICanDig {
 	private float dropChance;
 	private int swingTimer;
 
-	public EntityIMZombie(World world) {
+	public EntityIMZombie(Level world) {
 		this(world, null);
 	}
 
-	public EntityIMZombie(World world, TileEntityNexus nexus) {
+	public EntityIMZombie(Level world, TileEntityNexus nexus) {
 		super(world, nexus);
 		this.terrainModifier = new TerrainModifier(this, 2.0F);
 		this.terrainDigger = new TerrainDigger(this, this.terrainModifier, 1.0F);
@@ -131,24 +131,24 @@ public class EntityIMZombie extends EntityIMMob implements ICanDig {
 		// added entityaiswimming and increased all other tasksordernumers with 1
 		this.tasksIM = new EntityAITasks(this.world.profiler);
 		this.tasksIM.addTask(0, new EntityAISwimming(this));
-		this.tasksIM.addTask(1, new EntityAIKillEntity(this, EntityPlayer.class, 40));
+		this.tasksIM.addTask(1, new EntityAIKillEntity(this, Player.class, 40));
 		this.tasksIM.addTask(1, new EntityAIKillEntity(this, EntityPlayerMP.class, 40));
 		this.tasksIM.addTask(1, new EntityAIKillEntity(this, EntityGolem.class, 30));
 		this.tasksIM.addTask(2, new EntityAIAttackNexus(this));
 		this.tasksIM.addTask(3, new EntityAIWaitForEngy(this, 4.0F, true));
-		this.tasksIM.addTask(4, new EntityAIKillEntity(this, EntityLiving.class, 40));
+		this.tasksIM.addTask(4, new EntityAIKillEntity(this, LivingEntity.class, 40));
 		this.tasksIM.addTask(5, new EntityAIGoToNexus(this));
 		// this.tasks.addTask(5, new EntityAIMoveTowardsNexus(this));
 		this.tasksIM.addTask(6, new EntityAIWanderIM(this));
-		this.tasksIM.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+		this.tasksIM.addTask(7, new EntityAIWatchClosest(this, Player.class, 8.0F));
 		this.tasksIM.addTask(8, new EntityAIWatchClosest(this, EntityIMCreeper.class, 12.0F));
 		this.tasksIM.addTask(8, new EntityAILookIdle(this));
 
 		this.targetTasksIM = new EntityAITasks(this.world.profiler);
 		this.targetTasksIM.addTask(0,
-				new EntityAITargetRetaliate(this, EntityLiving.class, Config.NIGHTSPAWNS_MOB_SENSERANGE));
+				new EntityAITargetRetaliate(this, LivingEntity.class, Config.NIGHTSPAWNS_MOB_SENSERANGE));
 		this.targetTasksIM.addTask(2,
-				new EntityAISimpleTarget(this, EntityPlayer.class, Config.NIGHTSPAWNS_MOB_SIGHTRANGE, true));
+				new EntityAISimpleTarget(this, Player.class, Config.NIGHTSPAWNS_MOB_SIGHTRANGE, true));
 		this.targetTasksIM.addTask(5, new EntityAIHurtByTarget(this, false));
 
 		if (this.getTier() == 3) {
@@ -157,7 +157,7 @@ public class EntityIMZombie extends EntityIMMob implements ICanDig {
 		} else {
 			// track players from sensing them
 			this.targetTasksIM.addTask(1,
-					new EntityAISimpleTarget(this, EntityPlayer.class, Config.NIGHTSPAWNS_MOB_SENSERANGE, false));
+					new EntityAISimpleTarget(this, Player.class, Config.NIGHTSPAWNS_MOB_SENSERANGE, false));
 			this.targetTasksIM.addTask(3, new EntityAITargetOnNoNexusPath(this, EntityIMPigEngy.class, 3.5F));
 		}
 	}
@@ -195,7 +195,7 @@ public class EntityIMZombie extends EntityIMMob implements ICanDig {
 
 	@Override
 	public boolean canClearBlock(BlockPos pos) {
-		IBlockState state = this.world.getBlockState(pos);
+		BlockState state = this.world.getBlockState(pos);
 		return (state.getBlock() == Blocks.AIR) || (this.isBlockDestructible(this.world, pos, state));
 	}
 
@@ -274,7 +274,7 @@ public class EntityIMZombie extends EntityIMMob implements ICanDig {
 	}
 
 	@Override
-	public boolean isBlockDestructible(IBlockAccess terrainMap, BlockPos pos, IBlockState state) {
+	public boolean isBlockDestructible(IBlockAccess terrainMap, BlockPos pos, BlockState state) {
 		if (this.getDestructiveness() == 0)
 			return false;
 
@@ -321,13 +321,13 @@ public class EntityIMZombie extends EntityIMMob implements ICanDig {
 	 */
 
 	@Override
-	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+	public void writeEntityToNBT(CompoundTag nbttagcompound) {
 		nbttagcompound.setInteger("flavour", this.flavour);
 		super.writeEntityToNBT(nbttagcompound);
 	}
 
 	@Override
-	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+	public void readEntityFromNBT(CompoundTag nbttagcompound) {
 		super.readEntityFromNBT(nbttagcompound);
 		this.setTexture(nbttagcompound.getInteger("textureId"));
 		this.flavour = nbttagcompound.getInteger("flavour");
@@ -505,7 +505,7 @@ public class EntityIMZombie extends EntityIMMob implements ICanDig {
 				this.attackStrength = 6;
 				this.maxDestructiveness = 0;
 				// this.defaultHeldItem = new ItemStack(Items.WOODEN_SWORD, 1);
-				this.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.WOODEN_SWORD));
+				this.setHeldItem(InteractionHand.MAIN_HAND, new ItemStack(Items.WOODEN_SWORD));
 				this.itemDrop = Items.WOODEN_SWORD;
 				this.dropChance = 0.2F;
 				this.setDestructiveness(0);
@@ -534,11 +534,11 @@ public class EntityIMZombie extends EntityIMMob implements ICanDig {
 				// this.itemDrop = Items.IRON_SWORD;
 				this.dropChance = 0.25F;
 				// this.defaultHeldItem = new ItemStack(Items.IRON_SWORD, 1);
-				this.setHeldItem(EnumHand.MAIN_HAND,
+				this.setHeldItem(InteractionHand.MAIN_HAND,
 						new ItemStack(this.rand.nextBoolean() ? Items.IRON_SWORD : Items.IRON_AXE));
-				this.setHeldItem(EnumHand.OFF_HAND,
+				this.setHeldItem(InteractionHand.OFF_HAND,
 						new ItemStack(this.rand.nextBoolean() ? Items.IRON_SWORD : Items.IRON_AXE));
-				this.itemDrop = this.getHeldItem(this.rand.nextBoolean() ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND)
+				this.itemDrop = this.getHeldItem(this.rand.nextBoolean() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND)
 						.getItem();
 				this.setDestructiveness(0);
 			} else if (flavour == 2) {
@@ -558,7 +558,7 @@ public class EntityIMZombie extends EntityIMMob implements ICanDig {
 				this.maxDestructiveness = 2;
 				this.isImmuneToFire = true;
 				// this.defaultHeldItem = new ItemStack(Items.GOLDEN_SWORD, 1);
-				this.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.GOLDEN_SWORD));
+				this.setHeldItem(InteractionHand.MAIN_HAND, new ItemStack(Items.GOLDEN_SWORD));
 				this.setDestructiveness(2);
 			}
 		} else if (tier == 3) {
@@ -597,7 +597,7 @@ public class EntityIMZombie extends EntityIMMob implements ICanDig {
 	}
 
 	@Override
-	public void onBlockRemoved(BlockPos pos, IBlockState state) {
+	public void onBlockRemoved(BlockPos pos, BlockState state) {
 		// TODO Auto-generated method stub
 
 	}

@@ -1,10 +1,10 @@
 package invmod.entity.ai;
 
 import invmod.entity.EntityIMLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.ai.EntityAIBase;
 
-public class EntityAIMoveToEntity<T extends EntityLivingBase> extends EntityAIBase {
+public class EntityAIMoveToEntity<T extends LivingEntity> extends EntityAIBase {
 	private EntityIMLiving theEntity;
 	private T targetEntity;
 	private Class<? extends T> targetClass;
@@ -16,7 +16,7 @@ public class EntityAIMoveToEntity<T extends EntityLivingBase> extends EntityAIBa
 	private int pathFailedCount;
 
 	public EntityAIMoveToEntity(EntityIMLiving entity) {
-		this(entity, (Class<? extends T>) EntityLivingBase.class);
+		this(entity, (Class<? extends T>) LivingEntity.class);
 	}
 
 	public EntityAIMoveToEntity(EntityIMLiving entity, Class<? extends T> target) {
@@ -31,7 +31,7 @@ public class EntityAIMoveToEntity<T extends EntityLivingBase> extends EntityAIBa
 	@Override
 	public boolean shouldExecute() {
 		if (--this.pathRequestTimer <= 0) {
-			EntityLivingBase target = this.theEntity.getAttackTarget();
+			LivingEntity target = this.theEntity.getAttackTarget();
 			if ((target != null) && (this.targetClass.isAssignableFrom(this.theEntity.getAttackTarget().getClass()))) {
 				this.targetEntity = (T) (this.targetClass.cast(target));
 				return true;
@@ -42,7 +42,7 @@ public class EntityAIMoveToEntity<T extends EntityLivingBase> extends EntityAIBa
 
 	@Override
 	public boolean shouldContinueExecuting() {
-		EntityLivingBase target = this.theEntity.getAttackTarget();
+		LivingEntity target = this.theEntity.getAttackTarget();
 		if ((target != null) && (target == this.targetEntity)) {
 			return true;
 		}

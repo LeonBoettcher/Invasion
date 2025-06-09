@@ -21,28 +21,28 @@ import invmod.nexus.WaveSpawnerException;
 import invmod.util.ComparatorEntityDistance;
 import invmod.util.ModLogger;
 import invmod.util.config.Config;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.World;
+import net.minecraft.world.level.entity.player.Player;
+import net.minecraft.world.level.entity.player.EntityPlayerMP;
+import net.minecraft.world.level.block.SoundEvents;
+import net.minecraft.world.level.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.world.level.level.block.entity.BlockEntity;
+import net.minecraft.core.DamageSource;
+import net.minecraft.core.Direction;
+import net.minecraft.core.ITickable;
+import net.minecraft.core.SoundEvent;
+import net.minecraft.core.AxisAlignedBB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.text.Component;
+import net.minecraft.core.text.TextFormatting;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
-public class TileEntityNexus extends TileEntity implements ITickable {
+public class TileEntityNexus extends BlockEntity implements ITickable {
 
 	// private static final long BIND_EXPIRE_TIME = 300000L;
 	private IMWaveSpawner waveSpawner;
@@ -95,7 +95,7 @@ public class TileEntityNexus extends TileEntity implements ITickable {
 		this(null);
 	}
 
-	public TileEntityNexus(World world) {
+	public TileEntityNexus(Level world) {
 		this.world = world;
 		this.nexusKills = 0;
 		this.spawnRadius = 52;
@@ -354,14 +354,14 @@ public class TileEntityNexus extends TileEntity implements ITickable {
 	 */
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbttagcompound) {
+	public void readFromNBT(CompoundTag nbttagcompound) {
 		ModLogger.logDebug("Restoring TileEntityNexus from NBT");
 		super.readFromNBT(nbttagcompound);
 
 		this.handler.deserializeNBT(nbttagcompound.getCompoundTag("Inventory"));
 
 		// added 0 to gettaglist, because it asked an int
-		NBTTagList nbttaglist = nbttagcompound.getTagList("Items", 0);
+		ListTag nbttaglist = nbttagcompound.getTagList("Items", 0);
 
 		// added 0 to gettaglist, because it asked an int
 		nbttaglist = nbttagcompound.getTagList("boundPlayers", 0);
@@ -415,7 +415,7 @@ public class TileEntityNexus extends TileEntity implements ITickable {
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound) {
+	public CompoundTag writeToNBT(CompoundTag nbttagcompound) {
 		super.writeToNBT(nbttagcompound);
 		nbttagcompound.setInteger("flux", fluxGeneration);
 		nbttagcompound.setShort("activationTimer", (short) this.activationTimer);
@@ -436,9 +436,9 @@ public class TileEntityNexus extends TileEntity implements ITickable {
 
 		// nbttagcompound.setTag("Items", nbttaglist);
 
-		NBTTagList nbttaglist2 = new NBTTagList();
+		ListTag nbttaglist2 = new ListTag();
 		for (String playerName : this.boundPlayers.toArray(new String[this.boundPlayers.size()])) {
-			NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+			CompoundTag nbttagcompound1 = new CompoundTag();
 			nbttagcompound1.setString("name", playerName);
 			nbttaglist2.appendTag(nbttagcompound1);
 		}
@@ -865,8 +865,8 @@ public class TileEntityNexus extends TileEntity implements ITickable {
 	}
 
 	private void bindPlayers() {
-		List<EntityPlayer> players = this.world.getEntitiesWithinAABB(EntityPlayer.class, this.boundingBoxToRadius);
-		for (EntityPlayer entityPlayer : players) {
+		List<Player> players = this.world.getEntitiesWithinAABB(Player.class, this.boundingBoxToRadius);
+		for (Player entityPlayer : players) {
 			String playerName = entityPlayer.getDisplayName().getUnformattedText();
 			boolean endsWithS = playerName.toLowerCase().endsWith("s");
 			if (!this.boundPlayers.contains(playerName)) {
@@ -905,7 +905,7 @@ public class TileEntityNexus extends TileEntity implements ITickable {
 			mod_invasion.sendMessageToPlayers(this.getBoundPlayers(), "The nexus is destroyed!");
 			// this.stop();
 			for (int i = 0; i < this.getBoundPlayers().size(); i++) {
-				EntityPlayer player = this.world.getPlayerEntityByName(this.getBoundPlayers().get(i));
+				Player player = this.world.getPlayerEntityByName(this.getBoundPlayers().get(i));
 				if (player != null) {
 					player.attackEntityFrom(DamageSource.MAGIC, Float.MAX_VALUE);
 					// playSoundForBoundPlayers("random.explode");
@@ -1011,12 +1011,12 @@ public class TileEntityNexus extends TileEntity implements ITickable {
 
 	// DONE: Unused.
 	/*
-	 * @Override public Packet getDescriptionPacket() { NBTTagCompound tag = new
-	 * NBTTagCompound(); this.writeToNBT(tag); return new
+	 * @Override public Packet getDescriptionPacket() { CompoundTag tag = new
+	 * CompoundTag(); this.writeToNBT(tag); return new
 	 * S35PacketUpdateTileEntity(this.pos, 0, tag); }
 	 */
 
-	public static TileEntityNexus getNearest(EntityPlayer player, int searchRange) {
+	public static TileEntityNexus getNearest(Player player, int searchRange) {
 
 		for (int counter = 0; counter <= searchRange; counter++) {
 			for (int x = (int) player.posX - counter; x <= (int) player.posX + counter; x++) {
@@ -1026,7 +1026,7 @@ public class TileEntityNexus extends TileEntity implements ITickable {
 							y = 0;
 						if (y > player.world.getActualHeight())
 							y = player.world.getActualHeight();
-						TileEntity result = player.world.getTileEntity(new BlockPos(x, y, z));
+						BlockEntity result = player.world.getTileEntity(new BlockPos(x, y, z));
 
 						if (result instanceof TileEntityNexus)
 							return (TileEntityNexus) result;
@@ -1039,13 +1039,13 @@ public class TileEntityNexus extends TileEntity implements ITickable {
 	}
 
 	@Override
-	public ITextComponent getDisplayName() {
+	public Component getDisplayName() {
 		// DONE Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+	public <T> T getCapability(Capability<T> capability, Direction facing) {
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			
 			try {

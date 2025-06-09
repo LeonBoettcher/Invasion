@@ -6,7 +6,7 @@ import java.util.List;
 import invmod.Reference;
 import invmod.util.config.Config;
 import invmod.util.config.Config.Section;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.fml.client.config.GuiConfig;
@@ -14,7 +14,7 @@ import net.minecraftforge.fml.client.config.IConfigElement;
 
 public class ConfigGui extends GuiConfig {
 
-	public ConfigGui(GuiScreen parentScreen) {
+	public ConfigGui(Screen parentScreen) {
 		super(parentScreen, getConfigElements(), Reference.MODID, false, false,
 				I18n.format("gui.invasion.config.title"));
 	}

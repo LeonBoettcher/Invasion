@@ -6,8 +6,8 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.core.ResourceLocation;
 
 public class RenderPigEngy extends RenderBiped<EntityIMPigEngy> {
 

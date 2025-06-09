@@ -10,37 +10,37 @@ import invmod.entity.ai.EntityAIKillWithArrow;
 import invmod.entity.ai.EntityAISimpleTarget;
 import invmod.entity.ai.EntityAIWanderIM;
 import invmod.tileentity.TileEntityNexus;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IRangedAttackMob;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITasks;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.entity.projectile.EntityTippedArrow;
-import net.minecraft.init.Enchantments;
-import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.IRangedAttackMob;
+import net.minecraft.world.level.entity.ai.EntityAIAttackMelee;
+import net.minecraft.world.level.entity.ai.EntityAIHurtByTarget;
+import net.minecraft.world.level.entity.ai.EntityAILookIdle;
+import net.minecraft.world.level.entity.ai.EntityAISwimming;
+import net.minecraft.world.level.entity.ai.EntityAITasks;
+import net.minecraft.world.level.entity.ai.EntityAIWatchClosest;
+import net.minecraft.world.level.entity.player.Player;
+import net.minecraft.world.level.entity.player.EntityPlayerMP;
+import net.minecraft.world.level.entity.projectile.EntityTippedArrow;
+import net.minecraft.world.level.block.Enchantments;
+import net.minecraft.world.level.block.Items;
+import net.minecraft.world.level.block.SoundEvents;
+import net.minecraft.world.inventory.EntityEquipmentSlot;
+import net.minecraft.world.level.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.EnumDifficulty;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.core.DamageSource;
+import net.minecraft.core.InteractionHand;
+import net.minecraft.core.SoundEvent;
+import net.minecraft.core.MathHelper;
+import net.minecraft.world.level.DifficultyInstance;
+import net.minecraft.world.level.EnumDifficulty;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class EntityIMSkeleton extends EntityIMMob implements IRangedAttackMob {
 
@@ -66,11 +66,11 @@ public class EntityIMSkeleton extends EntityIMMob implements IRangedAttackMob {
 		}
 	};
 
-	public EntityIMSkeleton(World world) {
+	public EntityIMSkeleton(Level world) {
 		this(world, null);
 	}
 
-	public EntityIMSkeleton(World world, TileEntityNexus nexus) {
+	public EntityIMSkeleton(Level world, TileEntityNexus nexus) {
 		super(world, nexus);
 		this.tier = 1;
 		// setBurnsInDay(true);
@@ -92,20 +92,20 @@ public class EntityIMSkeleton extends EntityIMMob implements IRangedAttackMob {
 	protected void initEntityAI() {
 		this.tasksIM = new EntityAITasks(this.world.profiler);
 		this.tasksIM.addTask(0, new EntityAISwimming(this));
-		this.tasksIM.addTask(1, new EntityAIKillWithArrow(this, EntityPlayer.class, 65, 16.0F));
+		this.tasksIM.addTask(1, new EntityAIKillWithArrow(this, Player.class, 65, 16.0F));
 		this.tasksIM.addTask(1, new EntityAIKillWithArrow(this, EntityPlayerMP.class, 65, 16.0F));
 		// this.tasks.addTask(1, new EntityAIRallyBehindEntity(this,
 		// EntityIMCreeper.class, 4.0F));
-		this.tasksIM.addTask(2, new EntityAIKillWithArrow(this, EntityLiving.class, 65, 16.0F));
+		this.tasksIM.addTask(2, new EntityAIKillWithArrow(this, LivingEntity.class, 65, 16.0F));
 		this.tasksIM.addTask(3, new EntityAIAttackNexus(this));
 		this.tasksIM.addTask(4, new EntityAIGoToNexus(this));
 		this.tasksIM.addTask(5, new EntityAIWanderIM(this));
-		this.tasksIM.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+		this.tasksIM.addTask(6, new EntityAIWatchClosest(this, Player.class, 8.0F));
 		this.tasksIM.addTask(6, new EntityAILookIdle(this));
 		this.tasksIM.addTask(6, new EntityAIWatchClosest(this, EntityIMCreeper.class, 12.0F));
 
 		this.targetTasksIM = new EntityAITasks(this.world.profiler);
-		this.targetTasksIM.addTask(0, new EntityAISimpleTarget(this, EntityPlayer.class, this.getSenseRange(), false));
+		this.targetTasksIM.addTask(0, new EntityAISimpleTarget(this, Player.class, this.getSenseRange(), false));
 		this.targetTasksIM.addTask(1, new EntityAIHurtByTarget(this, false));
 	}
 
@@ -126,12 +126,12 @@ public class EntityIMSkeleton extends EntityIMMob implements IRangedAttackMob {
 	}
 
 	@Override
-	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+	public void writeEntityToNBT(CompoundTag nbttagcompound) {
 		super.writeEntityToNBT(nbttagcompound);
 	}
 
 	@Override
-	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+	public void readEntityFromNBT(CompoundTag nbttagcompound) {
 		super.readEntityFromNBT(nbttagcompound);
 	}
 
@@ -170,7 +170,7 @@ public class EntityIMSkeleton extends EntityIMMob implements IRangedAttackMob {
 	}
 
 	// Copied from EntitySkeleton
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public boolean isSwingingArms() {
 		return this.dataManager.get(SWINGING_ARMS);
 	}
@@ -225,7 +225,7 @@ public class EntityIMSkeleton extends EntityIMMob implements IRangedAttackMob {
 	 * Attack the specified entity using a ranged attack.
 	 */
 	@Override
-	public void attackEntityWithRangedAttack(EntityLivingBase target, float p_82196_2_) {
+	public void attackEntityWithRangedAttack(LivingEntity target, float p_82196_2_) {
 		EntityTippedArrow entitytippedarrow = new EntityTippedArrow(this.world, this);
 		double d0 = target.posX - this.posX;
 		double d1 = target.getEntityBoundingBox().minY + (double) (target.height / 3.0F) - entitytippedarrow.posY;
@@ -258,7 +258,7 @@ public class EntityIMSkeleton extends EntityIMMob implements IRangedAttackMob {
 			entitytippedarrow.setFire(100);
 		}
 
-		ItemStack itemstack = this.getHeldItem(EnumHand.OFF_HAND);
+		ItemStack itemstack = this.getHeldItem(InteractionHand.OFF_HAND);
 
 		if (itemstack != null && itemstack.getItem() == Items.TIPPED_ARROW) {
 			entitytippedarrow.setPotionEffect(itemstack);

@@ -2,13 +2,13 @@ package invmod.client.render.animation.util;
 
 import invmod.entity.EntityIMLiving;
 import invmod.entity.MoveState;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockLadder;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.ai.EntityMoveHelper;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.level.level.block.Block;
+import net.minecraft.world.level.level.block.BlockLadder;
+import net.minecraft.world.level.level.block.state.BlockState;
+import net.minecraft.world.level.entity.ai.EntityMoveHelper;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.MathHelper;
 
 public class IMMoveHelper extends EntityMoveHelper {
 
@@ -80,7 +80,7 @@ public class IMMoveHelper extends EntityMoveHelper {
 				- (!isInLiquid ? MathHelper.floor(this.entity.getEntityBoundingBox().minY + 0.5D) : this.entity.posY);
 
 		float newYaw = (float) (Math.atan2(dZ, dX) * 180.0D / Math.PI) - 90.0F;
-		EnumFacing ladderPos = null;
+		Direction ladderPos = null;
 		if ((Math.abs(dX) < 0.8D) && (Math.abs(dZ) < 0.8D) && ((dY > 0.0D) || (this.entity.isHoldingOntoLadder()))) {
 			ladderPos = this.getClimbFace(this.entity.getPosition());
 			if (ladderPos == null)
@@ -151,18 +151,18 @@ public class IMMoveHelper extends EntityMoveHelper {
 		return currentYaw + dYaw;
 	}
 
-	protected EnumFacing getClimbFace(BlockPos blockPos) {
+	protected Direction getClimbFace(BlockPos blockPos) {
 
 		Block block = this.entity.world.getBlockState(blockPos).getBlock();
 		if (block instanceof BlockLadder) {
-			IBlockState blockState = this.entity.world.getBlockState(blockPos);
+			BlockState blockState = this.entity.world.getBlockState(blockPos);
 			return blockState.getValue(BlockLadder.FACING);/* .getProperties().get(BlockLadder.field_176382_a); */
 		}
 		// } else if (block instanceof BlockVine) {
-		// IBlockState blockState =
+		// BlockState blockState =
 		// this.entity.world.getBlockState(blockPos);
 		// return
-		// (EnumFacing)blockState.getProperties().get(BlockVine.field_176382_a);
+		// (Direction)blockState.getProperties().get(BlockVine.field_176382_a);
 		//
 		// if (meta == 1)
 		// return 2;

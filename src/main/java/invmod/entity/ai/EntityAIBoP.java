@@ -6,8 +6,8 @@ import invmod.entity.Goal;
 import invmod.entity.INavigationFlying;
 import invmod.entity.MoveState;
 import invmod.entity.monster.EntityIMFlying;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.ai.EntityAIBase;
 
 public class EntityAIBoP extends EntityAIBase {
 	private static final int PATIENCE = 500;
@@ -17,7 +17,7 @@ public class EntityAIBoP extends EntityAIBase {
 	private int patienceTime;
 	private float lastHealth;
 	private Goal lastGoal;
-	private EntityLivingBase lastTarget;
+	private LivingEntity lastTarget;
 
 	public EntityAIBoP(EntityIMFlying entity) {
 		this.theEntity = entity;
@@ -79,7 +79,7 @@ public class EntityAIBoP extends EntityAIBase {
 		}
 	}
 
-	protected void chooseTargetAction(EntityLivingBase target) {
+	protected void chooseTargetAction(LivingEntity target) {
 		if (this.theEntity.getMoveState() != MoveState.FLYING) {
 			if ((this.theEntity.getDistance(target) < 10.0F) && (this.theEntity.world.rand.nextFloat() > 0.3F)) {
 				this.theEntity.transitionAIGoal(Goal.MELEE_TARGET);

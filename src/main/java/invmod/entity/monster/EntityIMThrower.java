@@ -16,23 +16,23 @@ import invmod.entity.projectile.EntityIMBoulder;
 import invmod.entity.projectile.EntityIMPrimedTNT;
 import invmod.tileentity.TileEntityNexus;
 import invmod.util.config.Config;
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITasks;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+import net.minecraft.world.level.level.block.Block;
+import net.minecraft.world.level.level.block.state.BlockState;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.ai.EntityAIHurtByTarget;
+import net.minecraft.world.level.entity.ai.EntityAILookIdle;
+import net.minecraft.world.level.entity.ai.EntityAISwimming;
+import net.minecraft.world.level.entity.ai.EntityAITasks;
+import net.minecraft.world.level.entity.ai.EntityAIWatchClosest;
+import net.minecraft.world.level.entity.player.Player;
+import net.minecraft.world.level.entity.player.EntityPlayerMP;
+import net.minecraft.world.level.block.SoundEvents;
+import net.minecraft.world.level.item.ItemStack;
+import net.minecraft.core.DamageSource;
+import net.minecraft.core.SoundEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.MathHelper;
+import net.minecraft.world.level.Level;
 
 public class EntityIMThrower extends EntityIMMob {
 
@@ -42,11 +42,11 @@ public class EntityIMThrower extends EntityIMMob {
 	private BlockPos pointToClear;
 	private INotifyTask clearPointNotifee;
 
-	public EntityIMThrower(World world) {
+	public EntityIMThrower(Level world) {
 		this(world, null);
 	}
 
-	public EntityIMThrower(World world, TileEntityNexus nexus) {
+	public EntityIMThrower(Level world, TileEntityNexus nexus) {
 		super(world, nexus);
 		// this.setBaseMoveSpeedStat(0.13F);
 		this.attackStrength = 10;
@@ -65,24 +65,24 @@ public class EntityIMThrower extends EntityIMMob {
 		this.tasksIM = new EntityAITasks(this.world.profiler);
 		this.tasksIM.addTask(0, new EntityAISwimming(this));
 		if (this.getTier() == 1) {
-			this.tasksIM.addTask(1, new EntityAIThrowerKillEntity(this, EntityPlayer.class, 55, 60.0F, 1.0F));
+			this.tasksIM.addTask(1, new EntityAIThrowerKillEntity(this, Player.class, 55, 60.0F, 1.0F));
 			this.tasksIM.addTask(1, new EntityAIThrowerKillEntity(this, EntityPlayerMP.class, 55, 60.0F, 1.0F));
 		} else {
-			this.tasksIM.addTask(1, new EntityAIThrowerKillEntity(this, EntityPlayer.class, 60, 90.0F, 1.5F));
+			this.tasksIM.addTask(1, new EntityAIThrowerKillEntity(this, Player.class, 60, 90.0F, 1.5F));
 			this.tasksIM.addTask(1, new EntityAIThrowerKillEntity(this, EntityPlayerMP.class, 60, 90.0F, 1.5F));
 		}
 		this.tasksIM.addTask(2, new EntityAIAttackNexus(this));
 		this.tasksIM.addTask(3, new EntityAIRandomBoulder(this, 3));
 		this.tasksIM.addTask(4, new EntityAIGoToNexus(this));
 		this.tasksIM.addTask(7, new EntityAIWanderIM(this));
-		this.tasksIM.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+		this.tasksIM.addTask(8, new EntityAIWatchClosest(this, Player.class, 8.0F));
 		this.tasksIM.addTask(9, new EntityAIWatchClosest(this, EntityIMCreeper.class, 12.0F));
-		this.tasksIM.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 16.0F));
+		this.tasksIM.addTask(10, new EntityAIWatchClosest(this, Player.class, 16.0F));
 		this.tasksIM.addTask(10, new EntityAILookIdle(this));
 
 		this.targetTasksIM = new EntityAITasks(this.world.profiler);
-		this.targetTasksIM.addTask(1, new EntityAISimpleTarget(this, EntityPlayer.class, this.getSenseRange(), false));
-		this.targetTasksIM.addTask(2, new EntityAISimpleTarget(this, EntityPlayer.class, this.getAggroRange(), true));
+		this.targetTasksIM.addTask(1, new EntityAISimpleTarget(this, Player.class, this.getSenseRange(), false));
+		this.targetTasksIM.addTask(2, new EntityAISimpleTarget(this, Player.class, this.getAggroRange(), true));
 		this.targetTasksIM.addTask(3, new EntityAIHurtByTarget(this, false));
 	}
 
@@ -163,11 +163,11 @@ public class EntityIMThrower extends EntityIMMob {
 	}
 
 	/*
-	 * @Override public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+	 * @Override public void writeEntityToNBT(CompoundTag nbttagcompound) {
 	 * nbttagcompound.setInteger("tier", this.tier);
 	 * super.writeEntityToNBT(nbttagcompound); }
 	 * 
-	 * @Override public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+	 * @Override public void readEntityFromNBT(CompoundTag nbttagcompound) {
 	 * super.readEntityFromNBT(nbttagcompound);
 	 * setTexture(nbttagcompound.getInteger("tier")); this.tier =
 	 * nbttagcompound.getInteger("tier"); setTier(this.tier); }
@@ -233,17 +233,17 @@ public class EntityIMThrower extends EntityIMMob {
 				xOffsetR = -1;
 				axisZ = 1;
 			}
-			IBlockState blockState = this.world.getBlockState(new BlockPos(x, y, z));
-			IBlockState blockState0 = this.world.getBlockState(new BlockPos(x, y + 1, z));
-			IBlockState blockState1 = this.world.getBlockState(new BlockPos(x + xOffsetR, y, z + zOffsetR));
-			IBlockState blockState2 = this.world.getBlockState(new BlockPos(x + xOffsetR, y + 1, z + zOffsetR));
+			BlockState blockState = this.world.getBlockState(new BlockPos(x, y, z));
+			BlockState blockState0 = this.world.getBlockState(new BlockPos(x, y + 1, z));
+			BlockState blockState1 = this.world.getBlockState(new BlockPos(x + xOffsetR, y, z + zOffsetR));
+			BlockState blockState2 = this.world.getBlockState(new BlockPos(x + xOffsetR, y + 1, z + zOffsetR));
 
-			IBlockState blockState3 = this.world.getBlockState(new BlockPos(x - axisX, y + 1, z - axisZ));
-			IBlockState blockState4 = this.world
+			BlockState blockState3 = this.world.getBlockState(new BlockPos(x - axisX, y + 1, z - axisZ));
+			BlockState blockState4 = this.world
 					.getBlockState(new BlockPos(x - axisX + xOffsetR, y + 1, z - axisZ + zOffsetR));
 
-			IBlockState blockState5 = this.world.getBlockState(new BlockPos(x - 2 * axisX, y + 1, z - 2 * axisZ));
-			IBlockState blockState6 = this.world
+			BlockState blockState5 = this.world.getBlockState(new BlockPos(x - 2 * axisX, y + 1, z - 2 * axisZ));
+			BlockState blockState6 = this.world
 					.getBlockState(new BlockPos(x - 2 * axisX + xOffsetR, y + 1, z - 2 * axisZ + zOffsetR));
 
 			if (((blockState.getBlock() != null) && (blockState.getMaterial().isSolid()))
@@ -284,7 +284,7 @@ public class EntityIMThrower extends EntityIMMob {
 					&& (pos.equals(this.targetNexus.getPos()))) {
 				this.targetNexus.attackNexus(5);
 			} else if (block != /* BlocksAndItems.blockNexus */ModBlocks.NEXUS_BLOCK) {
-				IBlockState blockState = this.world.getBlockState(pos);
+				BlockState blockState = this.world.getBlockState(pos);
 				this.world.setBlockToAir(pos);
 				block.onPlayerDestroy(this.world, pos, blockState);
 

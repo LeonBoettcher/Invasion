@@ -4,16 +4,16 @@ import invmod.ModBlocks;
 import invmod.mod_invasion;
 import invmod.entity.monster.EntityIMMob;
 import invmod.tileentity.TileEntityNexus;
-import net.minecraft.block.Block;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.level.block.Block;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.level.entity.player.Player;
+import net.minecraft.world.level.item.ItemStack;
+import net.minecraft.core.EnumActionResult;
+import net.minecraft.core.Direction;
+import net.minecraft.core.InteractionHand;
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 public class ItemProbe extends ModItem {
 
@@ -34,12 +34,12 @@ public class ItemProbe extends ModItem {
 
 	/*
 	 * @Override public EnumActionResult onItemUseFirst(ItemStack itemstack,
-	 * EntityPlayer player, World world, BlockPos blockPos, EnumFacing side, float
-	 * hitX, float hitY, float hitZ, EnumHand hand) {
+	 * Player player, Level world, BlockPos blockPos, Direction side, float
+	 * hitX, float hitY, float hitZ, InteractionHand hand) {
 	 */
 	@Override
-	public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX,
-			float hitY, float hitZ, EnumHand hand) {
+	public EnumActionResult onItemUseFirst(Player player, Level world, BlockPos pos, Direction side, float hitX,
+			float hitY, float hitZ, InteractionHand hand) {
 
 		ItemStack itemstack = player.getHeldItem(hand);
 		// if (world.isRemote) return EnumActionResult.FAIL;
@@ -86,7 +86,7 @@ public class ItemProbe extends ModItem {
 	}
 
 	@Override
-	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
+	public void getSubItems(CreativeModeTab tab, NonNullList<ItemStack> items) {
 		items.add(new ItemStack(this, 1, 0));
 		items.add(new ItemStack(this, 1, 1));
 	}

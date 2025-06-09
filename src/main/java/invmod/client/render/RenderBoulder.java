@@ -7,7 +7,7 @@ import invmod.client.render.model.ModelBoulder;
 import invmod.entity.projectile.EntityIMBoulder;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.ResourceLocation;
 
 public class RenderBoulder extends Render<EntityIMBoulder> {
 	private static final ResourceLocation texture = new ResourceLocation(Reference.MODID + ":textures/boulder.png");

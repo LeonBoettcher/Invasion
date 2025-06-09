@@ -4,10 +4,10 @@ import invmod.entity.ai.navigator.Path;
 import invmod.entity.ai.navigator.PathNode;
 import invmod.entity.monster.EntityIMMob;
 import invmod.util.Coords;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.level.level.block.state.BlockState;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.MathHelper;
 
 public class IMMoveHelperSpider extends IMMoveHelper {
 	public IMMoveHelperSpider(EntityIMMob par1EntityLiving) {
@@ -15,7 +15,7 @@ public class IMMoveHelperSpider extends IMMoveHelper {
 	}
 
 	@Override
-	protected EnumFacing getClimbFace(BlockPos blockPos) {
+	protected Direction getClimbFace(BlockPos blockPos) {
 		int mobX = MathHelper.floor(blockPos.getX() - this.entity.width / 2.0F);
 		int mobY = MathHelper.floor(blockPos.getY());
 		int mobZ = MathHelper.floor(blockPos.getZ() - this.entity.width / 2.0F);
@@ -47,9 +47,9 @@ public class IMMoveHelperSpider extends IMMoveHelper {
 
 		for (int count = 0; count < 8; count++) {
 			BlockPos pos = new BlockPos(mobX + Coords.offsetAdj2X[index], mobY, mobZ + Coords.offsetAdj2Z[index]);
-			IBlockState blockState = this.entity.world.getBlockState(pos);
+			BlockState blockState = this.entity.world.getBlockState(pos);
 			boolean isSolidBlock = true;
-			for (EnumFacing side : EnumFacing.values()) {
+			for (Direction side : Direction.values()) {
 				if (!blockState.getBlock().isSideSolid(blockState, this.entity.world, pos, side)) {
 					isSolidBlock = false;
 					break;
@@ -59,7 +59,7 @@ public class IMMoveHelperSpider extends IMMoveHelper {
 			// side)/*.isSolidFullCube()*/) {
 			if (isSolidBlock) {
 				// TODO: Fix this, I just typed something random here
-				return EnumFacing.byIndex(index / 2);
+				return Direction.byIndex(index / 2);
 				// return index / 2;
 			}
 			index++;

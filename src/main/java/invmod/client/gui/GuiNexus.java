@@ -5,11 +5,11 @@ import org.lwjgl.opengl.GL11;
 import invmod.Reference;
 import invmod.inventory.container.ContainerNexus;
 import invmod.tileentity.TileEntityNexus;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.world.level.entity.player.InventoryPlayer;
+import net.minecraft.core.ResourceLocation;
 
-public class GuiNexus extends GuiContainer {
+public class GuiNexus extends AbstractContainerScreen {
 	private static final ResourceLocation background = new ResourceLocation(Reference.MODID + ":textures/nexusgui.png");
 	private TileEntityNexus tileEntityNexus;
 

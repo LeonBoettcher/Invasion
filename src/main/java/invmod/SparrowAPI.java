@@ -1,6 +1,6 @@
 package invmod;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.world.level.entity.Entity;
 
 public interface SparrowAPI {
 

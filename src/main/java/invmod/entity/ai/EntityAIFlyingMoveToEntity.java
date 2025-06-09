@@ -6,8 +6,8 @@ import invmod.entity.Goal;
 import invmod.entity.INavigationFlying;
 import invmod.entity.ai.navigator.Path;
 import invmod.entity.monster.EntityIMFlying;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.ai.EntityAIBase;
 
 public class EntityAIFlyingMoveToEntity extends EntityAIBase {
 	private EntityIMFlying theEntity;

@@ -2,24 +2,24 @@ package invmod.entity.ai.navigator;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockDoor;
-import net.minecraft.block.BlockFence;
-import net.minecraft.block.BlockFenceGate;
-import net.minecraft.block.BlockRailBase;
-import net.minecraft.block.BlockWall;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.level.block.Block;
+import net.minecraft.world.level.level.block.BlockDoor;
+import net.minecraft.world.level.level.block.BlockFence;
+import net.minecraft.world.level.level.block.BlockFenceGate;
+import net.minecraft.world.level.level.block.BlockRailBase;
+import net.minecraft.world.level.level.block.BlockWall;
+import net.minecraft.world.level.level.block.material.Material;
+import net.minecraft.world.level.level.block.state.BlockState;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.pathfinding.PathPoint;
 import net.minecraft.pathfinding.WalkNodeProcessor;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.core.Direction;
+import net.minecraft.core.AxisAlignedBB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.MathHelper;
+import net.minecraft.world.level.IBlockAccess;
 
 public class WalkNodeProcessorIM extends WalkNodeProcessor {
 
@@ -39,13 +39,13 @@ public class WalkNodeProcessorIM extends WalkNodeProcessor {
 		double d0 = (double) currentPoint.y
 				- (1.0D - this.blockaccess.getBlockState(blockpos).getBoundingBox(this.blockaccess, blockpos).maxY);
 		PathPoint pathpoint = this.getSafePoint(currentPoint.x, currentPoint.y, currentPoint.z + 1, j, d0,
-				EnumFacing.SOUTH);
+				Direction.SOUTH);
 		PathPoint pathpoint1 = this.getSafePoint(currentPoint.x - 1, currentPoint.y, currentPoint.z, j, d0,
-				EnumFacing.WEST);
+				Direction.WEST);
 		PathPoint pathpoint2 = this.getSafePoint(currentPoint.x + 1, currentPoint.y, currentPoint.z, j, d0,
-				EnumFacing.EAST);
+				Direction.EAST);
 		PathPoint pathpoint3 = this.getSafePoint(currentPoint.x, currentPoint.y, currentPoint.z - 1, j, d0,
-				EnumFacing.NORTH);
+				Direction.NORTH);
 
 		if (pathpoint != null && !pathpoint.visited && pathpoint.distanceTo(targetPoint) < maxDistance) {
 			pathOptions[i++] = pathpoint;
@@ -70,7 +70,7 @@ public class WalkNodeProcessorIM extends WalkNodeProcessor {
 
 		if (flag && flag3) {
 			PathPoint pathpoint4 = this.getSafePoint(currentPoint.x - 1, currentPoint.y, currentPoint.z - 1, j, d0,
-					EnumFacing.NORTH);
+					Direction.NORTH);
 
 			if (pathpoint4 != null && !pathpoint4.visited && pathpoint4.distanceTo(targetPoint) < maxDistance) {
 				pathOptions[i++] = pathpoint4;
@@ -79,7 +79,7 @@ public class WalkNodeProcessorIM extends WalkNodeProcessor {
 
 		if (flag && flag2) {
 			PathPoint pathpoint5 = this.getSafePoint(currentPoint.x + 1, currentPoint.y, currentPoint.z - 1, j, d0,
-					EnumFacing.NORTH);
+					Direction.NORTH);
 
 			if (pathpoint5 != null && !pathpoint5.visited && pathpoint5.distanceTo(targetPoint) < maxDistance) {
 				pathOptions[i++] = pathpoint5;
@@ -88,7 +88,7 @@ public class WalkNodeProcessorIM extends WalkNodeProcessor {
 
 		if (flag1 && flag3) {
 			PathPoint pathpoint6 = this.getSafePoint(currentPoint.x - 1, currentPoint.y, currentPoint.z + 1, j, d0,
-					EnumFacing.SOUTH);
+					Direction.SOUTH);
 
 			if (pathpoint6 != null && !pathpoint6.visited && pathpoint6.distanceTo(targetPoint) < maxDistance) {
 				pathOptions[i++] = pathpoint6;
@@ -97,7 +97,7 @@ public class WalkNodeProcessorIM extends WalkNodeProcessor {
 
 		if (flag1 && flag2) {
 			PathPoint pathpoint7 = this.getSafePoint(currentPoint.x + 1, currentPoint.y, currentPoint.z + 1, j, d0,
-					EnumFacing.SOUTH);
+					Direction.SOUTH);
 
 			if (pathpoint7 != null && !pathpoint7.visited && pathpoint7.distanceTo(targetPoint) < maxDistance) {
 				pathOptions[i++] = pathpoint7;
@@ -111,7 +111,7 @@ public class WalkNodeProcessorIM extends WalkNodeProcessor {
 	 * Returns a point that the entity can safely move to
 	 */
 	@Nullable
-	private PathPoint getSafePoint(int x, int y, int z, int p_186332_4_, double p_186332_5_, EnumFacing facing) {
+	private PathPoint getSafePoint(int x, int y, int z, int p_186332_4_, double p_186332_5_, Direction facing) {
 		PathPoint pathpoint = null;
 		BlockPos blockpos = new BlockPos(x, y, z);
 		BlockPos blockpos1 = blockpos.down();
@@ -205,11 +205,11 @@ public class WalkNodeProcessorIM extends WalkNodeProcessor {
 		}
 	}
 
-	public PathNodeType getPathNodeType(EntityLiving entitylivingIn, BlockPos pos) {
+	public PathNodeType getPathNodeType(LivingEntity entitylivingIn, BlockPos pos) {
 		return this.getPathNodeType(entitylivingIn, pos.getX(), pos.getY(), pos.getZ());
 	}
 
-	private PathNodeType getPathNodeType(EntityLiving entitylivingIn, int x, int y, int z) {
+	private PathNodeType getPathNodeType(LivingEntity entitylivingIn, int x, int y, int z) {
 		return this.getPathNodeType(this.blockaccess, x, y, z, entitylivingIn, this.entitySizeX, this.entitySizeY,
 				this.entitySizeZ, this.getCanOpenDoors(), this.getCanEnterDoors());
 	}
@@ -217,7 +217,7 @@ public class WalkNodeProcessorIM extends WalkNodeProcessor {
 	public PathNodeType getPathNodeTypeRaw(IBlockAccess p_189553_1_, int p_189553_2_, int p_189553_3_,
 			int p_189553_4_) {
 		BlockPos blockpos = new BlockPos(p_189553_2_, p_189553_3_, p_189553_4_);
-		IBlockState iblockstate = p_189553_1_.getBlockState(blockpos);
+		BlockState iblockstate = p_189553_1_.getBlockState(blockpos);
 		Block block = iblockstate.getBlock();
 		Material material = iblockstate.getMaterial();
 		return material == Material.AIR ? PathNodeType.OPEN

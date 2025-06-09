@@ -4,11 +4,11 @@ import invmod.entity.Goal;
 import invmod.entity.monster.EntityIMCreeper;
 import invmod.tileentity.TileEntityNexus;
 import invmod.util.Distance;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.ai.EntityAIBase;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.RayTraceResult;
+import net.minecraft.core.Vec3d;
 
 public class EntityAIDetonateBlock extends EntityAIBase {
 
@@ -127,7 +127,7 @@ public class EntityAIDetonateBlock extends EntityAIBase {
 				return null;
 			pos = new Vec3d(nexus.getPos());
 		} else if (this.theEntity.getAIGoal() == Goal.TARGET_ENTITY) {
-			EntityLivingBase target = this.theEntity.getAttackTarget();
+			LivingEntity target = this.theEntity.getAttackTarget();
 			if (target == null)
 				return null;
 			pos = new Vec3d(target.posX, target.posY + (double) target.getEyeHeight(), target.posZ);

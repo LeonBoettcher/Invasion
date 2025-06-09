@@ -3,11 +3,11 @@ package invmod.entity.ai;
 import java.util.Random;
 
 import invmod.entity.monster.EntityIMThrower;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.core.MathHelper;
 
-public class EntityAIThrowerKillEntity<T extends EntityLivingBase> extends EntityAIKillEntity<T> {
+public class EntityAIThrowerKillEntity<T extends LivingEntity> extends EntityAIKillEntity<T> {
 
 	private boolean melee;
 	private float attackRangeSq;

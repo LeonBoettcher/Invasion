@@ -2,15 +2,15 @@ package invmod.entity.ai;
 
 import invmod.entity.monster.EntityIMMob;
 import invmod.entity.monster.EntityIMZombiePigman;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.EntityCreature;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.core.MathHelper;
+import net.minecraft.core.Vec3d;
 
-public class EntityAICharge<T extends EntityLivingBase> extends EntityAIMoveToEntity<T> {
+public class EntityAICharge<T extends LivingEntity> extends EntityAIMoveToEntity<T> {
 	protected EntityCreature charger;
-	protected EntityLivingBase chargeTarget;
+	protected LivingEntity chargeTarget;
 	protected double chargeX;
 	protected double chargeY;
 	protected double chargeZ;

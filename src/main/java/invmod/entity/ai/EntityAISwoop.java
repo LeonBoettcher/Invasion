@@ -5,16 +5,16 @@ import invmod.entity.INavigationFlying;
 import invmod.entity.MoveState;
 import invmod.entity.monster.EntityIMBird;
 import invmod.util.MathUtil;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.ai.EntityAIBase;
+import net.minecraft.core.RayTraceResult;
+import net.minecraft.core.Vec3d;
 
 public class EntityAISwoop extends EntityAIBase {
 	private static final int INITIAL_LINEUP_TIME = 25;
 	private EntityIMBird theEntity;
 	private float minDiveClearanceY;
-	private EntityLivingBase swoopTarget;
+	private LivingEntity swoopTarget;
 	private float diveAngle;
 	private float diveHeight;
 	private float strikeDistance;
@@ -150,7 +150,7 @@ public class EntityAISwoop extends EntityAIBase {
 		}
 	}
 
-	private boolean isSwoopPathClear(EntityLivingBase target, float diveAngle) {
+	private boolean isSwoopPathClear(LivingEntity target, float diveAngle) {
 		double dX = target.posX - this.theEntity.posX;
 		double dY = target.posY - this.theEntity.posY;
 		double dZ = target.posZ - this.theEntity.posZ;

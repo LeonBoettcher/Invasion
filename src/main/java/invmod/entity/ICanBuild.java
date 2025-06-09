@@ -1,7 +1,7 @@
 package invmod.entity;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.core.BlockPos;
 
 /**
  * In order for an entity to use {@link TerrainBuilder}, implement this

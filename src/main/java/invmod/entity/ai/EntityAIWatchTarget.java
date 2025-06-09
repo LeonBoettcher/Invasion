@@ -1,12 +1,12 @@
 package invmod.entity.ai;
 
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.ai.EntityAIBase;
 
 public class EntityAIWatchTarget extends EntityAIBase {
-	private EntityLiving theEntity;
+	private LivingEntity theEntity;
 
-	public EntityAIWatchTarget(EntityLiving entity) {
+	public EntityAIWatchTarget(LivingEntity entity) {
 		this.theEntity = entity;
 	}
 

@@ -3,8 +3,8 @@ package invmod.common;
 import java.io.File;
 import java.util.List;
 
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.level.entity.player.EntityPlayerMP;
+import net.minecraft.core.text.TextComponent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class ProxyCommon {
@@ -19,7 +19,7 @@ public class ProxyCommon {
 		List<EntityPlayerMP> playerList = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList()
 				.getPlayers();
 		for (int i = 0; i < playerList.size(); i++) {
-			playerList.get(i).sendMessage(new TextComponentString(message));
+			playerList.get(i).sendMessage(new TextComponent(message));
 		}
 	}
 

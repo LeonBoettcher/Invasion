@@ -4,24 +4,24 @@ import java.util.List;
 
 import invmod.ModBlocks;
 import invmod.tileentity.TileEntityNexus;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.World;
+import net.minecraft.world.level.level.block.Block;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.item.EntityTNTPrimed;
+import net.minecraft.world.level.entity.player.Player;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundEvents;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.DamageSource;
+import net.minecraft.core.ParticleTypes;
+import net.minecraft.core.AxisAlignedBB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.MathHelper;
+import net.minecraft.core.RayTraceResult;
+import net.minecraft.core.Vec3d;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
 
 public class EntityIMPrimedTNT extends EntityTNTPrimed {
 
@@ -34,12 +34,12 @@ public class EntityIMPrimedTNT extends EntityTNTPrimed {
 	private int life;
 	public boolean doesArrowBelongToPlayer;
 	public int arrowShake;
-	public EntityLivingBase shootingEntity;
+	public LivingEntity shootingEntity;
 	private int ticksInGround;
 	private int ticksInAir;
 	public boolean arrowCritical;
 
-	public EntityIMPrimedTNT(World par1World) {
+	public EntityIMPrimedTNT(Level par1World) {
 		super(par1World);
 		this.xTile = -1;
 		this.yTile = -1;
@@ -55,7 +55,7 @@ public class EntityIMPrimedTNT extends EntityTNTPrimed {
 		this.setSize(1.0F, 1.0F);
 	}
 
-	public EntityIMPrimedTNT(World world, double d, double d1, double d2) {
+	public EntityIMPrimedTNT(Level world, double d, double d1, double d2) {
 		super(world);
 		this.xTile = -1;
 		this.yTile = -1;
@@ -72,7 +72,7 @@ public class EntityIMPrimedTNT extends EntityTNTPrimed {
 		this.setPosition(d, d1, d2);
 	}
 
-	public EntityIMPrimedTNT(World world, EntityLivingBase entityliving, float f) {
+	public EntityIMPrimedTNT(Level world, LivingEntity entityliving, float f) {
 		super(world);
 		this.xTile = -1;
 		this.yTile = -1;
@@ -86,7 +86,7 @@ public class EntityIMPrimedTNT extends EntityTNTPrimed {
 		this.ticksInAir = 0;
 		this.arrowCritical = false;
 		this.shootingEntity = entityliving;
-		this.doesArrowBelongToPlayer = (entityliving instanceof EntityPlayer);
+		this.doesArrowBelongToPlayer = (entityliving instanceof Player);
 		this.setSize(0.5F, 0.5F);
 		this.setLocationAndAngles(entityliving.posX, entityliving.posY + entityliving.getEyeHeight(), entityliving.posZ,
 				entityliving.rotationYaw, entityliving.rotationPitch);
@@ -103,13 +103,13 @@ public class EntityIMPrimedTNT extends EntityTNTPrimed {
 	}
 
 	@Override
-	public void onCollideWithPlayer(EntityPlayer entityplayer) {
+	public void onCollideWithPlayer(Player entityplayer) {
 		if (this.world.isRemote)
 			;
 	}
 
 	@Override
-	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+	public void writeEntityToNBT(CompoundTag nbttagcompound) {
 		nbttagcompound.setShort("xTile", (short) this.xTile);
 		nbttagcompound.setShort("yTile", (short) this.yTile);
 		nbttagcompound.setShort("zTile", (short) this.zTile);
@@ -231,9 +231,9 @@ public class EntityIMPrimedTNT extends EntityTNTPrimed {
 					damage = 18;
 				if (movingobjectposition.entityHit.attackEntityFrom(DamageSource.causeMobDamage(this.shootingEntity),
 						damage)) {
-					if ((movingobjectposition.entityHit instanceof EntityLiving)) {
+					if ((movingobjectposition.entityHit instanceof LivingEntity)) {
 						if (!this.world.isRemote) {
-							EntityLiving entityLiving = (EntityLiving) movingobjectposition.entityHit;
+							LivingEntity entityLiving = (LivingEntity) movingobjectposition.entityHit;
 							entityLiving.setArrowCountInEntity(entityLiving.getArrowCountInEntity() + 1);
 						}
 					}
@@ -296,7 +296,7 @@ public class EntityIMPrimedTNT extends EntityTNTPrimed {
 
 		if (this.arrowCritical) {
 			for (int i1 = 0; i1 < 4; i1++) {
-				this.world.spawnParticle(EnumParticleTypes.CRIT, this.posX + this.motionX * i1 / 4.0D,
+				this.world.spawnParticle(ParticleTypes.CRIT, this.posX + this.motionX * i1 / 4.0D,
 						this.posY + this.motionY * i1 / 4.0D, this.posZ + this.motionZ * i1 / 4.0D, -this.motionX,
 						-this.motionY + 0.2D, -this.motionZ);
 			}
@@ -326,7 +326,7 @@ public class EntityIMPrimedTNT extends EntityTNTPrimed {
 		if (this.isInWater()) {
 			for (int k1 = 0; k1 < 4; k1++) {
 				float f7 = 0.25F;
-				this.world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX - this.motionX * f7,
+				this.world.spawnParticle(ParticleTypes.WATER_BUBBLE, this.posX - this.motionX * f7,
 						this.posY - this.motionY * f7, this.posZ - this.motionZ * f7, this.motionX, this.motionY,
 						this.motionZ);
 			}
@@ -340,7 +340,7 @@ public class EntityIMPrimedTNT extends EntityTNTPrimed {
 	}
 
 	@Override
-	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+	public void readEntityFromNBT(CompoundTag nbttagcompound) {
 		this.xTile = nbttagcompound.getShort("xTile");
 		this.yTile = nbttagcompound.getShort("yTile");
 		this.zTile = nbttagcompound.getShort("zTile");

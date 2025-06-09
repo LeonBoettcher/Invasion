@@ -7,9 +7,9 @@ import invmod.entity.ai.navigator.Path;
 import invmod.entity.monster.EntityIMMob;
 import invmod.tileentity.TileEntityNexus;
 import invmod.util.Distance;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.level.entity.ai.EntityAIBase;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3d;
 
 public class EntityAIGoToNexus extends EntityAIBase {
 	private EntityIMMob theEntity;

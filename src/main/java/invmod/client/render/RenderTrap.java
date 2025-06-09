@@ -7,7 +7,7 @@ import invmod.client.render.model.ModelTrap;
 import invmod.entity.block.trap.EntityIMTrap;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.ResourceLocation;
 
 public class RenderTrap extends Render<EntityIMTrap> {
 	private static final ResourceLocation texture = new ResourceLocation(Reference.MODID + ":textures/trap.png");

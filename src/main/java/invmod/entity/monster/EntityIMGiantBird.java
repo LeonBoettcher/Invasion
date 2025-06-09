@@ -13,9 +13,9 @@ import invmod.entity.ai.EntityAIStabiliseFlying;
 import invmod.entity.ai.EntityAISwoop;
 import invmod.entity.ai.EntityAIWatchTarget;
 import invmod.tileentity.TileEntityNexus;
-import net.minecraft.entity.ai.EntityAITasks;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.world.World;
+import net.minecraft.world.level.entity.ai.EntityAITasks;
+import net.minecraft.world.level.entity.monster.EntityZombie;
+import net.minecraft.world.level.Level;
 
 public class EntityIMGiantBird extends EntityIMBird {
 
@@ -28,11 +28,11 @@ public class EntityIMGiantBird extends EntityIMBird {
 	private static final byte TRIGGER_DEATHSOUND = 10;
 	private int tier;
 
-	public EntityIMGiantBird(World world) {
+	public EntityIMGiantBird(Level world) {
 		this(world, null);
 	}
 
-	public EntityIMGiantBird(World world, TileEntityNexus nexus) {
+	public EntityIMGiantBird(Level world, TileEntityNexus nexus) {
 		super(world, nexus);
 		this.setName("Bird");
 		this.setGender(2);
@@ -150,7 +150,7 @@ public class EntityIMGiantBird extends EntityIMBird {
 	/*
 	 * @Override
 	 * 
-	 * @SideOnly(Side.CLIENT) public void handleHealthUpdate(byte b){
+	 * @OnlyIn(Dist.CLIENT) public void handleHealthUpdate(byte b){
 	 * super.handleHealthUpdate(b); if (b == 10){ this.doSquawk(); } else if (b ==
 	 * 10){ this.doScreech(); } else if (b == 10){ this.doDeathSound(); } }
 	 */

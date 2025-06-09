@@ -8,11 +8,11 @@ import invmod.entity.ally.EntityIMWolf;
 import invmod.tileentity.TileEntityNexus;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.level.entity.player.Player;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.World;
+import net.minecraft.core.text.TextComponentTranslation;
+import net.minecraft.core.text.TextFormatting;
+import net.minecraft.world.level.Level;
 
 public class InvasionCommand extends CommandBase {
 
@@ -20,8 +20,8 @@ public class InvasionCommand extends CommandBase {
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
 		String username = sender.getName();
 		TileEntityNexus focusNexus = null;
-		if (sender instanceof EntityPlayer) {
-			focusNexus = TileEntityNexus.getNearest((EntityPlayer) sender, 50);
+		if (sender instanceof Player) {
+			focusNexus = TileEntityNexus.getNearest((Player) sender, 50);
 		}
 		if (args.length <= 0 || args.length > 7) {
 			this.sendMessage(sender,
@@ -105,8 +105,8 @@ public class InvasionCommand extends CommandBase {
 			break;
 		case "debug":
 			if (args.length == 2) {
-				if (sender instanceof EntityPlayer)
-					this.spawnDebugMob((EntityPlayer) sender, focusNexus, args[1]);
+				if (sender instanceof Player)
+					this.spawnDebugMob((Player) sender, focusNexus, args[1]);
 			} else {
 				this.sendMessage(sender, "No mob specified", TextFormatting.RED);
 			}
@@ -188,19 +188,19 @@ public class InvasionCommand extends CommandBase {
 		}
 	}
 
-	private void spawnDebugMob(EntityPlayer sender, TileEntityNexus focusNexus, String entityName) {
+	private void spawnDebugMob(Player sender, TileEntityNexus focusNexus, String entityName) {
 		if (focusNexus != null) {
 			try {
 				Class<?> clazz = Class.forName(entityName);
 				if (EntityIMLiving.class.isAssignableFrom(clazz)) {
 					Constructor<? extends EntityIMLiving> c = ((Class<? extends EntityIMLiving>) clazz)
-							.getConstructor(World.class, TileEntityNexus.class);
+							.getConstructor(Level.class, TileEntityNexus.class);
 					EntityIMLiving entity = c.newInstance(sender.world, focusNexus);
 					entity.setPosition(sender.posX, sender.posY, sender.posZ);
 					sender.world.spawnEntity(entity);
 				} else if (EntityIMWolf.class.isAssignableFrom(clazz)) {
 					Constructor<? extends EntityIMWolf> c = ((Class<? extends EntityIMWolf>) clazz)
-							.getConstructor(World.class, TileEntityNexus.class);
+							.getConstructor(Level.class, TileEntityNexus.class);
 					EntityIMWolf entity = c.newInstance(sender.world, focusNexus);
 					entity.setPosition(sender.posX, sender.posY, sender.posZ);
 					sender.world.spawnEntity(entity);

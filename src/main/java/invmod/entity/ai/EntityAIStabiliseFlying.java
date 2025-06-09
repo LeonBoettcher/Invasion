@@ -3,7 +3,7 @@ package invmod.entity.ai;
 import invmod.entity.Goal;
 import invmod.entity.INavigationFlying;
 import invmod.entity.monster.EntityIMFlying;
-import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.world.level.entity.ai.EntityAIBase;
 
 public class EntityAIStabiliseFlying extends EntityAIBase {
 	private static int INITIAL_STABILISE_TIME = 50;

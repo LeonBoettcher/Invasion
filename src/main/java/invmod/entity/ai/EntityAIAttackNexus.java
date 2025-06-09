@@ -5,8 +5,8 @@ import invmod.entity.Goal;
 import invmod.entity.monster.EntityIMMob;
 import invmod.entity.monster.EntityIMZombie;
 import invmod.tileentity.TileEntityNexus;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.level.entity.ai.EntityAIBase;
+import net.minecraft.core.BlockPos;
 
 public class EntityAIAttackNexus extends EntityAIBase {
 	private EntityIMMob theEntity;

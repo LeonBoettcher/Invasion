@@ -1,150 +1,150 @@
 package invmod.util.spawneggs;
 
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 
 public class CustomTags {
 
-	public static NBTTagCompound poweredCreeper() {
-		NBTTagCompound tag = new NBTTagCompound();
+	public static CompoundTag poweredCreeper() {
+		CompoundTag tag = new CompoundTag();
 		tag.setByte("powered", (byte) 1);
 		return tag;
 	}
 
-	public static NBTTagCompound IMZombie_T1() {
-		NBTTagCompound tag = new NBTTagCompound();
+	public static CompoundTag IMZombie_T1() {
+		CompoundTag tag = new CompoundTag();
 		tag.setInteger("flavour", 0);
 		tag.setInteger("tier", 1);
 		return tag;
 	}
 
-	public static NBTTagCompound IMZombie_T2() {
-		NBTTagCompound tag = new NBTTagCompound();
+	public static CompoundTag IMZombie_T2() {
+		CompoundTag tag = new CompoundTag();
 		tag.setInteger("flavour", 0);
 		tag.setInteger("tier", 2);
 		return tag;
 	}
 
-	public static NBTTagCompound IMZombie_T2_tar() {
-		NBTTagCompound tag = new NBTTagCompound();
+	public static CompoundTag IMZombie_T2_tar() {
+		CompoundTag tag = new CompoundTag();
 		tag.setInteger("flavour", 2);
 		tag.setInteger("tier", 2);
 		return tag;
 	}
 
-	public static NBTTagCompound IMZombie_T3() {
-		NBTTagCompound tag = new NBTTagCompound();
+	public static CompoundTag IMZombie_T3() {
+		CompoundTag tag = new CompoundTag();
 		tag.setInteger("flavour", 0);
 		tag.setInteger("tier", 3);
 		return tag;
 	}
 
-	public static NBTTagCompound IMSpider_T1_baby() {
-		NBTTagCompound tag = new NBTTagCompound();
+	public static CompoundTag IMSpider_T1_baby() {
+		CompoundTag tag = new CompoundTag();
 		tag.setInteger("flavour", 1);
 		tag.setInteger("tier", 1);
 		return tag;
 	}
 
-	public static NBTTagCompound IMSpider_T2() {
-		NBTTagCompound tag = new NBTTagCompound();
+	public static CompoundTag IMSpider_T2() {
+		CompoundTag tag = new CompoundTag();
 		tag.setInteger("flavour", 0);
 		tag.setInteger("tier", 2);
 		return tag;
 	}
 
-	public static NBTTagCompound IMSpider_T2_mother() {
-		NBTTagCompound tag = new NBTTagCompound();
+	public static CompoundTag IMSpider_T2_mother() {
+		CompoundTag tag = new CompoundTag();
 		tag.setInteger("flavour", 1);
 		tag.setInteger("tier", 2);
 		return tag;
 	}
 
-	public static NBTTagCompound IMThrower_T2() {
-		NBTTagCompound tag = new NBTTagCompound();
+	public static CompoundTag IMThrower_T2() {
+		CompoundTag tag = new CompoundTag();
 		tag.setInteger("tier", 2);
 		return tag;
 	}
 
-	public static NBTTagCompound IMZombiePigman_T1() {
-		NBTTagCompound tag = new NBTTagCompound();
+	public static CompoundTag IMZombiePigman_T1() {
+		CompoundTag tag = new CompoundTag();
 		tag.setInteger("flavour", 1);
 		tag.setInteger("tier", 1);
 		return tag;
 	}
 
-	public static NBTTagCompound IMZombiePigman_T2() {
-		NBTTagCompound tag = new NBTTagCompound();
+	public static CompoundTag IMZombiePigman_T2() {
+		CompoundTag tag = new CompoundTag();
 		tag.setInteger("flavour", 1);
 		tag.setInteger("tier", 2);
 		return tag;
 	}
 
-	public static NBTTagCompound IMZombiePigman_T3() {
-		NBTTagCompound tag = new NBTTagCompound();
+	public static CompoundTag IMZombiePigman_T3() {
+		CompoundTag tag = new CompoundTag();
 		tag.setInteger("flavour", 1);
 		tag.setInteger("tier", 3);
 		return tag;
 	}
 
-	public static NBTTagCompound witherSkeleton() {
-		NBTTagCompound tag = new NBTTagCompound();
+	public static CompoundTag witherSkeleton() {
+		CompoundTag tag = new CompoundTag();
 		tag.setByte("SkeletonType", (byte) 1);
-		NBTTagList list = new NBTTagList();
-		NBTTagCompound swordItem = createItemTag((byte) 1, (short) 0, (short) 272);
+		ListTag list = new ListTag();
+		CompoundTag swordItem = createItemTag((byte) 1, (short) 0, (short) 272);
 		list.appendTag(swordItem);
 		for (int i = 0; i < 4; ++i)
-			list.appendTag(new NBTTagCompound());
+			list.appendTag(new CompoundTag());
 		tag.setTag("Equipment", list);
 		return tag;
 	}
 
-	public static NBTTagCompound villagerZombie() {
-		NBTTagCompound tag = new NBTTagCompound();
+	public static CompoundTag villagerZombie() {
+		CompoundTag tag = new CompoundTag();
 		tag.setByte("IsVillager", (byte) 1);
 		return tag;
 	}
 
-	public static NBTTagCompound babyZombie() {
-		NBTTagCompound tag = new NBTTagCompound();
+	public static CompoundTag babyZombie() {
+		CompoundTag tag = new CompoundTag();
 		tag.setByte("IsBaby", (byte) 1);
 		return tag;
 	}
 
-	public static NBTTagCompound horseType(int type) {
-		NBTTagCompound tag = new NBTTagCompound();
+	public static CompoundTag horseType(int type) {
+		CompoundTag tag = new CompoundTag();
 		tag.setInteger("Type", type);
 		return tag;
 	}
 
-	public static NBTTagCompound createItemTag(byte count, short damage, short id) {
-		NBTTagCompound item = new NBTTagCompound();
+	public static CompoundTag createItemTag(byte count, short damage, short id) {
+		CompoundTag item = new CompoundTag();
 		item.setByte("Count", count);
 		item.setShort("Damage", damage);
 		item.setShort("id", id);
 		return item;
 	}
 
-	public static NBTTagCompound getEntityTag(String entityID) {
-		NBTTagCompound tag = new NBTTagCompound();
+	public static CompoundTag getEntityTag(String entityID) {
+		CompoundTag tag = new CompoundTag();
 		tag.setString("id", entityID);
 		return tag;
 	}
 
-	public static NBTTagCompound ridingTag(NBTTagCompound ridden) {
-		NBTTagCompound tag = new NBTTagCompound();
+	public static CompoundTag ridingTag(CompoundTag ridden) {
+		CompoundTag tag = new CompoundTag();
 		tag.setTag("Riding", ridden);
 		return tag;
 	}
 
-	public static NBTTagCompound spiderJockey(boolean wither) {
-		NBTTagCompound skele = (wither) ? witherSkeleton() : new NBTTagCompound();
+	public static CompoundTag spiderJockey(boolean wither) {
+		CompoundTag skele = (wither) ? witherSkeleton() : new CompoundTag();
 		skele.setTag("Riding", getEntityTag("Spider"));
 		return skele;
 	}
 
-	public static NBTTagCompound chickenJockey(boolean villager) {
-		NBTTagCompound zomb = babyZombie();
+	public static CompoundTag chickenJockey(boolean villager) {
+		CompoundTag zomb = babyZombie();
 		if (villager)
 			zomb.setByte("IsVillager", (byte) 1);
 		zomb.setTag("Riding", getEntityTag("Chicken"));

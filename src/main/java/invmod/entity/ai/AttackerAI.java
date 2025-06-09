@@ -19,15 +19,15 @@ import invmod.entity.monster.EntityIMMob;
 import invmod.tileentity.TileEntityNexus;
 import invmod.util.Coords;
 import invmod.util.Distance;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.IntHashMap;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.ChunkCache;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.core.ParticleTypes;
+import net.minecraft.core.IntHashMap;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.MathHelper;
+import net.minecraft.core.Vec3d;
+import net.minecraft.world.level.ChunkCache;
+import net.minecraft.world.level.IBlockAccess;
 
 public class AttackerAI {
 	private TileEntityNexus nexus;
@@ -183,9 +183,9 @@ public class AttackerAI {
 		}
 	}
 
-	public void readFromNBT(NBTTagCompound nbttagcompound) {
+	public void readFromNBT(CompoundTag nbttagcompound) {
 		// Had to put extra int param in 1.7.2, used 0 not sure why
-		NBTTagList nbtScaffoldList = nbttagcompound.getTagList("scaffolds", 0);
+		ListTag nbtScaffoldList = nbttagcompound.getTagList("scaffolds", 0);
 		for (int i = 0; i < nbtScaffoldList.tagCount(); i++) {
 			Scaffold scaffold = new Scaffold(this.nexus);
 			scaffold.readFromNBT(nbtScaffoldList.getCompoundTagAt(i));
@@ -193,10 +193,10 @@ public class AttackerAI {
 		}
 	}
 
-	public void writeToNBT(NBTTagCompound nbttagcompound) {
-		NBTTagList nbttaglist = new NBTTagList();
+	public void writeToNBT(CompoundTag nbttagcompound) {
+		ListTag nbttaglist = new ListTag();
 		for (Scaffold scaffold : this.scaffolds) {
-			NBTTagCompound nbtscaffold = new NBTTagCompound();
+			CompoundTag nbtscaffold = new CompoundTag();
 			scaffold.writeToNBT(nbtscaffold);
 			nbttaglist.appendTag(nbtscaffold);
 		}
@@ -343,7 +343,7 @@ public class AttackerAI {
 	private void updateScaffolds() {
 		for (int i = 0; i < this.scaffolds.size(); i++) {
 			Scaffold lol = this.scaffolds.get(i);
-			this.nexus.getWorld().spawnParticle(EnumParticleTypes.HEART, lol.getPos().x + 0.2D, lol.getPos().y + 0.2D,
+			this.nexus.getWorld().spawnParticle(ParticleTypes.HEART, lol.getPos().x + 0.2D, lol.getPos().y + 0.2D,
 					lol.getPos().z + 0.2D, lol.getPos().x + 0.5D, lol.getPos().y + 0.5D, lol.getPos().z + 0.5D);
 
 			this.scaffolds.get(i).forceStatusUpdate();

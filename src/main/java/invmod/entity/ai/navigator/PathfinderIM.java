@@ -2,9 +2,9 @@ package invmod.entity.ai.navigator;
 
 import invmod.IPathfindable;
 import invmod.util.ModLogger;
-import net.minecraft.util.IntHashMap;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.core.IntHashMap;
+import net.minecraft.core.Vec3d;
+import net.minecraft.world.level.IBlockAccess;
 
 public class PathfinderIM {
 

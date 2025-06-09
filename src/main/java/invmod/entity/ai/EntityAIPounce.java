@@ -1,9 +1,9 @@
 package invmod.entity.ai;
 
 import invmod.entity.monster.EntityIMSpider;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.ai.EntityAIBase;
+import net.minecraft.core.MathHelper;
 
 public class EntityAIPounce extends EntityAIBase {
 
@@ -24,7 +24,7 @@ public class EntityAIPounce extends EntityAIBase {
 
 	@Override
 	public boolean shouldExecute() {
-		EntityLivingBase target = this.theEntity.getAttackTarget();
+		LivingEntity target = this.theEntity.getAttackTarget();
 		if ((--this.pounceTimer <= 0) && (target != null) && (this.theEntity.canEntityBeSeen(target))
 				&& (this.theEntity.onGround)) {
 			return true;
@@ -40,7 +40,7 @@ public class EntityAIPounce extends EntityAIBase {
 
 	@Override
 	public void startExecuting() {
-		EntityLivingBase target = this.theEntity.getAttackTarget();
+		LivingEntity target = this.theEntity.getAttackTarget();
 		if (this.pounce(target.posX, target.posY, target.posZ)) {
 			this.theEntity.setAirborneTime(0);
 			this.isPouncing = true;

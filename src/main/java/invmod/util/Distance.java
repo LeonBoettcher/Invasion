@@ -1,8 +1,8 @@
 package invmod.util;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3d;
 
 public class Distance {
 	public static double distanceBetween(BlockPos pos1, BlockPos pos2) {

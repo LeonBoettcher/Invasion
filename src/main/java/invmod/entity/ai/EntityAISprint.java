@@ -1,10 +1,10 @@
 package invmod.entity.ai;
 
 import invmod.entity.monster.EntityIMMob;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.util.DamageSource;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.ai.EntityAIBase;
+import net.minecraft.world.level.block.SoundEvents;
+import net.minecraft.core.DamageSource;
 
 public class EntityAISprint extends EntityAIBase {
 

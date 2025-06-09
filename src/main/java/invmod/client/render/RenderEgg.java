@@ -7,7 +7,7 @@ import invmod.client.render.model.ModelEgg;
 import invmod.entity.block.EntityIMEgg;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.ResourceLocation;
 
 public class RenderEgg extends Render<EntityIMEgg> {
 	private static final ResourceLocation texture = new ResourceLocation(Reference.MODID + ":textures/spideregg.png");

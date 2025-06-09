@@ -10,8 +10,8 @@ import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.core.ResourceLocation;
 
 public class RenderIMZombie extends RenderLiving<EntityIMZombie> {
 	private static final ResourceLocation t_old = new ResourceLocation(Reference.MODID + ":textures/zombie_old.png");
@@ -68,7 +68,7 @@ public class RenderIMZombie extends RenderLiving<EntityIMZombie> {
 		GL11.glScalef(f, (2.0F + f) / 3.0F, f);
 	}
 //	@Override
-//	protected void renderEquippedItems(EntityLivingBase entity, float par2) {
+//	protected void renderEquippedItems(LivingEntity entity, float par2) {
 //		super.renderEquippedItems(entity, par2);
 //		ItemStack itemstack = entity.getHeldItem();
 //

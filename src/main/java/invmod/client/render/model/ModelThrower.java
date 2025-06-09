@@ -2,8 +2,8 @@ package invmod.client.render.model;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.core.MathHelper;
 
 public class ModelThrower extends ModelBase {
 	public ModelRenderer bipedHead;

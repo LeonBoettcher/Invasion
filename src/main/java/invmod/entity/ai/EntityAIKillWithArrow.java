@@ -1,22 +1,22 @@
 package invmod.entity.ai;
 
 import invmod.entity.monster.EntityIMMob;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.projectile.EntityTippedArrow;
-import net.minecraft.init.Enchantments;
-import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemBow;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.EnumDifficulty;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.projectile.EntityTippedArrow;
+import net.minecraft.world.level.block.Enchantments;
+import net.minecraft.world.level.block.Items;
+import net.minecraft.world.level.block.SoundEvents;
+import net.minecraft.world.level.item.ItemBow;
+import net.minecraft.world.level.item.ItemStack;
+import net.minecraft.core.InteractionHand;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.MathHelper;
+import net.minecraft.world.level.DifficultyInstance;
+import net.minecraft.world.level.EnumDifficulty;
 
-public class EntityAIKillWithArrow<T extends EntityLivingBase> extends EntityAIKillEntity<T> {
+public class EntityAIKillWithArrow<T extends LivingEntity> extends EntityAIKillEntity<T> {
 	private float attackRangeSq;
 
 	public EntityAIKillWithArrow(EntityIMMob entity, Class<? extends T> targetClass, int attackDelay,
@@ -28,7 +28,7 @@ public class EntityAIKillWithArrow<T extends EntityLivingBase> extends EntityAIK
 	@Override
 	public void updateTask() {
 		super.updateTask();
-		EntityLivingBase target = this.getTarget();
+		LivingEntity target = this.getTarget();
 		if ((this.getEntity().getDistanceSq(target.posX, target.getEntityBoundingBox().minY, target.posZ) < 36.0D)
 				&& (this.getEntity().getEntitySenses().canSee(target)))
 			this.getEntity().getNavigatorNew().haltForTick();
@@ -75,7 +75,7 @@ public class EntityAIKillWithArrow<T extends EntityLivingBase> extends EntityAIK
 		if (flag)
 			arrow.setFire(100);
 
-		ItemStack itemstack = this.getEntity().getHeldItem(EnumHand.OFF_HAND);
+		ItemStack itemstack = this.getEntity().getHeldItem(InteractionHand.OFF_HAND);
 
 		if (itemstack != null && itemstack.getItem() == Items.TIPPED_ARROW)
 			arrow.setPotionEffect(itemstack);

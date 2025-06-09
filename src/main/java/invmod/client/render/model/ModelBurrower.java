@@ -3,7 +3,7 @@ package invmod.client.render.model;
 import invmod.util.PosRotate3D;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.level.entity.Entity;
 
 public class ModelBurrower extends ModelBase {
 	ModelRenderer head;

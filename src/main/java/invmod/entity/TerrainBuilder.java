@@ -7,12 +7,12 @@ import org.apache.commons.lang3.Validate;
 
 import invmod.INotifyTask;
 import invmod.util.Coords;
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+import net.minecraft.world.level.level.block.Block;
+import net.minecraft.world.level.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.MathHelper;
+import net.minecraft.world.level.Level;
 
 public class TerrainBuilder implements ITerrainBuild {
 
@@ -53,7 +53,7 @@ public class TerrainBuilder implements ITerrainBuild {
 
 	@Override
 	public boolean askBuildScaffoldLayer(BlockPos pos, INotifyTask asker) {
-		World world = this.theEntity.getEntity().world;
+		Level world = this.theEntity.getEntity().world;
 		if (world == null)
 			return false;
 
@@ -65,7 +65,7 @@ public class TerrainBuilder implements ITerrainBuild {
 				int zOffset = Coords.offsetAdjZ[scaffold.getOrientation()];
 				// Block block = this.theEntity.world.getBlockState(new BlockPos(pos.getXCoord()
 				// + xOffset, pos.getYCoord() - 1, pos.getZCoord() + zOffset)).getBlock();
-				IBlockState blockState = world.getBlockState(pos.add(xOffset, -1, zOffset));
+				BlockState blockState = world.getBlockState(pos.add(xOffset, -1, zOffset));
 				List modList = new ArrayList();
 
 				if (height == 1) {
@@ -111,7 +111,7 @@ public class TerrainBuilder implements ITerrainBuild {
 
 	@Override
 	public boolean askBuildLadderTower(BlockPos pos, int orientation, int layersToBuild, INotifyTask asker) {
-		World world = this.theEntity.getEntity().world;
+		Level world = this.theEntity.getEntity().world;
 		if (world == null)
 			return false;
 		if (this.modifier.isReadyForTask(asker)) {
@@ -119,7 +119,7 @@ public class TerrainBuilder implements ITerrainBuild {
 			int zOffset = orientation == 3 ? -1 : orientation == 2 ? 1 : 0;
 			List modList = new ArrayList();
 
-			IBlockState blockState = world.getBlockState(pos.add(xOffset, -1, zOffset));
+			BlockState blockState = world.getBlockState(pos.add(xOffset, -1, zOffset));
 			if (!blockState.isNormalCube()) {
 				modList.add(new ModifyBlockEntry(pos.add(xOffset, -1, zOffset), this.block,
 						(int) (this.blockCost / this.buildRate)));
@@ -149,12 +149,12 @@ public class TerrainBuilder implements ITerrainBuild {
 
 	@Override
 	public boolean askBuildLadder(BlockPos pos, INotifyTask asker) {
-		World world = this.theEntity.getEntity().world;
+		Level world = this.theEntity.getEntity().world;
 		if (world == null)
 			return false;
 		if (this.modifier.isReadyForTask(asker)) {
 			List<ModifyBlockEntry> modList = new ArrayList<>();
-			IBlockState blockState = world.getBlockState(pos);
+			BlockState blockState = world.getBlockState(pos);
 			if (blockState.getBlock() != Blocks.LADDER) {
 				if (this.theEntity.canPlaceLadderAt(pos)) {
 					modList.add(new ModifyBlockEntry(pos, Blocks.LADDER, (int) (this.ladderCost / this.buildRate)));
@@ -178,7 +178,7 @@ public class TerrainBuilder implements ITerrainBuild {
 
 	@Override
 	public boolean askBuildBridge(BlockPos pos, INotifyTask asker) {
-		World world = this.theEntity.getEntity().world;
+		Level world = this.theEntity.getEntity().world;
 		if (world == null)
 			return false;
 		if (this.modifier.isReadyForTask(asker)) {

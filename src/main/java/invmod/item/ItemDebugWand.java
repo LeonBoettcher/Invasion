@@ -10,17 +10,17 @@ import invmod.entity.monster.EntityIMSpider;
 import invmod.entity.monster.EntityIMThrower;
 import invmod.entity.monster.EntityIMZombie;
 import invmod.tileentity.TileEntityNexus;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.passive.EntityWolf;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.level.block.Block;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.monster.EntityZombie;
+import net.minecraft.world.level.entity.passive.EntityWolf;
+import net.minecraft.world.level.entity.player.Player;
+import net.minecraft.world.level.item.Item;
+import net.minecraft.core.EnumActionResult;
+import net.minecraft.core.Direction;
+import net.minecraft.core.InteractionHand;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 public class ItemDebugWand extends Item {
 	private TileEntityNexus nexus;
@@ -38,12 +38,12 @@ public class ItemDebugWand extends Item {
 
 	/*
 	 * @Override public EnumActionResult onItemUseFirst(ItemStack stack,
-	 * EntityPlayer player, World world, BlockPos blockPos, EnumFacing side, float
-	 * hitX, float hitY, float hitZ, EnumHand hand) {
+	 * Player player, Level world, BlockPos blockPos, Direction side, float
+	 * hitX, float hitY, float hitZ, InteractionHand hand) {
 	 */
 	@Override
-	public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX,
-			float hitY, float hitZ, EnumHand hand) {
+	public EnumActionResult onItemUseFirst(Player player, Level world, BlockPos pos, Direction side, float hitX,
+			float hitY, float hitZ, InteractionHand hand) {
 		if (world.isRemote)
 			return EnumActionResult.FAIL;
 		Block block = world.getBlockState(pos).getBlock();
@@ -115,8 +115,8 @@ public class ItemDebugWand extends Item {
 
 	// DarthXenon: Unused.
 	/*
-	 * public boolean hitEntity(ItemStack itemstack, EntityPlayer player,
-	 * EntityLivingBase targetEntity) { if ((targetEntity instanceof EntityWolf)) {
+	 * public boolean hitEntity(ItemStack itemstack, Player player,
+	 * LivingEntity targetEntity) { if ((targetEntity instanceof EntityWolf)) {
 	 * EntityWolf wolf = (EntityWolf) targetEntity;
 	 * 
 	 * if (player != null) { wolf.func_152115_b(player.getDisplayName().toString());

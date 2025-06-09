@@ -7,8 +7,8 @@ import invmod.INotifyTask;
 import invmod.ModBlocks;
 import invmod.util.Distance;
 import invmod.util.config.Config;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
 
 public class TerrainModifier implements ITerrainModify {
 
@@ -117,8 +117,8 @@ public class TerrainModifier implements ITerrainModify {
 			return false;
 		}
 
-		IBlockState newState = entry.getNewBlock();
-		IBlockState oldState = this.theEntity.world.getBlockState(entry.getPos());
+		BlockState newState = entry.getNewBlock();
+		BlockState oldState = this.theEntity.world.getBlockState(entry.getPos());
 		entry.setOldBlock(oldState);
 		if (oldState.getBlock() == /* BlocksAndItems.blockNexus */ModBlocks.NEXUS_BLOCK
 				|| oldState.getBlock() == newState.getBlock()) {

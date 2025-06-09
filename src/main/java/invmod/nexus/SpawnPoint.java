@@ -1,7 +1,7 @@
 package invmod.nexus;
 
 import invmod.util.IPolarAngle;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
 
 public class SpawnPoint implements IPolarAngle, Comparable<IPolarAngle> {
 	private int xCoord;

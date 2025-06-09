@@ -7,15 +7,15 @@ import invmod.ModBlocks;
 import invmod.ModItems;
 import invmod.Reference;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.world.level.item.Item;
+import net.minecraft.world.level.item.BlockItem;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.api.distmarker.Dist;
 
-@EventBusSubscriber(modid = Reference.MODID, value = Side.CLIENT)
+@EventBusSubscriber(modid = Reference.MODID, value = Dist.CLIENT)
 public class ModItemModels {
 
 	private static final List<Item> REGISTERED_ITEM_MODELS = new ArrayList<Item>();
@@ -31,7 +31,7 @@ public class ModItemModels {
 		}
 
 		// register all other item block models
-		for (ItemBlock itemBlock : ModBlocks.BlockRegistrationHandler.ITEM_BLOCKS) {
+		for (BlockItem itemBlock : ModBlocks.BlockRegistrationHandler.ITEM_BLOCKS) {
 			if (!REGISTERED_ITEM_MODELS.contains(itemBlock)) {
 				registerItemModel(itemBlock);
 			}

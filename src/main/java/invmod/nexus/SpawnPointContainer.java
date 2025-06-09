@@ -6,9 +6,9 @@ import java.util.EnumMap;
 import java.util.Random;
 
 import invmod.util.PolarAngle;
-import net.minecraft.block.Block;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.level.block.Block;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 public class SpawnPointContainer {
 	private EnumMap<SpawnType, ArrayList<SpawnPoint>> spawnPoints;
@@ -123,7 +123,7 @@ public class SpawnPointContainer {
 		return 0;
 	}
 
-	public void pointDisplayTest(Block block, World world) {
+	public void pointDisplayTest(Block block, Level world) {
 		ArrayList points = this.spawnPoints.get(SpawnType.HUMANOID);
 		SpawnPoint point = null;
 		for (int i = 0; i < points.size(); i++) {

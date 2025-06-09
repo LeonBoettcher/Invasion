@@ -1,7 +1,7 @@
 package invmod;
 
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.core.ResourceLocation;
+import net.minecraft.core.SoundEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class SoundHandler {

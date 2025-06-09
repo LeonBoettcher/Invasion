@@ -8,7 +8,7 @@ import invmod.entity.monster.EntityIMSpider;
 import net.minecraft.client.model.ModelSpider;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.ResourceLocation;
 
 public class RenderSpiderIM extends RenderLiving<EntityIMSpider> {
 	private static final ResourceLocation t_eyes = new ResourceLocation("textures/entity/spider_eyes.png");

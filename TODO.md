@@ -1,33 +1,34 @@
-## Known Bugs
+# Migration from Forge 1.12.2 to NeoForge 1.19.2
 
-## Issues
+## Tasks
 
-# client
+### Build System Updates
 
-[ ] Spawn eggs of Invasion Mobs are missing in Creativ inventory
-[ ] Crafting recipes not working
+- [x] Update build.gradle to use NeoForge Gradle plugin
+- [x] Update gradle.properties with new versions
+- [x] Update Java version requirements
+- [x] Configure new mappings system
+- [x] Update Gradle wrapper to 8.1.1
+- [x] Update mod metadata from mcmod.info to mods.toml
+- [x] Update pack.mcmeta format
 
-[ ] Nexus
-    - [x] Change Nexus Texture when activ
-    - [ ] Nexus shows 52 mob kills on start
-    -  
+### Code Migration Tasks
 
-[ ] Mobs 
-    - [ ] Mobs not correctly Pathfinding to Nexus 
-        - [x] ISpiders 
-        - [ ] IPigman Engineer 
-        - [ ] IZombie 
-        - [ ] ICreeper 
-        - [ ] ISkeleton 
-        - [ ] IZombiePigman 
-        - [ ] IGuardian 
-        - [ ] IBird 
-        - [ ] IGiantBird 
-        - [ ] IImp 
-        - [ ] IBurrower 
-        - [ ] IThrower 
-        - [ ] IWolf
-    - [ ] Mobs not Dammaging the Nexus correctly or really Delayed
-# Server
+- [ ] Update mod loader annotations and entry points
+- [ ] Update registry system usage to new format
+- [ ] Update network handling code
+- [ ] Update rendering code for new rendering system
+- [ ] Update event system usage
+- [ ] Update capability system usage if used
+- [ ] Update config system usage
 
-[ ] Server Crashing when starting Invasion
+### Testing
+
+- [ ] Verify build system works
+- [ ] Test mod loading
+- [ ] Test all features
+- [ ] Check for compatibility issues
+
+## Current Status
+
+🚧 Build system setup in progress - Waiting for build to complete

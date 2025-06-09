@@ -3,12 +3,12 @@ package invmod.entity.block;
 import invmod.SoundHandler;
 import invmod.mod_invasion;
 import invmod.entity.monster.EntityIMMob;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.player.Player;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 public class EntityIMEgg extends EntityIMMob {
 	// private static int META_HATCHED = 30;
@@ -20,7 +20,7 @@ public class EntityIMEgg extends EntityIMMob {
 	private Entity parent;
 	private Entity[] contents;
 
-	public EntityIMEgg(World world) {
+	public EntityIMEgg(Level world) {
 		super(world);
 		this.getDataManager().register(META_HATCHED, Byte.valueOf((byte) 0));
 	}
@@ -66,7 +66,7 @@ public class EntityIMEgg extends EntityIMMob {
 
 	@Override
 	public boolean isThreatTo(Entity entity) {
-		if ((entity instanceof EntityPlayer)) {
+		if ((entity instanceof Player)) {
 			return true;
 		}
 		return false;

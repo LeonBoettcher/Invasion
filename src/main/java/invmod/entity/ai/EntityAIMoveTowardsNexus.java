@@ -1,8 +1,8 @@
 package invmod.entity.ai;
 
 import invmod.entity.EntityIMLiving;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.level.entity.ai.EntityAIBase;
+import net.minecraft.core.BlockPos;
 
 public class EntityAIMoveTowardsNexus extends EntityAIBase {
 

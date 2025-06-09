@@ -1,19 +1,19 @@
 package invmod.item;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.level.block.state.BlockState;
+import net.minecraft.world.level.entity.LivingEntity;
+import net.minecraft.world.level.entity.player.Player;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundEvents;
+import net.minecraft.world.level.item.EnumAction;
+import net.minecraft.world.level.item.ItemStack;
+import net.minecraft.world.level.item.ItemSword;
+import net.minecraft.core.ActionResult;
+import net.minecraft.core.EnumActionResult;
+import net.minecraft.core.InteractionHand;
+import net.minecraft.core.ParticleTypes;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 public class ItemInfusedSword extends ItemSword {
 
@@ -37,7 +37,7 @@ public class ItemInfusedSword extends ItemSword {
 	}
 
 	@Override
-	public boolean hitEntity(ItemStack itemstack, EntityLivingBase entityliving, EntityLivingBase entityliving1) {
+	public boolean hitEntity(ItemStack itemstack, LivingEntity entityliving, LivingEntity entityliving1) {
 		if (this.isDamaged(itemstack)) {
 			this.setDamage(itemstack, this.getDamage(itemstack) - 1);
 
@@ -47,7 +47,7 @@ public class ItemInfusedSword extends ItemSword {
 
 	// Iirc this is already handled by the sword base class itself
 	/*
-	 * @Override public float getStrVsBlock(ItemStack par1ItemStack, IBlockState
+	 * @Override public float getStrVsBlock(ItemStack par1ItemStack, BlockState
 	 * par2Block) { if (par2Block == Blocks.WEB) { return 15.0F; }
 	 * 
 	 * Material material = par2Block.getMaterial(); return (material !=
@@ -68,10 +68,10 @@ public class ItemInfusedSword extends ItemSword {
 
 	/*
 	 * @Override public ActionResult<ItemStack> onItemRightClick(ItemStack
-	 * itemstack, World world, EntityPlayer entityplayer, EnumHand hand) {
+	 * itemstack, Level world, Player entityplayer, InteractionHand hand) {
 	 */
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World wolrdIn, EntityPlayer player, EnumHand handIn) {
+	public ActionResult<ItemStack> onItemRightClick(Level wolrdIn, Player player, InteractionHand handIn) {
 		ItemStack itemstack = player.getHeldItem(handIn);
 		if (itemstack.getItemDamage() == 0) {
 			// if player isSneaking then refill hunger else refill health
@@ -83,13 +83,13 @@ public class ItemInfusedSword extends ItemSword {
 			} else {
 				player.heal(6.0F);
 				// spawn heart particles around the player
-				wolrdIn.spawnParticle(EnumParticleTypes.HEART, player.posX + 1.5D, player.posY, player.posZ, 0.0D, 0.0D,
+				wolrdIn.spawnParticle(ParticleTypes.HEART, player.posX + 1.5D, player.posY, player.posZ, 0.0D, 0.0D,
 						0.0D);
-				wolrdIn.spawnParticle(EnumParticleTypes.HEART, player.posX - 1.5D, player.posY, player.posZ, 0.0D, 0.0D,
+				wolrdIn.spawnParticle(ParticleTypes.HEART, player.posX - 1.5D, player.posY, player.posZ, 0.0D, 0.0D,
 						0.0D);
-				wolrdIn.spawnParticle(EnumParticleTypes.HEART, player.posX, player.posY, player.posZ + 1.5D, 0.0D, 0.0D,
+				wolrdIn.spawnParticle(ParticleTypes.HEART, player.posX, player.posY, player.posZ + 1.5D, 0.0D, 0.0D,
 						0.0D);
-				wolrdIn.spawnParticle(EnumParticleTypes.HEART, player.posX, player.posY, player.posZ - 1.5D, 0.0D, 0.0D,
+				wolrdIn.spawnParticle(ParticleTypes.HEART, player.posX, player.posY, player.posZ - 1.5D, 0.0D, 0.0D,
 						0.0D);
 			}
 
@@ -100,13 +100,13 @@ public class ItemInfusedSword extends ItemSword {
 	}
 
 	@Override
-	public boolean canHarvestBlock(IBlockState state) {
+	public boolean canHarvestBlock(BlockState state) {
 		return state.getBlock() == Blocks.WEB;
 	}
 
 	@Override
-	public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos,
-			EntityLivingBase playerIn) {
+	public boolean onBlockDestroyed(ItemStack stack, Level worldIn, BlockState state, BlockPos pos,
+			LivingEntity playerIn) {
 		return true;
 	}
 

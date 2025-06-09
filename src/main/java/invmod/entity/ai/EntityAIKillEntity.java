@@ -1,10 +1,10 @@
 package invmod.entity.ai;
 
 import invmod.entity.monster.EntityIMMob;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.world.level.entity.Entity;
+import net.minecraft.world.level.entity.LivingEntity;
 
-public class EntityAIKillEntity<T extends EntityLivingBase> extends EntityAIMoveToEntity<T> {
+public class EntityAIKillEntity<T extends LivingEntity> extends EntityAIMoveToEntity<T> {
 	private static final float ATTACK_RANGE = 1.0F;
 	private int attackDelay;
 	private int nextAttack;

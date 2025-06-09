@@ -1,8 +1,8 @@
 package invmod.entity;
 
 import invmod.INotifyTask;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3d;
 
 public interface ITerrainBuild {
 

@@ -6,140 +6,105 @@ import invmod.ModBlocks;
 import invmod.mod_invasion;
 import invmod.tileentity.TileEntityNexus;
 import invmod.util.config.Config;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.world.level.level.block.Block;
+import net.minecraft.world.level.level.material.Material;
+import net.minecraft.world.level.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.level.block.state.BlockState;
+import net.minecraft.world.level.level.block.state.StateDefinition;
+import net.minecraft.world.level.entity.player.Player;
+import net.minecraft.world.level.item.BlockItem;
+import net.minecraft.world.level.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.InteractionHand;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.level.Level;
+import net.minecraft.world.level.phys.BlockHitResult;
+import net.minecraft.world.level.level.block.RenderShape;
 
 public class BlockNexus extends Block {
 
-	public static final PropertyBool ACTIVE = PropertyBool.create("active");
+	public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 	public final String name = "blocknexus";
-	public final ItemBlock itemBlock;
+	public final BlockItem itemBlock;
 
-	public BlockNexus() {
-		super(Material.ROCK);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(ACTIVE, false));
-		this.setResistance(6000000.0F);
-		this.setHardness(3.0F);
-		this.itemBlock = new ItemBlock(this);
-		this.itemBlock.setRegistryName(this.name);
+	public BlockNexus(Properties properties) {
+		super(properties);
+		this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, Boolean.valueOf(false)));
+		this.itemBlock = new BlockItem(this, new Item.Properties().tab(CreativeModeTab.TAB_MISC));
 	}
 
 	@Override
-	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, ACTIVE);
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+		builder.add(ACTIVE);
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta) {
-		return this.getDefaultState().withProperty(ACTIVE, meta > 0);
+	public BlockState getStateFromMeta(int meta) {
+		return this.defaultBlockState().setValue(ACTIVE, Boolean.valueOf((meta & 1) > 0));
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state) {
-		return state.getValue(ACTIVE) ? 1 : 0;
+	public int getMetaFromState(BlockState state) {
+		return state.getValue(ACTIVE).booleanValue() ? 1 : 0;
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-
-		if (!worldIn.isRemote) {
-			playerIn.openGui(mod_invasion.instance, Config.NEXUS_GUI_ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
+	public boolean onBlockActivated(Level worldIn, BlockPos pos, BlockState state, Player playerIn,
+			InteractionHand hand, Direction facing, float hitX, float hitY, float hitZ) {
+		if (worldIn.isClientSide) {
+			return true;
+		}
+		BlockEntity tileentity = worldIn.getBlockEntity(pos);
+		if (tileentity instanceof TileEntityNexus) {
+			playerIn.openMenu((TileEntityNexus) tileentity);
 		}
 		return true;
 	}
 
-	@SideOnly(Side.CLIENT)
 	@Override
-	public void randomDisplayTick(IBlockState blockState, World worldIn, BlockPos pos, Random rand) {
-		TileEntityNexus nexus = (TileEntityNexus) worldIn.getTileEntity(pos);
-		int numberOfParticles = nexus != null ? (nexus.isActive() ? 6 : 0) : 0;
-
-		for (int i = 0; i < numberOfParticles; i++) {
-
-			// Copied from BlockEnderChest
-			int j = rand.nextInt(2) * 2 - 1;
-			int k = rand.nextInt(2) * 2 - 1;
-			double d0 = (double) pos.getX() + 0.5D + 0.25D * (double) j;
-			double d1 = (double) ((float) pos.getY() + rand.nextFloat());
-			double d2 = (double) pos.getZ() + 0.5D + 0.25D * (double) k;
-			double d3 = (double) (rand.nextFloat() * (float) j);
-			double d4 = ((double) rand.nextFloat() - 0.5D) * 0.125D;
-			double d5 = (double) (rand.nextFloat() * (float) k);
-			worldIn.spawnParticle(EnumParticleTypes.PORTAL, d0, d1, d2, d3, d4, d5, new int[0]);
-
-			/*
-			 * double y1 = blockPos.getY() + random.nextFloat(); double y2 =
-			 * (random.nextFloat() - 0.5D) * 0.5D;
-			 * 
-			 * int direction = random.nextInt(2) * 2 - 1; double x2; double x1; double z1;
-			 * double z2; if (random.nextInt(2) == 0) { z1 = blockPos.getZ() + 0.5D + 0.25D
-			 * * direction; z2 = random.nextFloat() * 2.0F * direction;
-			 * 
-			 * x1 = blockPos.getX() + random.nextFloat(); x2 = (random.nextFloat() - 0.5D) *
-			 * 0.5D; } else { x1 = blockPos.getX() + 0.5D + 0.25D * direction; x2 =
-			 * random.nextFloat() * 2.0F * direction; z1 = blockPos.getZ() +
-			 * random.nextFloat(); z2 = (random.nextFloat() - 0.5D) * 0.5D; }
-			 * 
-			 * world.spawnParticle(EnumParticleTypes.PORTAL, x1, y1, z1, x2, y2, z2);
-			 */
+	public void randomDisplayTick(BlockState blockState, Level worldIn, BlockPos pos, Random rand) {
+		if (blockState.getValue(ACTIVE).booleanValue()) {
+			double d0 = (double) pos.getX() + 0.5D + (rand.nextDouble() - 0.5D) * 0.2D;
+			double d1 = (double) pos.getY() + 0.5D + (rand.nextDouble() - 0.5D) * 0.2D;
+			double d2 = (double) pos.getZ() + 0.5D + (rand.nextDouble() - 0.5D) * 0.2D;
+			worldIn.addParticle(ParticleTypes.PORTAL, d0, d1, d2, 0.0D, 0.0D, 0.0D);
 		}
 	}
 
 	@Override
-	public boolean hasTileEntity(IBlockState state) {
+	public boolean hasTileEntity(BlockState state) {
 		return true;
 	}
 
 	@Override
-	// public TileEntity createTileEntity(World world, int metadata)
-	public TileEntity createTileEntity(World world, IBlockState state) {
-		return new TileEntityNexus(world);
+	public BlockEntity createTileEntity(Level world, BlockState state) {
+		return new TileEntityNexus();
 	}
 
-	public static void setBlockView(boolean active, World worldIn, BlockPos blockPos) {
-		if (blockPos != null && worldIn != null) {
-			TileEntity tileentity = worldIn.getTileEntity(blockPos);
-			IBlockState currentState = worldIn.getBlockState(blockPos);
-			if (currentState.getBlock() == ModBlocks.NEXUS_BLOCK) {
-				worldIn.setBlockState(blockPos, currentState.withProperty(ACTIVE, active), 3);
-				if (tileentity != null) {
-					tileentity.validate();
-					worldIn.setTileEntity(blockPos, tileentity);
-				}
+	public static void setBlockView(boolean active, Level worldIn, BlockPos blockPos) {
+		BlockState iblockstate = worldIn.getBlockState(blockPos);
+		if (iblockstate.getBlock() instanceof BlockNexus) {
+			worldIn.setBlock(blockPos, iblockstate.setValue(ACTIVE, Boolean.valueOf(active)), 3);
+		}
+	}
+
+	@Override
+	public float getPlayerRelativeBlockHardness(BlockState state, Player player, Level world,
+			BlockPos blockPos) {
+		BlockEntity tileentity = world.getBlockEntity(blockPos);
+		if (tileentity instanceof TileEntityNexus) {
+			TileEntityNexus nexus = (TileEntityNexus) tileentity;
+			if (nexus.isActive()) {
+				return -1.0F;
 			}
 		}
+		return super.getPlayerRelativeBlockHardness(state, player, world, blockPos);
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public float getPlayerRelativeBlockHardness(IBlockState state, EntityPlayer player, World world,
-			BlockPos blockPos) {
-		TileEntityNexus tile = (TileEntityNexus) world.getTileEntity(blockPos);
-		if (tile.isActive()) {
-			return -1.0F;
-		} else {
-			return super.getPlayerRelativeBlockHardness(state, player, world, blockPos);
-		}
-	}
-
-	@Override
-	public EnumBlockRenderType getRenderType(IBlockState state) {
-		return EnumBlockRenderType.MODEL;
+	public RenderShape getRenderType(BlockState state) {
+		return RenderShape.MODEL;
 	}
 
 }

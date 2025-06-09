@@ -3,7 +3,7 @@ package invmod.client.render;
 import invmod.entity.EntityIMSpawnProxy;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.ResourceLocation;
 
 public class RenderInvis extends Render<EntityIMSpawnProxy> {
 	public RenderInvis(RenderManager renderManager) {
